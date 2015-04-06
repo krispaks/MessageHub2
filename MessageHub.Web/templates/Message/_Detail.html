@@ -1,0 +1,39 @@
+﻿<div>
+    Detail
+</div>
+<div>
+    <div>
+        <label>Id</label>
+        <label>{{message.id}}</label>
+    </div>
+    <div>
+        <label>Title</label>
+        <label>{{message.title}}</label>
+    </div>
+    <div>
+        <label>Content</label>
+        <textarea>{{message.contentConcat}}</textarea>
+    </div>
+    <div class="row">
+        <div data-ng-repeat="comment in comments">
+            <div>
+                <!--<label>{{comment.createdByName}}</label>
+                <label>{{comment.value}}</label>
+                <label>{{comment.CreatedDate | date : mediumDate}}</label>-->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form method="POST" role="form" data-ng-submit="SaveComment(comment)">
+            <div class="form-group">
+                <input type="text" class="form-control" id="comment" placeholder="Comment" data-ng-model="comment.Content" />
+            </div>
+            <div>
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a href="/Message">Back To List</a>
+</div>
