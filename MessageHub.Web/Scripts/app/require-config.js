@@ -7,7 +7,8 @@ requirejs.config({
 		angular: 'angular',
 		angularRoute: 'angular-route',
 		angularResource: 'angular-resource',
-		messageModule: '../app/message'
+		messageModule: '../app/message',
+		categoryModule: '../app/category'
 	},
 	shim: {
 		'angular': { 'exports': 'angular' },

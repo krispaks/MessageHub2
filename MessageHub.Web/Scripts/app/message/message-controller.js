@@ -35,7 +35,7 @@
 				});
 			};
 		}])
-		.controller('MessageDetailCtrl', ['$scope', '$routeParams', '$log', 'messageService', 'commentService', function ($scope, $routeParams, $log, messageService, commentService) {
+		.controller('MessageDetailCtrl', ['$scope', '$location', '$routeParams', '$log', 'messageService', 'commentService', function ($scope, $location, $routeParams, $log, messageService, commentService) {
 			messageService.GetMessage($routeParams.id).$promise.then(
 				function(data) {
 		    		$scope.message = data;

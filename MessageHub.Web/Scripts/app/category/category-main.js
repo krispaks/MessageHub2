@@ -8,14 +8,13 @@ window.name = 'NG_DEFER_BOOTSTRAP!';
 
 requirejs(['../Scripts/app/require-config'], function (config) {
 	requirejs(['angular'
-		, 'messageModule/message'
-		, 'messageModule/message-route']
-		, function (angular, message, messageRoute) {
-
+		, 'categoryModule/category'
+		, 'categoryModule/category-route']
+		, function (angular, category, categoryRoute) {
 			angular.element().ready(function () {
 
-			//NOTE: Kpaca 10/15/2014: NG_DEFER_BOOTSTRAP will pause the process of bootrapping angular to the application, it can only be resumed when angular.resumeBootstrap is called.
-			angular.resumeBootstrap([message['name']]);
+				//NOTE: Kpaca 10/15/2014: NG_DEFER_BOOTSTRAP will pause the process of bootrapping angular to the application, it can only be resumed when angular.resumeBootstrap is called.
+				angular.resumeBootstrap([category['name']]);
+			});
 		});
-	});
 });

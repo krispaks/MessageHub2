@@ -15,6 +15,13 @@
 			templateUrl: '/templates/Message/_Detail.html',
 			controller: 'MessageDetailCtrl'
 		});
-		$routeProvider.otherwise({ redirectTo: '/Message' });
+		$routeProvider.when('/Category', {
+			controller: function () {
+				window.location.replace('/Category/Index');
+			},
+		});
+		//$routeProvider.otherwise({
+		//	 redirectTo: '/Message'
+		//});
 	}]);
 });
