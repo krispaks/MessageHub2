@@ -39,8 +39,10 @@ namespace MessageHub.Web
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-			container.RegisterType<IMessageUoW, MessageUoW>(new HierarchicalLifetimeManager());
+			container.RegisterType<IMessageService, MessageService>(new HierarchicalLifetimeManager());
 			container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
+
+	        container.RegisterType<IMessageUoW, MessageUoW>(new HierarchicalLifetimeManager());
 
 			container.RegisterType<IRepository<Message>, MessageHubRepository<Message>>(new HierarchicalLifetimeManager());
         }

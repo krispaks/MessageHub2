@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 requirejs.config({
-	urlArgs: 'bust=' + (new Date()).getTime(),
+	//urlArgs: 'bust=' + (new Date()).getTime(),
 	baseUrl: '../Scripts/lib',
 	paths: {
 		angular: 'angular',

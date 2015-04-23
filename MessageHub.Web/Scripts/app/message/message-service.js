@@ -8,8 +8,8 @@
     			if (!searchCriteria) {
 
     				searchCriteria = {
-    					Title: null,
-    					Tag: null,
+    					Title: '',
+    					Tag: '',
     					Category: 0,
     					SubCategory: 0
     				}
@@ -17,13 +17,15 @@
 
     			//NOTE KPACA 10/20: in $resource all you have to do is pass in a javascript object {}. 
     			//the Web API Model Binder (FromURI) will bind it to the Object parameter in the service.)
-    			return $resource('/api/MessageApi', {
-    				Title: searchCriteria.Title,
-    				Tag: searchCriteria.Tag,
-    				Category: searchCriteria.Category,
-    				SubCategory: searchCriteria.SubCategory
-    			}).query();
-    		},
+    			//return $resource('/api/MessageApi', {
+    			//	Title: searchCriteria.Title,
+    			//	Tag: searchCriteria.Tag,
+    			//	Category: searchCriteria.Category,
+    			//	SubCategory: searchCriteria.SubCategory
+    			//}).query();
+
+			    return $resource('/api/MessageApi').query();
+		    },
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();
     		},

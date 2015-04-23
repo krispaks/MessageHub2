@@ -13,22 +13,22 @@ namespace MessageHub.Web.Controllers
 {
 	public class MessageApiController : ApiController
 	{
-		private IMessageUoW messageUoW = null;
+		private IMessageService messageService = null;
 		private ILoggingService logger = null;
 
-		public MessageApiController(IMessageUoW messageUoW, ILoggingService logger)
+		public MessageApiController(IMessageService messageService, ILoggingService logger)
 		{
-			this.messageUoW = messageUoW;
+			this.messageService = messageService;
 			this.logger = logger;
 		}
 
-		public HttpResponseMessage Get([FromUri] MessageSearchCriteria searchCriteria)
+		public HttpResponseMessage Get()
 		{
 			HttpResponseMessage response = new HttpResponseMessage();
 
 			try
 			{
-				var messageList = this.messageUoW.MessageHubRepositoryRepository.Get();
+				var messageList = this.messageService.GetMessageList();
 
 				List<MessageListViewModel> searchResult = messageList.Select(message => new MessageListViewModel
 				{
@@ -57,13 +57,13 @@ namespace MessageHub.Web.Controllers
 
 			try
 			{
-				var message = this.messageUoW.MessageHubRepositoryRepository.Get(id);
+				var message = this.messageService.GetMessage(id);
 
-				var vm = new MessageListViewModel
+				var vm = new MessageViewModel
 				{
 					Id = message.Id,
 					Title = message.Title,
-					ContentConcat = message.Content,
+					Content = message.Content,
 					CreatedBy = "KPACA",
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				};
