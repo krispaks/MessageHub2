@@ -10,6 +10,7 @@ namespace MessageHub.Lib.Service
 	public interface IMessageService
 	{
 		int SaveMessage(Message message);
-		IEnumerable<Message> GetMessageList(); 
+		IEnumerable<Message> GetMessageList();
+		Message GetMessage(int id);
 	}
 }

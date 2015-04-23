@@ -12,5 +12,10 @@ namespace MessageHub.Lib.Utility
 		{
 			return DateTime.Now;
 		}
+
+		public static string HubDateString(DateTime dateTime)
+		{
+			return dateTime.ToShortDateString();
+		}
 	}
 }

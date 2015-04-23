@@ -58,10 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DAL\Category.cs" />
-    <Compile Include="DAL\Comment.cs" />
-    <Compile Include="DAL\Message.cs" />
-    <Compile Include="DAL\Model1.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Category.cs" />
     <Compile Include="Entity\Comment.cs" />
@@ -86,7 +82,9 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Db\MessageHubDB.sql" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
