@@ -15,12 +15,16 @@ namespace MessageHub.Lib.UnitOfWork
 		private MessageHubDbContext _context = null;
 		private bool disposed = false;
 
-		public IRepository<Message> MessageHubRepositoryRepository { get; set; }
+		public IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
 
 		public MessageUoW()
 		{	
 			this._context = new MessageHubDbContext();
-			MessageHubRepositoryRepository = new MessageHubRepository<Message>(this._context);
+			MessageHubRepositoryRepository = new MessageHubRepository<Message>
+			{
+				Context = this._context
+			};
+
 		}
 
 		public int SaveChanges()
@@ -58,7 +62,5 @@ namespace MessageHub.Lib.UnitOfWork
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
-
-		
 	}
 }

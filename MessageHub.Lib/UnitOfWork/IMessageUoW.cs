@@ -10,6 +10,6 @@ namespace MessageHub.Lib.UnitOfWork
 {
 	public interface IMessageUoW : IUnitOfWork
 	{
-		IRepository<Message> MessageHubRepositoryRepository { get; set; }
+		IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
 	}
 }

@@ -9,9 +9,11 @@ using MessageHub.Lib.Utility;
 
 namespace MessageHub.Lib.Repository
 {
-	public interface IRepository<TEntity> : IDisposable
+	public interface IRepository<TEntity, TContext> : IDisposable
 		where TEntity : class
+		where TContext : class 
 	{
+		TContext Context { get; set; }
 
 		/// <summary>
 		/// Get a single entity

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MessageHub.Lib.Repository
 {
-    public class MessageRavenRepository<TEntity> : IRepository<TEntity>
+    public class MessageRavenRepository<TEntity> : IRepository<TEntity, DocumentSession>
         where TEntity : BaseEntity
     {
 
@@ -30,6 +30,18 @@ namespace MessageHub.Lib.Repository
             };
             documentStore.Initialize();        
         }
+
+		public DocumentSession Context
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 
 
         public TEntity Get(int id)
@@ -149,5 +161,5 @@ namespace MessageHub.Lib.Repository
         }
 
         #endregion
-    }
+	}
 }

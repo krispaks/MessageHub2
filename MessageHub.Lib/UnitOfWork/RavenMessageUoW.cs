@@ -11,11 +11,11 @@ namespace MessageHub.Lib.UnitOfWork
 {
     public class RavenMessageUoW : IMessageUoW
     {
-        public IRepository<Message> MessageHubRepositoryRepository { get; set; }
+        public IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
 
 		public RavenMessageUoW()
 		{
-            MessageHubRepositoryRepository = new MessageRavenRepository<Message>();
+			//MessageHubRepositoryRepository = new MessageRavenRepository<Message, MessageHubDbContext>();
 		}
 
         public int SaveChanges()

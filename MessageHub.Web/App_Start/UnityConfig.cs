@@ -44,7 +44,7 @@ namespace MessageHub.Web
 
 	        container.RegisterType<IMessageUoW, MessageUoW>(new HierarchicalLifetimeManager());
 
-			container.RegisterType<IRepository<Message>, MessageHubRepository<Message>>(new HierarchicalLifetimeManager());
+			container.RegisterType<IRepository<Message, MessageHubDbContext>, MessageHubRepository<Message>>(new HierarchicalLifetimeManager());
         }
     }
 }

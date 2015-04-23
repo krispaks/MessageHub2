@@ -12,22 +12,17 @@ using MessageHub.Lib.Entity;
 
 namespace MessageHub.Lib.Repository
 {
-	public class MessageHubRepository<TEntity> : IRepository<TEntity>
+	public class MessageHubRepository<TEntity> : IRepository<TEntity, MessageHubDbContext>
 		where TEntity : class
 	{
 		private MessageHubDbContext _context = null;
 		private DbSet<TEntity> _dbSet = null;
 		private bool disposed = false;
 
+		public MessageHubDbContext Context { get; set; }
+
 		public MessageHubRepository()
 		{	
-			_context = new MessageHubDbContext();
-			_dbSet = this._context.Set<TEntity>();
-		}
-
-		public MessageHubRepository(MessageHubDbContext context)
-		{
-			_context = context;
 			_dbSet = this._context.Set<TEntity>();
 		}
 
