@@ -24,7 +24,6 @@ namespace MessageHub.Lib.UnitOfWork
 			{
 				Context = this._context
 			};
-
 		}
 
 		public int SaveChanges()

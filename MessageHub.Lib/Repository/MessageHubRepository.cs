@@ -19,11 +19,18 @@ namespace MessageHub.Lib.Repository
 		private DbSet<TEntity> _dbSet = null;
 		private bool disposed = false;
 
-		public MessageHubDbContext Context { get; set; }
+		public MessageHubDbContext Context
+		{
+			get { return _context; }
+			set
+			{
+				_context = value;
+				_dbSet = this._context.Set<TEntity>();
+			}
+		}
 
 		public MessageHubRepository()
-		{	
-			_dbSet = this._context.Set<TEntity>();
+		{
 		}
 
 		public TEntity Get(int id)

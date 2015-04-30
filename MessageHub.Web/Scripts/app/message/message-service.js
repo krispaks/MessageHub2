@@ -6,7 +6,6 @@
     	return {
     		GetMessages: function(searchCriteria) {
     			if (!searchCriteria) {
-
     				searchCriteria = {
     					Title: '',
     					Tag: '',
