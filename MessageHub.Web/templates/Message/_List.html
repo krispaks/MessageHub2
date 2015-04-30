@@ -1,36 +1,42 @@
-﻿<div class="row">
-    <form method="GET" class="navbar-form" role="form" data-ng-submit="SearchMessages(searchCriteria)">
-        <div class="col-md-12 form-group">
-            <div class="col-lg-5 input-group">
+﻿<div class="jumbotron">
+    <form method="GET" role="form" data-ng-submit="SearchMessages(searchCriteria)">
+
+        <div class="row">
+            <div class="col-sm-6">
                 <input type="text" class="form-control" placeholder="Title" data-ng-model="searchCriteria.Title" />
             </div>
-            <div class="col-lg-5 input-group">
-                <!--NOTE KPACA 10/21/2014: You may notice on source (options) that 'value' is not what the id is set. but when submitting it, its the correct one.
-                    this is normal but i dont know why. http://www.grobmeier.de/angular-js-ng-select-and-ng-options-21112012.html#.VEZ7OPnF_QI
-                -->
-                <select data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist">
+
+            <div class="col-sm-6">
+                <select class="form-control" data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist">
                     <option value="">Select Category</option>
                 </select>
             </div>
+            <p><br></p>
         </div>
-        <div class="col-md-12">&nbsp;</div>
-        <div class="col-md-12 form-group">
-            <div class="col-lg-5 input-group">
+
+
+        <div class="row">
+            <div class="col-sm-6">
                 <input type="text" class="form-control" placeholder="Tags" data-ng-model="searchCriteria.Tag" />
             </div>
-            <div class="col-lg-5 input-group">
-                <select data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category">
-                    <!-- <select data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist"> -->
+            <div class="col-sm-6">
+                <select class="form-control" data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category">
                     <option value="">Select Sub Category</option>
                 </select>
             </div>
-        </div>
-        <div class="col-lg-offset-7">
-            <button type="submit" class="btn btn-default">Search</button>
+            <p><br></p>
         </div>
 
+        <div class="row">
+            <div class="col-sm-6"></div>
+
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-default" style="float:right; margin-right: 10px;">Search</button>
+            </div>
+        </div>
     </form>
 </div>
+
 <div class="row">
     <div data-ng-repeat="message in messages">
         <div>
