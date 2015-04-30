@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MessageHub.Lib.Repository
 {
-    public class MessageRavenRepository<TEntity> : IRepository<TEntity, DocumentSession>
+    public class MessageRavenRepository<TEntity, TContext> : IRepository<TEntity, IDocumentSession>
         where TEntity : BaseEntity
     {
 
@@ -22,75 +22,57 @@ namespace MessageHub.Lib.Repository
 
         public MessageRavenRepository()
         {
-            documentStore = new DocumentStore
-            {
-                // db connection
-                Url = "http://localhost:8080/",
-                DefaultDatabase = "MessageHubDB"
-            };
-            documentStore.Initialize();        
+            //this.session = Context;
         }
 
-		public DocumentSession Context
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-			set
-			{
-				throw new NotImplementedException();
-			}
-		}
+        public IDocumentSession Context
+        {
+            get
+            {
+                return this.session;
+            }
+            set 
+            {
+                this.session = value;
+            }
+        }
 
 
         public TEntity Get(int id)
         {
-            using (session = documentStore.OpenSession())
-            {
-                var message = session.Load<TEntity>(id);
-                return message;
-            }
+            var message = session.Load<TEntity>(id);
+            return message;
         }
 
         public IEnumerable<TEntity> Get(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            using (session = documentStore.OpenSession())
-            {
-                IQueryable<TEntity> query = session.Query<TEntity>();
-                Filter(ref query, filter);
-                IncludeProperties(ref query, includeProperties);
-                return OrderBy(query, orderBy);
-            }
+            IQueryable<TEntity> query = session.Query<TEntity>();
+            Filter(ref query, filter);
+            IncludeProperties(ref query, includeProperties);
+            return OrderBy(query, orderBy);
         }
 
         public IEnumerable<TEntity> GetPaged(Utility.PagingInfo pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            using (session = documentStore.OpenSession())
-            {
+            //using (session = documentStore.OpenSession())
+            //{
                 IQueryable<TEntity> query = session.Query<TEntity>();
                 Filter(ref query, filter);
                 IncludeProperties(ref query, includeProperties);
                 var orderedQuery = OrderBy(query, orderBy);
                 return PagedData(orderedQuery, pageInfo);
-            }
+            //}
         }
 
         public void Insert(TEntity entity)
         {
-            using (session = documentStore.OpenSession())
-            {
-                session.Store(entity);
-            }
+            session.Store(entity);
         }
 
         public void Delete(int id)
         {
-            using (session = documentStore.OpenSession())
-            {   
-                var message = session.Load<TEntity>(id);
-                session.Delete(message);
-            }
+            var message = session.Load<TEntity>(id);
+            session.Delete(message);
             /*
              for using TEntity instead of the id, it would be something like this:
                 session.Delete(message);
@@ -106,10 +88,7 @@ namespace MessageHub.Lib.Repository
 
         public void Update(TEntity entity)
         {
-            using (session = documentStore.OpenSession())
-            {
-                session.Store(entity);
-            }
+            session.Store(entity);
         }
 
         public int Save()

@@ -3,18 +3,114 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MessageHub.Lib.Entity;
 using MessageHub.Lib.Repository;
 using MessageHub.Lib.Utility;
+using Raven.Client.Document;
+using Raven.Client;
+using MessageHub.Lib.UnitOfWork;
+using MessageHub.Lib.Service;
 
 namespace MessageHub.Test
 {
     [TestClass]
     public class RavenMessageTest
     {
+
         [TestMethod]
+        public void TestGetAllRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            ILoggingService logService = new LoggingService();
+
+            RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+            var messages = msgService.GetMessageList();
+
+            // now let's check if there's somethin' in there
+            foreach(var mess in messages){
+                int messId = mess.Id;
+            }
+        }
+
+        [TestMethod]
+        public void TestGetRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            ILoggingService logService = new LoggingService();
+
+            RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+            var message = msgService.GetMessage(193);
+
+            // now let's check if there's somethin' in there
+            var somethin = message.Title;
+        }
+
+        [TestMethod]
+        public void TestSaveRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            ILoggingService logService = new LoggingService();
+            RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+
+            var id = msgService.SaveMessage(new Message
+            {
+                Title = "Test Service UoW",
+                Content = "Test Service UoW",
+                SubCategoryId = 1,
+                CreatedBy = 1,
+                CreatedDate = UtilityDate.HubDateTime()
+            });
+        }
+
+        [TestMethod]
+        public void TestUpdateRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            ILoggingService logService = new LoggingService();
+            RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+
+            // load the original message
+            var origMsg = msgService.GetMessage(449);
+
+            // updates the content of the message
+            origMsg.Title = "Test-Mod UoW";
+            origMsg.Content = "Test-Mod UoW";
+            origMsg.ModifiedBy = 7;
+            origMsg.ModifiedDate = UtilityDate.HubDateTime();
+
+            // saves it to the db
+            var id = msgService.UpdateMessage(origMsg);
+        }
+
+        [TestMethod]
+        public void TestDeleteRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            ILoggingService logService = new LoggingService();
+
+            RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+            msgService.DeleteMessage(481);
+        }
+
+        /*[TestMethod]
         public void TestGet()
         {
-            MessageRavenRepository<Message> repository = new MessageRavenRepository<Message>();
-            var item = repository.Get(33);
-            int id = item.Id;
+            // intialize db
+            DocumentStore documentStore = new DocumentStore
+            {
+                // db connection
+                Url = "http://localhost:8080/",
+                DefaultDatabase = "MessageHubDB"
+            };
+            documentStore.Initialize();
+
+            // initialize session
+            IDocumentSession session = documentStore.OpenSession();
+
+            MessageRavenRepository<Message, IDocumentSession> repository = new MessageRavenRepository<Message, IDocumentSession>();
+
+            using (session)
+            {
+                var item = repository.Get(33);
+                int id = item.Id;
+            }
         }
 
         [TestMethod]
@@ -67,6 +163,6 @@ namespace MessageHub.Test
             foreach (var item in items){
                 int id = item.Id;
             }
-        }
+        }*/
     }
 }

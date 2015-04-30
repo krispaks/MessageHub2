@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.Repository;
 using MessageHub.Lib.Entity;
+using Raven.Client;
 
 namespace MessageHub.Lib.UnitOfWork
 {
@@ -12,4 +13,9 @@ namespace MessageHub.Lib.UnitOfWork
 	{
 		IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
 	}
+
+    public interface IRavenMessageUoW : IUnitOfWork
+    {
+        IRepository<Message, IDocumentSession> MessageRavenRepositoryRepository { get; set; }
+    }
 }
