@@ -96,6 +96,7 @@
     <Compile Include="Service\MessageService.cs" />
     <Compile Include="Service\RavenMessageService.cs" />
     <Compile Include="UnitOfWork\IMessageUoW.cs" />
+    <Compile Include="UnitOfWork\IRavenMessageUoW.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\MessageUoW.cs" />
     <Compile Include="UnitOfWork\RavenMessageUoW.cs" />
