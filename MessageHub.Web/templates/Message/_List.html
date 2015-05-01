@@ -37,14 +37,12 @@
     </form>
 </div>
 
-<div class="row">
-    <div data-ng-repeat="message in messages">
-        <div>
-            <div><a data-ng-href="/Message/Detail/{{message.id}}">{{message.title}}</a></div>
-            <div>{{message.contentConcat}}</div>
-            <div>-created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</div>
-        </div>
-    </div>
+<div class="list-group" data-ng-repeat="message in messages">
+    <a data-ng-href="/Message/Detail/{{message.id}}" class="list-group-item">
+        <h4 class="list-group-item-heading">{{message.title}}</h4>
+        <p class="list-group-item-text">{{message.contentConcat}}</p>
+        <p class="list-group-item-text">-created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</p>
+    </a>
 </div>
 
 <div>
