@@ -18,10 +18,7 @@
 		$routeProvider.when('/Category', {
 			controller: function () {
 				window.location.replace('/Category/Index');
-			},
+			}
 		});
-		//$routeProvider.otherwise({
-		//	 redirectTo: '/Message'
-		//});
 	}]);
 });
