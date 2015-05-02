@@ -74,30 +74,23 @@ namespace MessageHub.Lib.Service
 			}
 		}
 
+        public Message GetMessage(int id)
+        {
+            try {
+                this._logService.Log("Start GetMessage");
+
+                return _uow.MessageHubRepositoryRepository.Get(id);
+            } catch (Exception ex) {
+                this._logService.Log(string.Format("Error at GetMessage : {0}", ex.Message));
+                throw;
+            } finally {
+                this._logService.Log("End GetMessage");
+            }
+        }
+
 		private bool Validate(Message message)
 		{
 			return true;
-		}
-
-
-
-		public Message GetMessage(int id)
-		{
-			try
-			{
-				this._logService.Log("Start GetMessage");
-
-				return _uow.MessageHubRepositoryRepository.Get(id);
-			}
-			catch (Exception ex)
-			{
-				this._logService.Log(string.Format("Error at GetMessage : {0}", ex.Message));
-				throw;
-			}
-			finally
-			{
-				this._logService.Log("End GetMessage");
-			}
 		}
 	}
 }

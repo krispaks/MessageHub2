@@ -11,6 +11,7 @@ namespace MessageHub.Web.Controllers
 	public class MessageController : Controller
 	{
 		// GET: Message
+        [Authorize]
 		public ActionResult Index()
 		{
 			return View();

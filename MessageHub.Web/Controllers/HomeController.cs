@@ -6,7 +6,8 @@ using System.Web.Mvc;
 
 namespace MessageHub.Web.Controllers
 {
-	public class HomeController : Controller
+    [RequireHttps]
+    public class HomeController : Controller
 	{
 		public ActionResult Index()
 		{
