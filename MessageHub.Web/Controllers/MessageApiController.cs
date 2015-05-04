@@ -34,7 +34,8 @@ namespace MessageHub.Web.Controllers
 				{
 					Id = message.Id,
 					Title = message.Title,
-					ContentConcat = message.Content,
+                    ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
+					//ContentConcat = message.Content,
 					CreatedBy = "KPACA",
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				}).ToList();

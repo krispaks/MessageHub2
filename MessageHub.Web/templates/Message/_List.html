@@ -1,50 +1,55 @@
-﻿<div class="jumbotron">
-    <form method="GET" role="form" data-ng-submit="SearchMessages(searchCriteria)">
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="list-group-item-heading">Search</h4>
+    </div>
+
+    <div class="panel-body">
+
+        <form method="GET" role="form" data-ng-submit="SearchMessages(searchCriteria)">
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <input type="text" class="form-control" placeholder="Title" data-ng-model="searchCriteria.Title" />
             </div>
 
-            <div class="col-sm-6">
-                <select class="form-control" data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist">
+            <div class="col-sm-5">
+                <select class="form-control" data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist" style="float:right;">
                     <option value="">Select Category</option>
                 </select>
             </div>
-            <p><br></p>
-        </div>
 
+            <div class="col-sm-2">
+            </div>            
+        </div>
+        <br>
 
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <input type="text" class="form-control" placeholder="Tags" data-ng-model="searchCriteria.Tag" />
             </div>
-            <div class="col-sm-6">
-                <select class="form-control" data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category">
+            <div class="col-sm-5">
+                <select class="form-control" data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
                     <option value="">Select Sub Category</option>
                 </select>
             </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-default" style="float:right;">Search</button>
+            </div>
             <p><br></p>
         </div>
-
-        <div class="row">
-            <div class="col-sm-6"></div>
-
-            <div class="col-sm-6">
-                <button type="submit" class="btn btn-default" style="float:right; margin-right: 10px;">Search</button>
-            </div>
-        </div>
     </form>
+
+    </div>
 </div>
 
 <div class="list-group" data-ng-repeat="message in messages">
     <a data-ng-href="/Message/Detail/{{message.id}}" class="list-group-item">
         <h4 class="list-group-item-heading">{{message.title}}</h4>
-        <p class="list-group-item-text">{{message.contentConcat}}</p>
-        <p class="list-group-item-text">-created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</p>
+        <h5 class="list-group-item-text">{{message.contentConcat}}</h5>
+        <h6 class="list-group-item-text">Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</h6>
     </a>
 </div>
 
 <div>
-    <a data-ng-href="/Message/Create" class="btn btn-default">Create</a>
+    <a data-ng-href="/Message/Create" class="btn btn-default" style="float:right;">Create</a>
 </div>

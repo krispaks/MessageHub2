@@ -1,11 +1,72 @@
-﻿<div>
+﻿<!--<div>
     Detail
-</div>
+</div>-->
 <div>
-    <div>
+    <!--<div>
         <label>Id</label>
         <label>{{message.id}}</label>
+    </div>-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="list-group-item-heading">{{message.title}}</h3>
+            Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}
+        </div>
+
+        <div class="panel-body">
+            {{message.content}}
+
+            <br><br>
+
+            Files:
+            <div class="list-group">
+                <div class="list-group-item">
+                    No files attached
+                </div>
+            </div>
+
+            Tags:
+            <div class="list-group">
+                <div class="list-group-item">
+                    No tags specified
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Comments
+                </div>
+                <div class="panel-body">
+
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            ...
+                            <h6 class="list-group-item-text">NMCUNI</h6>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            ...
+                            <h6 class="list-group-item-text">NMCUNI</h6>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-default" style="float:right;">Load More</button><br><br><br>
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            New comment
+                        </div>
+                        <div class="panel-body">
+                            <textarea class="form-control" placeholder="This piece of shit doesnt fix to its parent"></textarea><br>
+                            <button type="button" class="btn btn-default" style="float:right;">Post comment</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+
     <div>
         <label>Title</label>
         <label>{{message.title}}</label>
