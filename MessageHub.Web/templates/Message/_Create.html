@@ -1,18 +1,75 @@
-﻿<div>
-    Create
-</div>
-<div>
-    <form method="POST" role="form" data-ng-submit="SaveMessage(message)">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="Title" data-ng-model="message.Title" />
-        </div>
-        <div class="form-group">
-            <label for="title">Content</label>
-            <textarea class="form-control" id="content" data-ng-model="message.Content"></textarea>
-        </div>
-        <div>
-            <input type="submit" value="Submit" class="btn btn-default" />
-        </div>
-    </form>
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="list-group-item-heading">New Message</h4>
+    </div>
+
+    <div class="panel-body">
+        
+        <form method="POST" role="form" data-ng-submit="SaveMessage(message)">
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="Text1" placeholder="Title" data-ng-model="message.Title" />
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" id="Textarea1" placeholder="Content" rows="5" data-ng-model="message.Content"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <p style="float:right;">Category</p>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control" data-ng-options="category.id as category.name for category in categoryddlist">
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-2">
+                    <p style="float:right;">Sub-category</p>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
+                        <option value="">Select Sub-category</option>
+                    </select>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-2">
+                    <p style="float:right;">Tags</p>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Text3" placeholder="No tags specified" data-ng-model="" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <p style="float:right;">Files</p>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input type="file" class="form-control" id="File2" data-ng-model="" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-default" style="float:right;"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
 </div>
