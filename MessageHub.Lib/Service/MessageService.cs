@@ -95,10 +95,11 @@ namespace MessageHub.Lib.Service
 			{
 				this._logService.Log("Start GetMessage");
 
-				MessageDetailDTO dto = new MessageDetailDTO();
-
-				dto.MessageDetail = _uow.MessageHubRepository.Get(id);
-				dto.CommentList = _uow.CommentHubRepository.Get(filter: x => x.MessageId == id);
+				MessageDetailDTO dto = new MessageDetailDTO
+				{
+					MessageDetail = _uow.MessageHubRepository.Get(id),
+					CommentList = _uow.CommentHubRepository.Get(filter: x => x.MessageId == id)
+				};
 
 				return dto;
 			}
