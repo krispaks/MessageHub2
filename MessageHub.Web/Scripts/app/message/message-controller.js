@@ -1,7 +1,7 @@
 ﻿define(['angular'], function(angular) {
 	'use strict';
 
-	return angular.module('messageModule.Controllers', ['messageModule.Services'])
+	return angular.module('messageModule.Controllers', ['messageModule.Services', 'commentModule.Services'])
 		.controller('MessageListCtrl', ['$scope', '$location', '$log', 'messageService', function ($scope, $location, $log, messageService) {
 
 			//dropdownlist
@@ -35,7 +35,14 @@
 				});
 			};
 		}])
-		.controller('MessageDetailCtrl', ['$scope', '$location', '$routeParams', '$log', 'messageService', 'commentService', function ($scope, $location, $routeParams, $log, messageService, commentService) {
+		.controller('MessageDetailCtrl'
+			, ['$scope'
+			, '$location'
+			, '$routeParams'
+			, '$log'
+			, 'messageService'
+			, 'commentService'
+			, function ($scope, $location, $routeParams, $log, messageService, commentService) {
 			messageService.GetMessage($routeParams.id).$promise.then(
 				function(data) {
 		    		$scope.message = data;
@@ -45,14 +52,14 @@
 		    		$location.url('/Error');
 		    });
 
-			//commentService.GetComments($routeParams.id).$promise.then(
-		    //    function(data) {
-		    //    	$scope.comments = data;
-		    //    },
-		    //    function(reason) {
-		    //    	$log.error('Errot at MessageDetailCtrl GetMessage: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
-		    //    }
-		    //);
+			commentService.GetComments($routeParams.id).$promise.then(
+		       function(data) {
+		        	$scope.comments = data;
+		        },
+		        function(reason) {
+		        	$log.error('Errot at MessageDetailCtrl GetComments: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+		        }
+		    );
             
 			//$scope.SaveComment = function(comment) {
 			//	commentService.SaveComment(comment).$promise.then(

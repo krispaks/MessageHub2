@@ -15,12 +15,18 @@ namespace MessageHub.Lib.UnitOfWork
 		private MessageHubDbContext _context = null;
 		private bool disposed = false;
 
-		public IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
+		public IRepository<Message, MessageHubDbContext> MessageHubRepository { get; set; }
+		public IRepository<Comment, MessageHubDbContext> CommentHubRepository { get; set; }
 
 		public MessageUoW()
 		{	
 			this._context = new MessageHubDbContext();
-			MessageHubRepositoryRepository = new MessageHubRepository<Message>
+			MessageHubRepository = new MessageHubRepository<Message>
+			{
+				Context = this._context
+			};
+
+			CommentHubRepository = new MessageHubRepository<Comment>
 			{
 				Context = this._context
 			};

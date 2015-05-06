@@ -32,25 +32,5 @@
     			return $resource('/api/MessageService').save(message);
     		}
     	};
-    }])
-    //NOTE KPACA 10/29/2014: Might wanna separate this once it gets bigger
-    .factory('commentService', ['$resource', function ($resource) {
-    	return {
-    		GetComments: function(searchCriteria) {
-    			if (!searchCriteria) {
-
-    				searchCriteria = {
-    					MessageId: 0
-    				}
-    			}
-
-    			return $resource('/api/CommentService', {
-    				MessageId: searchCriteria.MessageId
-    			}).query();
-    		},
-    		SaveComment: function(comment) {
-    			return $resource('/api/CommentService').save(comment);
-    		}
-    	};
     }]);
 });

@@ -230,6 +230,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoryApiController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\MessageApiController.cs" />
@@ -266,6 +267,7 @@
     <Content Include="Scripts\app\category\category-route.js" />
     <Content Include="Scripts\app\category\category-service.js" />
     <Content Include="Scripts\app\category\category.js" />
+    <Content Include="Scripts\app\comment\comment-service.js" />
     <Content Include="Scripts\lib\angular-mocks.js" />
     <Content Include="Scripts\lib\angular-resource.js" />
     <Content Include="Scripts\lib\angular-resource.min.js" />

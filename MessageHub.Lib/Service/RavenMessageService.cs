@@ -133,5 +133,11 @@ namespace MessageHub.Lib.Service
                 this._logService.Log("End DeleteMessage");
             }
         }
-    }
+
+
+		public DTO.MessageDetailDTO GetMessageDetail(int id)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

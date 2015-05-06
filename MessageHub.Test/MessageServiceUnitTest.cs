@@ -27,7 +27,7 @@ namespace MessageHub.Test
 		public void MessageServiceSaveMessageSuccess()
 		{
 			//Arrange
-			messageUoW.Setup(x => x.MessageHubRepositoryRepository.Insert(It.IsAny<Message>()));
+			messageUoW.Setup(x => x.MessageHubRepository.Insert(It.IsAny<Message>()));
 			messageUoW.Setup(x => x.SaveChanges()).Returns(1);
 			logginService.Setup(x => x.Log(It.IsAny<string>())).Returns(true);
 			Message message = new Message
@@ -52,7 +52,7 @@ namespace MessageHub.Test
 		public void MesageServiceSaveMessageFailed()
 		{
 			//Arrange
-			messageUoW.Setup(x => x.MessageHubRepositoryRepository.Insert(It.IsAny<Message>()));
+			messageUoW.Setup(x => x.MessageHubRepository.Insert(It.IsAny<Message>()));
 			messageUoW.Setup(x => x.SaveChanges()).Returns(0);
 			logginService.Setup(x => x.Log(It.IsAny<string>())).Returns(true);
 			Message message = new Message
