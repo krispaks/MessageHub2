@@ -1,75 +1,75 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - MessageHub</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - MessageHub</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
 
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("MessageHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Message", "Index", "Message")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
-        <div class="row">
-            <div class="col-sm-8">
-                <br>
-                @RenderBody()
-            </div>
-
-            <div class="col-sm-4">
-                <br>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="list-group-item-heading">Chat</h4>
-                    </div>
-
-                    <div class="panel-body">
-                        Some cool groovy chat
-                    </div>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("MessageHub", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="list-group-item-heading">Notifications</h4>
-                    </div>
-
-                    <div class="panel-body">
-                        Notifications and stuff, yo
-                    </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Message", "Index", "Message")</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
                 </div>
             </div>
         </div>
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - MessageHub</p>
-        </footer>
-    </div>
 
-    <script src="~/Scripts/lib/require.js"></script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        <div class="container body-content">
+            <div class="row">
+                <div class="col-sm-8">
+                    <br>
+                    @RenderBody()
+                </div>
+
+                <div class="col-sm-4">
+                    <br>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="list-group-item-heading">Chat</h4>
+                        </div>
+
+                        <div class="panel-body">
+                            Some cool groovy chat
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="list-group-item-heading">Notifications</h4>
+                        </div>
+
+                        <div class="panel-body">
+                            Notifications and stuff, yo
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - MessageHub</p>
+            </footer>
+        </div>
+
+        <script src="~/Scripts/lib/require.js"></script>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
 
 <!--@if(User.Identity.IsAuthenticated){
