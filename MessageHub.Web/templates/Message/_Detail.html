@@ -1,39 +1,76 @@
-﻿<div>
+﻿<!--<div>
     Detail
-</div>
+</div>-->
 <div>
-    <div>
+    <!--<div>
         <label>Id</label>
         <label>{{message.id}}</label>
-    </div>
-    <div>
-        <label>Title</label>
-        <label>{{message.title}}</label>
-    </div>
-    <div>
-        <label>Content</label>
-        <textarea>{{message.contentConcat}}</textarea>
-    </div>
-    <div class="row">
-        <div data-ng-repeat="comment in comments">
-            <div>
-                <!--<label>{{comment.createdByName}}</label>
-                <label>{{comment.value}}</label>
-                <label>{{comment.CreatedDate | date : mediumDate}}</label>-->
+    </div>-->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="list-group-item-heading">{{message.title}}</h3>
+            Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}
+        </div>
+
+        <div class="panel-body">
+            {{message.content}}
+
+            <br><br>
+
+            Files:
+            <div class="list-group">
+                <div class="list-group-item">
+                    No files attached
+                </div>
             </div>
+
+            Tags:
+            <div class="list-group">
+                <div class="list-group-item">
+                    No tags specified
+                </div>
+            </div>
+
+            <div class="list-group">
+                <div class="list-group-item active">
+                    Comments
+                </div>
+                <div class="list-group-item">
+                    ...
+                    <h6 class="list-group-item-text">NMCUNI</h6>
+                </div>
+                <div class="list-group-item">
+                    ...
+                    <h6 class="list-group-item-text">NMCUNI</h6>
+                </div>
+                <div class="list-group-item">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default center-block">Load More</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-group">
+                <div class="list-group-item active">
+                    New Comment
+                </div>
+                <div class="list-group-item">
+                        <textarea class="form-control" placeholder="New comment"></textarea><br>
+                        <button type="button" class="btn btn-default" style="float:right;">Post comment</button><br><br>
+                </div>
+            </div>            
         </div>
     </div>
-    <div class="row">
-        <form method="POST" role="form" data-ng-submit="SaveComment(comment)">
-            <div class="form-group">
-                <input type="text" class="form-control" id="comment" placeholder="Comment" data-ng-model="comment.Content" />
-            </div>
+
+    <!--<div class="row">
+        <div data-ng-repeat="comment in comments">
             <div>
-                <input type="submit" value="Save" class="btn btn-default" />
+                <label>{{comment.createdByName}}</label>
+                <label>{{comment.value}}</label>
+                <label>{{comment.CreatedDate | date : mediumDate}}</label>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </div>-->
 <div>
-    <a href="/Message">Back To List</a>
+    <a data-ng-href="/Message" class="btn btn-default">Back To List</a>
 </div>

@@ -32,21 +32,36 @@
     <div class="container body-content">
         <div class="row">
             <div class="col-sm-8">
+                <br>
                 @RenderBody()
             </div>
 
             <div class="col-sm-4">
-                <div class="jumbotron">
-                    <p>Chat board</p> 
+                <br>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="list-group-item-heading">Chat</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        Some cool groovy chat
+                    </div>
                 </div>
-                <div class="jumbotron">
-                    <p>Notification board</p> 
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="list-group-item-heading">Notifications</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        Notifications and stuff, yo
+                    </div>
                 </div>
             </div>
         </div>
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - MessageHub</p>
         </footer>
     </div>
 
@@ -56,3 +71,15 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<!--@if(User.Identity.IsAuthenticated){
+    @: Logged in as @User.Identity.Name
+}
+else
+{
+    <form action='@Url.Action("Login","Account")' method='POST'>
+          Username : <input name='UserName' />
+          Password : <input name='Password' type='password' />
+          <input type='submit' value='Login' />
+    </form>
+}-->
