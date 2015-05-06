@@ -1,6 +1,7 @@
 ﻿@model MessageHub.Web.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -32,6 +33,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />
+            <a class="btn btn-default" href="/Account/Login">Back to Login</a>
         </div>
     </div>
 }
