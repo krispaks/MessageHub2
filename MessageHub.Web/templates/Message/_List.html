@@ -7,7 +7,8 @@
             </div>
 
             <div class="col-sm-6">
-                <select class="form-control" data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist">
+                <select class="form-control" data-ng-model="searchCriteria.Category"
+                        data-ng-options="category.id as category.name for category in categoryddlist track by category.id">
                     <option value="">Select Category</option>
                 </select>
             </div>
@@ -20,7 +21,8 @@
                 <input type="text" class="form-control" placeholder="Tags" data-ng-model="searchCriteria.Tag" />
             </div>
             <div class="col-sm-6">
-                <select class="form-control" data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category">
+                <select class="form-control" data-ng-model="searchCriteria.SubCategory"
+                        data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist track by subCategory.id | filter: subCategory.parentid: searchCriteria.Category">
                     <option value="">Select Sub Category</option>
                 </select>
             </div>
