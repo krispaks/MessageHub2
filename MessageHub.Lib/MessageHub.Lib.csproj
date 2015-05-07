@@ -97,6 +97,7 @@
     <Compile Include="Service\IMessageService.cs" />
     <Compile Include="Service\LoggingService.cs" />
     <Compile Include="Service\MessageService.cs" />
+    <Compile Include="Service\RavenCommentService.cs" />
     <Compile Include="Service\RavenMessageService.cs" />
     <Compile Include="UnitOfWork\IMessageUoW.cs" />
     <Compile Include="UnitOfWork\IRavenMessageUoW.cs" />

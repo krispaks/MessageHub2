@@ -1,4 +1,5 @@
-﻿using MessageHub.Lib.UnitOfWork;
+﻿using MessageHub.Lib.DTO;
+using MessageHub.Lib.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,7 +138,27 @@ namespace MessageHub.Lib.Service
 
 		public DTO.MessageDetailDTO GetMessageDetail(int id)
 		{
-			throw new NotImplementedException();
+            try
+            {
+                this._logService.Log("Start GetMessageDetail");
+
+                MessageDetailDTO dto = new MessageDetailDTO
+                {
+                    MessageInfo = _uow.MessageRavenRepositoryRepository.Get(id),
+                    CommentList = _uow.CommentRavenRepositoryRepository.Get(filter: x => x.MessageId == id)
+                };
+
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at GetMessageDetail : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End GetMessageDetail");
+            }
 		}
 	}
 }

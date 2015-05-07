@@ -12,5 +12,6 @@ namespace MessageHub.Lib.UnitOfWork
 	public interface IRavenMessageUoW : IUnitOfWork
 	{
 		IRepository<Message, IDocumentSession> MessageRavenRepositoryRepository { get; set; }
+        IRepository<Comment, IDocumentSession> CommentRavenRepositoryRepository { get; set; }
 	}
 }

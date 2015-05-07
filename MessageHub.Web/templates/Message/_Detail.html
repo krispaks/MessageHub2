@@ -35,23 +35,25 @@
                 <div class="list-group-item active">
                     Comments
                 </div>
-                <div class="list-group-item">
+                <div class="list-group-item" ng-init="toggle = false">
+                    <!--ng-show toggle: {{ toggle }}-->
                     <div class="list-group" data-ng-repeat="comment in message.commentList">
-                        <div class="list-group-item">
+                        <div class="list-group-item" data-ng-hide="!toggle && $index > 2">
                             {{comment.value}}
                             <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate}}</h6>
                         </div>
+                    </div>
 
+                    <h5 class="text-center" data-ng-show="message.commentList.length <= 0">No comments<br></h5>
+
+                    <div class="text-center" data-ng-show="message.commentList.length > 3">
+                        <!-- initialized more than 0. change when there's more comments and u have to hide some of them -->
+                        <button type="button" class="btn btn-primary center-block" ng-show="!toggle" ng-click="toggle = true">Load More</button>
+                        <button type="button" class="btn btn-primary center-block" ng-show="toggle" ng-click="toggle = false">Load Less</button>
+                        <br><br>
                     </div>
-                    <div class="list-group-item">
-                        <div class="text-center">
-                            <button type="button" class="btn btn-primary center-block">Load More</button>
-                        </div>
-                    </div>
+
                     <div class="list-group">
-                        <!--<div class="list-group-item active">
-                            New Comment
-                        </div>-->
                         <div class="list-group-item">
                             <form role="form" method="POST" data-ng-submit="SaveComment(message.newComment)">
                                 <textarea class="form-control" placeholder="New comment" ng-model="message.newComment.value"></textarea><br>

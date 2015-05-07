@@ -17,6 +17,7 @@ namespace MessageHub.Lib.UnitOfWork
         //public MessageRavenRepository<Message, IDocumentSession> MessageHubRepositoryRepository { get; set; }
         public IDocumentSession context;
         public IRepository<Message, IDocumentSession> MessageRavenRepositoryRepository { get; set; }
+        public IRepository<Comment, IDocumentSession> CommentRavenRepositoryRepository { get; set; }
 
 		public RavenMessageUoW()
 		{
@@ -32,6 +33,10 @@ namespace MessageHub.Lib.UnitOfWork
             context = documentStore.OpenSession();
 
             MessageRavenRepositoryRepository = new MessageRavenRepository<Message, DocumentSession> {
+                Context = context
+            };
+            CommentRavenRepositoryRepository = new MessageRavenRepository<Comment, DocumentSession>
+            {
                 Context = context
             };
 		}

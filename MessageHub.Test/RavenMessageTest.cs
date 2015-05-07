@@ -89,6 +89,30 @@ namespace MessageHub.Test
             msgService.DeleteMessage(481);
         }
 
+        [TestMethod]
+        public void TestSaveCommentRaven()
+        {
+            IRavenMessageUoW msgUow = new RavenMessageUoW();
+            IRepository<Comment, IDocumentSession> commentRepository = msgUow.CommentRavenRepositoryRepository;
+            ILoggingService logService = new LoggingService();
+            RavenCommentService cmtService = new RavenCommentService(commentRepository, logService);
+
+            /*
+                PARA RELLENAR EL NULL PRUEBA CON SOMETHIN LIKE THIS:
+                RavenMessageService msgService = new RavenMessageService(msgUow, logService);
+                var message = msgService.GetMessage(193);
+             */
+
+            var id = cmtService.SaveComment(new Comment
+            {
+                MessageId = 193,
+                Value = "Just another test comment",
+                Message = null,
+                CreatedBy = 1,
+                CreatedDate = UtilityDate.HubDateTime()
+            });
+        }
+
         /*[TestMethod]
         public void TestGet()
         {
