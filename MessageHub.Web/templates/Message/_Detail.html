@@ -36,31 +36,29 @@
                     Comments
                 </div>
                 <div class="list-group-item">
-                    <div class="list-group">
+                    <div class="list-group" data-ng-repeat="comment in message.commentList">
                         <div class="list-group-item">
-                            Lorem ipsum dolor sit amet.
-                            <h6 class="list-group-item-text">NMCUNI, 05/05/2015</h6>
+                            {{comment.value}}
+                            <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate}}</h6>
                         </div>
-                        <div class="list-group-item">
-                            wtf u talkin' bout, bro?
-                            <h6 class="list-group-item-text">DHOFF, 05/06/2015</h6>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="text-center">
-                                <button type="button" class="btn btn-primary center-block">Load More</button>
-                            </div>
+
+                    </div>
+                    <div class="list-group-item">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary center-block">Load More</button>
                         </div>
                     </div>
-
                     <div class="list-group">
-                            <!--<div class="list-group-item active">
-                                New Comment
-                            </div>-->
-                            <div class="list-group-item">
-                                    <textarea class="form-control" placeholder="New comment"></textarea><br>
-                                    <button type="button" class="btn btn-primary" style="float:right;">Post comment</button><br><br>
-                            </div>
+                        <!--<div class="list-group-item active">
+                            New Comment
+                        </div>-->
+                        <div class="list-group-item">
+                            <form role="form" method="POST" data-ng-submit="SaveComment(message.newComment)">
+                                <textarea class="form-control" placeholder="New comment" ng-model="message.newComment.value"></textarea><br>
+                                <input type="submit" value="Post Comment" class="btn btn-primary" style="float: right;" /><br><br>
+                            </form>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>

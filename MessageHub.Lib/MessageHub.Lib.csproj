@@ -91,6 +91,8 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MessageHubRepository.cs" />
     <Compile Include="Repository\MessageRavenRepository.cs" />
+    <Compile Include="Service\CommentService.cs" />
+    <Compile Include="Service\ICommentService.cs" />
     <Compile Include="Service\ILoggingService.cs" />
     <Compile Include="Service\IMessageService.cs" />
     <Compile Include="Service\LoggingService.cs" />

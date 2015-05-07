@@ -31,6 +31,8 @@ namespace MessageHub.Lib.Repository
 
 		public MessageHubRepository()
 		{
+			_context = new MessageHubDbContext();
+			_dbSet = this._context.Set<TEntity>();
 		}
 
 		public TEntity Get(int id)

@@ -40,19 +40,21 @@ namespace MessageHub.Web
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            //container.RegisterType<IMessageService, MessageService>(new HierarchicalLifetimeManager());
-            //container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
+			//container.RegisterType<IMessageService, MessageService>(new HierarchicalLifetimeManager());
+			//container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
+			//container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
 
-            //container.RegisterType<IMessageUoW, MessageUoW>(new HierarchicalLifetimeManager());
+			//container.RegisterType<IMessageUoW, MessageUoW>(new HierarchicalLifetimeManager());
 
-            //container.RegisterType<IRepository<Message, MessageHubDbContext>, MessageHubRepository<Message>>(new HierarchicalLifetimeManager());
+			//container.RegisterType<IRepository<Message, MessageHubDbContext>, MessageHubRepository<Message>>(new HierarchicalLifetimeManager());
+			//container.RegisterType<IRepository<Comment, MessageHubDbContext>, MessageHubRepository<Comment>>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IMessageService, RavenMessageService>(new HierarchicalLifetimeManager());
-            container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
+			container.RegisterType<IMessageService, RavenMessageService>(new HierarchicalLifetimeManager());
+			container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IRavenMessageUoW, RavenMessageUoW>(new HierarchicalLifetimeManager());
+			container.RegisterType<IRavenMessageUoW, RavenMessageUoW>(new HierarchicalLifetimeManager());
 
-            container.RegisterType<IRepository<Message, IDocumentSession>, MessageRavenRepository<Message, IDocumentSession>>(new HierarchicalLifetimeManager());
+			container.RegisterType<IRepository<Message, IDocumentSession>, MessageRavenRepository<Message, IDocumentSession>>(new HierarchicalLifetimeManager());
         }
     }
 }

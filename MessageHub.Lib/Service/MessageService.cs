@@ -97,7 +97,7 @@ namespace MessageHub.Lib.Service
 
 				MessageDetailDTO dto = new MessageDetailDTO
 				{
-					MessageDetail = _uow.MessageHubRepository.Get(id),
+					MessageInfo = _uow.MessageHubRepository.Get(id),
 					CommentList = _uow.CommentHubRepository.Get(filter: x => x.MessageId == id)
 				};
 

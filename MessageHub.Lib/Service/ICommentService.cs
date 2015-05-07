@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MessageHub.Lib.DTO
+namespace MessageHub.Lib.Service
 {
-	public class MessageDetailDTO
+	public interface ICommentService
 	{
-		public Message MessageInfo { get; set; }
-		public IEnumerable<Comment> CommentList { get; set; }
+		int SaveComment(Comment comment);
 	}
 }

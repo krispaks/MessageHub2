@@ -43,34 +43,19 @@
 			, 'messageService'
 			, 'commentService'
 			, function ($scope, $location, $routeParams, $log, messageService, commentService) {
-			messageService.GetMessage($routeParams.id).$promise.then(
-				function(data) {
-		    		$scope.message = data;
-				},
-				function(reason) {
-		    		$log.error('Errot at MessageDetailCtrl GetMessage: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
-		    		$location.url('/Error');
-		    });
 
-			commentService.GetComments($routeParams.id).$promise.then(
-		       function(data) {
-		        	$scope.comments = data;
-		        },
-		        function(reason) {
-		        	$log.error('Errot at MessageDetailCtrl GetComments: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
-		        }
-		    );
+				$scope.message = messageService.GetMessage($routeParams.id);
             
-			//$scope.SaveComment = function(comment) {
-			//	commentService.SaveComment(comment).$promise.then(
-	        //        function(data) {
-	        //        	//need to call get message or load the comments
-	        //        	$scope.comments = commentService.GetComments($scope.message.Id);
-	        //        },
-	        //        function(reason) {
-	        //        	//show error or something
-	        //        }
-            //    );
-			//};
+				$scope.SaveComment = function (comment) {
+					commentService.SaveComment(comment).$promise.then(
+						function(data) {
+	                		//need to call get message or load the comments
+							$scope.message = messageService.GetMessage($routeParams.id);
+						},
+						function(reason) {
+							$log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+						}
+					);
+				};
 		}]);
 });

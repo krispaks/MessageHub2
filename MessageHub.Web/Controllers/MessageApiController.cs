@@ -58,16 +58,36 @@ namespace MessageHub.Web.Controllers
 
 			try
 			{
-				var message = this.messageService.GetMessage(id);
+				//var message = this.messageService.GetMessage(id);
+				var messageDetail = this.messageService.GetMessageDetail(id);
 
 				var vm = new MessageViewModel
 				{
-					Id = message.Id,
-					Title = message.Title,
-					Content = message.Content,
+					Id = messageDetail.MessageInfo.Id,
+					Title = messageDetail.MessageInfo.Title,
+					Content = messageDetail.MessageInfo.Content,
 					CreatedBy = "KPACA",
-					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
+					CreatedDate = UtilityDate.HubDateString(messageDetail.MessageInfo.CreatedDate)
 				};
+
+				vm.NewComment = new CommentViewModel
+				{
+					MessageId = messageDetail.MessageInfo.Id
+				};
+
+				vm.CommentList = new List<CommentViewModel>();
+
+				foreach (var item in messageDetail.CommentList)
+				{
+					vm.CommentList.Add(new CommentViewModel
+					{
+						Id = item.Id,
+						MessageId = item.MessageId,
+						Value = item.Value,
+						CreatedBy = "KPACA",
+						CreatedDate = UtilityDate.HubDateString(item.CreatedDate)
+					});
+				}
 
 				response = Request.CreateResponse(HttpStatusCode.OK, vm);
 			}

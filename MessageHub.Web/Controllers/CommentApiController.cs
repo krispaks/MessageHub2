@@ -4,11 +4,23 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MessageHub.Lib.Service;
+using MessageHub.Web.Models;
+using MessageHub.Lib.Entity;
 
 namespace MessageHub.Web.Controllers
 {
     public class CommentApiController : ApiController
     {
+	    private ICommentService _commentService = null;
+		private ILoggingService _loggingService = null;
+
+	    public CommentApiController(ICommentService commentService, ILoggingService loggingService)
+	    {
+		    this._commentService = commentService;
+		    this._loggingService = loggingService;
+	    }
+
         // GET: api/CommentApi
         public IEnumerable<string> Get()
         {
@@ -22,8 +34,29 @@ namespace MessageHub.Web.Controllers
         }
 
         // POST: api/CommentApi
-        public void Post([FromBody]string value)
+        public HttpResponseMessage Post(CommentViewModel newComment)
         {
+			HttpResponseMessage response = new HttpResponseMessage();
+
+	        try
+	        {
+		        var comment = new Comment
+		        {
+			        Value = newComment.Value,
+					MessageId = newComment.MessageId
+		        };
+
+				int value = _commentService.SaveComment(comment);
+
+		        response = Request.CreateResponse(HttpStatusCode.OK, value);
+	        }
+	        catch (Exception ex)
+	        {
+				this._loggingService.Log(string.Format("Error at Comment Post : {0}", ex.Message));
+				response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+	        }
+
+	        return response;
         }
 
         // PUT: api/CommentApi/5
