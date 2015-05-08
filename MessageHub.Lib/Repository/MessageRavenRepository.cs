@@ -22,7 +22,17 @@ namespace MessageHub.Lib.Repository
 
         public MessageRavenRepository()
         {
-            //this.session = Context;
+            // intialize db
+            DocumentStore documentStore = new DocumentStore
+            {
+                // db connection
+                Url = "http://localhost:8080/",
+                DefaultDatabase = "MessageHubDB"
+            };
+            documentStore.Initialize();
+
+            // initialize session
+            session = documentStore.OpenSession();
         }
 
         public IDocumentSession Context

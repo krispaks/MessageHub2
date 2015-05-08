@@ -37,22 +37,27 @@
 		}])
 		.controller('MessageDetailCtrl'
 			, ['$scope'
+            , '$timeout'
 			, '$location'
 			, '$routeParams'
 			, '$log'
 			, 'messageService'
 			, 'commentService'
-			, function ($scope, $location, $routeParams, $log, messageService, commentService) {
+			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
 
 				$scope.message = messageService.GetMessage($routeParams.id);
             
 				$scope.SaveComment = function (comment) {
-					commentService.SaveComment(comment).$promise.then(
-						function(data) {
-	                		//need to call get message or load the comments
-							$scope.message = messageService.GetMessage($routeParams.id);
-						},
-						function(reason) {
+				    commentService.SaveComment(comment).$promise
+                        .then(function(data) {
+						    //need to call get message or load the comments
+                            //$scope.message = messageService.GetMessage($routeParams.id);
+                            $timeout(function () {
+                                $scope.$apply(function () {
+                                    $scope.message = messageService.GetMessage($routeParams.id)
+                                });
+                            }, 500);    // dirty fix (very, very dirty)
+						}, function (reason) {
 							$log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
 						}
 					);
