@@ -85,7 +85,7 @@ namespace MessageHub.Web.Controllers
 						MessageId = item.MessageId,
 						Value = item.Value,
 						CreatedBy = "KPACA",
-						CreatedDate = UtilityDate.HubDateString(item.CreatedDate)
+                        CreatedDate = item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff")/*UtilityDate.HubDateString(item.CreatedDate)*/
 					});
 				}
 

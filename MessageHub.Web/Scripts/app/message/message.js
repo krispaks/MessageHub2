@@ -2,9 +2,10 @@
 		, 'angularResource'
 		, '../messageModule/message-controller'
 		, '../messageModule/message-service'
+        , '../commentModule/comment-controller'
 		, '../commentModule/comment-service'
 		, 'angularRoute']
-		, function (angular, angularResource, messageController, messageService, commentService, angularRoute) {
+		, function (angular, angularResource, messageController, messageService, commentController, commentService, angularRoute) {
 		'use strict';
 
 		return angular.module('messageModule'
@@ -12,5 +13,6 @@
 							, 'ngResource'
 							, 'messageModule.Controllers'
 							, 'messageModule.Services'
+                            , 'commentModule.Controllers'
 							, 'commentModule.Services']);
 });

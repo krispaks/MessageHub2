@@ -267,6 +267,7 @@
     <Content Include="Scripts\app\category\category-route.js" />
     <Content Include="Scripts\app\category\category-service.js" />
     <Content Include="Scripts\app\category\category.js" />
+    <Content Include="Scripts\app\comment\comment-controller.js" />
     <Content Include="Scripts\app\comment\comment-service.js" />
     <Content Include="Scripts\lib\angular-mocks.js" />
     <Content Include="Scripts\lib\angular-resource.js" />
