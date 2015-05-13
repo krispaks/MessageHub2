@@ -21,19 +21,19 @@ namespace MessageHub.Web.Controllers
 		    this._loggingService = loggingService;
 	    }
 
-        // GET: api/CommentApi
+		[Authorize]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/CommentApi/5
+		[Authorize]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/CommentApi
+		[Authorize]
         public HttpResponseMessage Post(CommentViewModel newComment)
         {
 			HttpResponseMessage response = new HttpResponseMessage();
@@ -59,12 +59,12 @@ namespace MessageHub.Web.Controllers
 	        return response;
         }
 
-        // PUT: api/CommentApi/5
+		[Authorize]
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE: api/CommentApi/5
+		[Authorize]
         public void Delete(int id)
         {
         }

@@ -20,5 +20,8 @@
 				window.location.replace('/Category/Index');
 			}
 		});
+		$routeProvider.otherwise({
+			redirectTo: '/Message'
+		});
 	}]);
 });
