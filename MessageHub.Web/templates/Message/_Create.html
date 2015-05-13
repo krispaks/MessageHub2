@@ -20,7 +20,7 @@
                     <p style="float:right;">Category</p>
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-options="category.id as category.name for category in categoryddlist">
+                    <select class="form-control" data-ng-model="myCategory" data-ng-options="category.id as category.name for category in categoryddlist" style="float:right;">
                         <option value="">Select Category</option>
                     </select>
                 </div>
@@ -32,8 +32,8 @@
                     <p style="float:right;">Sub-category</p>
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
-                        <option value="">Select Sub-category</option>
+                    <select class="form-control" data-ng-model="mySubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
+                        <option value="">Select Sub-Category</option>
                     </select>
                 </div>
                 <div class="col-sm-6"></div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="Text3" placeholder="No tags specified" data-ng-model="" />
+                        <input type="text" class="form-control" id="Text3" placeholder="No tags specified" />
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input type="file" class="form-control" id="File2" data-ng-model="" />
+                        <input type="file" class="form-control" id="File2" />
                     </div>
                 </div>
             </div>
