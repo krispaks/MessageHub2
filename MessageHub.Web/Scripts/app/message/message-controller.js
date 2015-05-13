@@ -76,33 +76,72 @@
 						}
 					);*/
 
-				    var p1 = new Promise(
-                        function (resolve, reject) {
-                            console.log("promise started");
-                            
+				    /*var res;
+
+				    //console.log('res definied');
+
+				    $scope.$watch(res, function () {
+				        console.log('hey, res has changed!');
+				        //$scope.message = messageService.GetMessage($routeParams.id);
+				        $timeout(function () {
+				            $scope.message = messageService.GetMessage($routeParams.id);
+				            $scope.$apply();
+				        }, 0);
+				    });
+
+				    //console.log('res about to change');
+
+				    res = commentService.SaveComment(comment);*/
+
+				    var res = commentService.SaveComment(comment);
+
+				    console.log('1');
+
+				    $scope.$watch($scope.message, function () {
+				        console.log('hey, $scope.message has changed!');
+				        $timeout(function () {
+				            $scope.$apply();
+				        }, 0);
+				    });
+
+				    console.log('2');
+
+				    $scope.message = messageService.GetMessage($routeParams.id);
+
+				    console.log('3');
+
+				    //console.log('res just changed');
+
+
+                    // promise for when the comment is saved
+				    /*var p1 = new Promise(
+                        function (resolve, reject) {                            
                             // comment saving
                             var res;
-                            console.log("res (pre) = " + res);
-                            res = commentService.SaveComment(comment);
-                            console.log("res (mid) = " + res);
 
-                            // timeout for async resolution of promise
-                            $timeout(
-                                function () {
-                                    // fulfill the promise
-                                    resolve(res);
-                                    console.log("res (post) = " + res);
-                                }
-                            , 500);
+                            $scope.$watch(res, function () {
+                                console.log('hey, res has changed!');
+                            });
+
+                            res = commentService.SaveComment(comment);
+
+                            // fulfill the promise
+                            resolve(res);
+                            // update the scope with the new message
+                            //$scope.message = messageService.GetMessage($routeParams.id);
                         });
 
-                    // We define what to do when the promise is fulfilled
+                    // when the promise is fulfilled:
                     p1.then(
-                    // Just log the message and a value
-                        function (val) {
-                            console.log("promise fulfilled");
-                            $scope.message = messageService.GetMessage($routeParams.id);
-                    });
+                        function (val) {*/
+                            // timeout for async refresh of the scope
+                            /*$timeout(function () {
+                                $scope.message = messageService.GetMessage($routeParams.id);
+                                $scope.$apply();
+                            }, 0);*/
+                            /*$scope.message = messageService.GetMessage($routeParams.id);
+                            $scope.$apply();
+                    });*/
 				};
 		}]);
 });
