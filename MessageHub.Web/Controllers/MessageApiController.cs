@@ -8,6 +8,7 @@ using MessageHub.Lib.Service;
 using MessageHub.Lib.UnitOfWork;
 using MessageHub.Lib.Utility;
 using MessageHub.Web.Models;
+using MessageHub.Lib.Entity;
 
 namespace MessageHub.Web.Controllers
 {
@@ -102,8 +103,33 @@ namespace MessageHub.Web.Controllers
 		}
 
 		[Authorize]
-		public void Post([FromBody]string value)
+        public HttpResponseMessage Post(MessageViewModel newMessage)
 		{
+
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            try
+            {
+                Message message = new Message
+                {
+                    Title = newMessage.Title,
+                    Content = newMessage.Content,
+                    SubCategoryId = 1,
+                    CreatedBy = 1,
+                    CreatedDate = UtilityDate.HubDateTime()
+                };
+
+                int value = this.messageService.SaveMessage(message);
+
+                response = Request.CreateResponse(HttpStatusCode.OK, value);
+            }
+            catch (Exception ex)
+            {
+                this.logger.Log(string.Format("Error at Message Get : {0}", ex.Message));
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+            }
+
+            return response;
 		}
 
 		[Authorize]

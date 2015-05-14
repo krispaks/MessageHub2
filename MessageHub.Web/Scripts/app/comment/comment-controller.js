@@ -8,13 +8,22 @@
 		    $scope.numShown = 0;
 
 		    // scrolling function
-		    $(window).scroll(function () {
-		        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+		    $(".list-group-item").scroll(function () {
+		        if ($(this).scrollTop() == $(this).innerHeight() - $(this).height()) {
 
 		            console.log("scrooooll. numshown=" + $scope.numShown);
 		            $scope.$apply(function () {
 		                $scope.numShown += 3;
 		            });		            
+		        }
+		    });
+
+		    $(".list-group-item").scroll(function () {
+		        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+		            console.log("div scroll. numshown=" + $scope.numShown);
+		            $scope.$apply(function () {
+		                $scope.numShown += 3;
+		            });
 		        }
 		    });
 

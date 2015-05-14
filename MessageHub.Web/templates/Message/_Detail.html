@@ -72,11 +72,15 @@
                         </div>
                     </div>
 
-                    <!--numShown = {{numShown}}-->
-                    <div class="list-group" data-ng-repeat="comment in message.commentList | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
-                        <div class="list-group-item" data-ng-hide="$index > (2 + numShown)">
-                            {{comment.value}}
-                            <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate | date:'MM/dd/yyyy HH:mm'}}</h6>
+                    <div class="list-group">
+                        <div class="list-group-item" style="height: 150px; overflow: auto;">
+                            <!--numShown = {{numShown}}-->
+                            <div class="list-group" data-ng-repeat="comment in message.commentList | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
+                                <div class="list-group-item" data-ng-hide="$index > (2 + numShown)">
+                                    {{comment.value}}
+                                    <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate | date:'MM/dd/yyyy HH:mm'}}</h6>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

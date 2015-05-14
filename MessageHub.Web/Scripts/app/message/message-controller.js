@@ -36,6 +36,7 @@
 		    $scope.mySubCategory = $scope.subCategoryddlist[0];
 
 		    $scope.SaveMessage = function (message) {
+		        console.log("message = "+message);
 				messageService.SaveMessage(message).$promise.then(
 					function () {
 						$location.url('/Message');

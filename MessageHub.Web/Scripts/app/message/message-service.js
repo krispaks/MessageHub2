@@ -29,7 +29,7 @@
     			return $resource('/api/MessageApi', { id: id }).get();
     		},
     		SaveMessage: function(message) {
-    			return $resource('/api/MessageService').save(message);
+    			return $resource('/api/MessageApi').save(message);
     		}
     	};
     }]);
