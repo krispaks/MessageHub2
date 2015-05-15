@@ -9,7 +9,8 @@ requirejs.config({
 		angularResource: 'angular-resource',
 		messageModule: '../app/message',
 		categoryModule: '../app/category',
-		commentModule: '../app/comment'
+		commentModule: '../app/comment',
+		pubsub: 'pubsub'
 	},
 	shim: {
 		'angular': { 'exports': 'angular' },
