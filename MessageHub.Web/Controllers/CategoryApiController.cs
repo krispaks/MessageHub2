@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace MessageHub.Web.Controllers
 {
+	[Authorize]
     public class CategoryApiController : ApiController
     {
         // GET: api/CategoryApi

@@ -10,6 +10,7 @@ using MessageHub.Lib.Entity;
 
 namespace MessageHub.Web.Controllers
 {
+	[Authorize]
     public class CommentApiController : ApiController
     {
 	    private ICommentService _commentService = null;

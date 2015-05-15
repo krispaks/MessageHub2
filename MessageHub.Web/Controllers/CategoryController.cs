@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace MessageHub.Web.Controllers
 {
+	[Authorize]
     public class CategoryController : Controller
     {
         // GET: Category

@@ -12,6 +12,7 @@ using MessageHub.Lib.Entity;
 
 namespace MessageHub.Web.Controllers
 {
+	[Authorize]
 	public class MessageApiController : ApiController
 	{
 		private IMessageService messageService = null;

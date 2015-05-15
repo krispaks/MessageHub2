@@ -11,7 +11,9 @@ using System;
 
 namespace MessageHub.Web.Controllers
 {
-    public class AccountController : Controller
+
+	[Authorize]
+	public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
 
@@ -414,7 +416,7 @@ namespace MessageHub.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -499,7 +501,7 @@ namespace MessageHub.Web.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         private class ChallengeResult : HttpUnauthorizedResult
