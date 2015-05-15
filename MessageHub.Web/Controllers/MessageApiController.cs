@@ -22,8 +22,7 @@ namespace MessageHub.Web.Controllers
 			this.messageService = messageService;
 			this.logger = logger;
 		}
-
-		[Authorize]
+		
 		public HttpResponseMessage Get()
 		{
 			HttpResponseMessage response = new HttpResponseMessage();
@@ -52,8 +51,7 @@ namespace MessageHub.Web.Controllers
 
 			return response;
 		}
-
-		[Authorize]
+		
 		public HttpResponseMessage Get(int id)
 		{
 			HttpResponseMessage response = new HttpResponseMessage();
@@ -101,8 +99,7 @@ namespace MessageHub.Web.Controllers
 
 			return response;
 		}
-
-		[Authorize]
+		
         public HttpResponseMessage Post(MessageViewModel newMessage)
 		{
 
@@ -132,12 +129,10 @@ namespace MessageHub.Web.Controllers
             return response;
 		}
 
-		[Authorize]
 		public void Put(int id, [FromBody]string value)
 		{
 		}
 
-		[Authorize]
 		public void Delete(int id)
 		{
 		}

@@ -6,8 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 
 namespace MessageHub.Web.Controllers
-{
-    [Authorize]
+{   
     public class ValuesController : ApiController
     {
         // GET api/values

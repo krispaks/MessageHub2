@@ -9,7 +9,6 @@ namespace MessageHub.Web.Controllers
     public class CategoryController : Controller
     {
         // GET: Category
-        [Authorize]
         public ActionResult Index()
         {
             return View();

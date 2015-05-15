@@ -7,10 +7,10 @@ using Microsoft.Owin.Security;
 using MessageHub.Web.Models;
 using MessageHub.Web.Providers;
 using MessageHub.Web.Results;
+using System;
 
 namespace MessageHub.Web.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationUserManager _userManager;
@@ -115,7 +115,7 @@ namespace MessageHub.Web.Controllers
                 return View("Error");
             }
 
-            IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
+			IdentityResult result = await UserManager.ConfirmEmailAsync(Int64.Parse(userId), code);
             if (result.Succeeded)
             {
                 return View("ConfirmEmail");
@@ -223,10 +223,10 @@ namespace MessageHub.Web.Controllers
         public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
         {
             ManageMessageId? message;
-            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId<long>(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+				var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<long>());
                 await SignInAsync(user, isPersistent: false);
                 message = ManageMessageId.RemoveLoginSuccess;
             }
@@ -265,10 +265,10 @@ namespace MessageHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId<long>(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
-                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+						var user = await UserManager.FindByIdAsync(User.Identity.GetUserId<long>());
                         await SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
@@ -286,7 +286,7 @@ namespace MessageHub.Web.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+					IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId<long>(), model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
@@ -354,7 +354,7 @@ namespace MessageHub.Web.Controllers
             {
                 return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
             }
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId<long>(), loginInfo.Login);
             if (result.Succeeded)
             {
                 return RedirectToAction("Manage");
@@ -428,7 +428,7 @@ namespace MessageHub.Web.Controllers
         [ChildActionOnly]
         public ActionResult RemoveAccountList()
         {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId<long>());
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return PartialView("_RemoveAccountPartial", linkedAccounts);
         }
@@ -471,7 +471,7 @@ namespace MessageHub.Web.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = UserManager.FindById(User.Identity.GetUserId<long>());
             if (user != null)
             {
                 return user.PasswordHash != null;

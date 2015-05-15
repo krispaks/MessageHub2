@@ -18,7 +18,7 @@ namespace MessageHub.Web
 
 			WebApiConfig.Register(config);
 
-			ConfigureAuth(app);
+			//ConfigureAuth(app);
 
 			config.DependencyResolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
 

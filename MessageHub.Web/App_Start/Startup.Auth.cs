@@ -32,9 +32,12 @@ namespace MessageHub.Web
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+					OnValidateIdentity = SecurityStampValidator
+						.OnValidateIdentity<ApplicationUserManager, ApplicationUser, long>(
+							validateInterval: TimeSpan.FromMinutes(30),
+							regenerateIdentityCallback: (manager, user) =>
+								user.GenerateUserIdentityAsync(manager),
+							getUserIdCallback: (id) => GetValue(id))
                 }
             });
 
@@ -59,5 +62,11 @@ namespace MessageHub.Web
                 ClientSecret = "rwxakzkpbx-vb1eGRfaPTbXq"
             });
         }
+
+	    public static long GetValue(System.Security.Claims.ClaimsIdentity id)
+	    {
+			var idVal = id.GetUserId();
+		    return 1;
+	    }
     }
 }

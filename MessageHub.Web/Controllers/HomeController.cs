@@ -9,7 +9,6 @@ namespace MessageHub.Web.Controllers
     [RequireHttps]
     public class HomeController : Controller
 	{
-        [Authorize]
 		public ActionResult Index()
 		{
 			ViewBag.Title = "Home Page";
