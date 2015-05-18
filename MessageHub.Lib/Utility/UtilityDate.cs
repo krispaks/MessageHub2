@@ -15,7 +15,8 @@ namespace MessageHub.Lib.Utility
 
 		public static string HubDateString(DateTime dateTime)
 		{
-			return dateTime.ToShortDateString();
+			//return dateTime.ToShortDateString();
+            return dateTime.ToString("yyyy-MM-ddTHH:mm:ss.fff");
 		}
 	}
 }

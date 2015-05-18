@@ -18,6 +18,8 @@
 		        }
 		    });
 
+		    document.getElementById('auto_stretch_div').setAttribute("style", "height: 350px; overflow: auto;");
+
 		    $(".list-group-item").scroll(function () {
 		        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
 		            console.log("div scroll. numshown=" + $scope.numShown);
