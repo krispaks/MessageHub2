@@ -10,6 +10,7 @@ requirejs.config({
 		messageModule: '../app/message',
 		categoryModule: '../app/category',
 		commentModule: '../app/comment',
+		directiveResource: '../app/directives',
 		pubsub: 'pubsub'
 	},
 	shim: {

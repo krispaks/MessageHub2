@@ -47,102 +47,33 @@
 				});
 			};
 		}])
-		.controller('MessageDetailCtrl'
+
+        .controller('MessageDetailCtrl'
 			, ['$scope'
-            , '$timeout'
 			, '$location'
 			, '$routeParams'
 			, '$log'
 			, 'messageService'
 			, 'commentService'
-			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
+			, function ($scope, $location, $routeParams, $log, messageService, commentService) {
 
-				$scope.message = messageService.GetMessage($routeParams.id);
-            
-				$scope.SaveComment = function (comment) {
-				    /*var res = commentService.SaveComment(comment).$promise
-                        .then(function (data) {
-                            console.log("res 1 = "+res);
-						    //need to call get message or load the comments
-                            //$scope.message = messageService.GetMessage($routeParams.id);
-                            $timeout(function () {
-                                console.log("res 2 = " + res);
-                                $scope.$apply(function () {
-                                    console.log("res 3 = " + res);
-                                    $scope.message = messageService.GetMessage($routeParams.id)
-                                });
-                            }, 500);    // dirty fix (very, very dirty)
-						}, function (reason) {
-							$log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+			    $scope.message = messageService.GetMessage($routeParams.id);
+			    $scope.numShown = 0;
+
+			    $scope.SaveComment = function (comment) {
+			        commentService.SaveComment(comment).$promise.then(
+						function (data) {
+						    // scope manually refreshed on comment saved
+						    setTimeout(function () {
+						        $scope.$apply(function () {
+						            $scope.message = messageService.GetMessage($routeParams.id);
+						        });
+						    }, 0);
+						},
+						function (reason) {
+						    $log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
 						}
-					);*/
-
-				    /*var res;
-
-				    //console.log('res definied');
-
-				    $scope.$watch(res, function () {
-				        console.log('hey, res has changed!');
-				        //$scope.message = messageService.GetMessage($routeParams.id);
-				        $timeout(function () {
-				            $scope.message = messageService.GetMessage($routeParams.id);
-				            $scope.$apply();
-				        }, 0);
-				    });
-
-				    //console.log('res about to change');
-
-				    res = commentService.SaveComment(comment);*/
-
-				    var res = commentService.SaveComment(comment);
-
-				    console.log('1');
-
-				    $scope.$watch($scope.message, function () {
-				        console.log('hey, $scope.message has changed!');
-				        $timeout(function () {
-				            $scope.$apply();
-				        }, 0);
-				    });
-
-				    console.log('2');
-
-				    $scope.message = messageService.GetMessage($routeParams.id);
-
-				    console.log('3');
-
-				    //console.log('res just changed');
-
-
-                    // promise for when the comment is saved
-				    /*var p1 = new Promise(
-                        function (resolve, reject) {                            
-                            // comment saving
-                            var res;
-
-                            $scope.$watch(res, function () {
-                                console.log('hey, res has changed!');
-                            });
-
-                            res = commentService.SaveComment(comment);
-
-                            // fulfill the promise
-                            resolve(res);
-                            // update the scope with the new message
-                            //$scope.message = messageService.GetMessage($routeParams.id);
-                        });
-
-                    // when the promise is fulfilled:
-                    p1.then(
-                        function (val) {*/
-                            // timeout for async refresh of the scope
-                            /*$timeout(function () {
-                                $scope.message = messageService.GetMessage($routeParams.id);
-                                $scope.$apply();
-                            }, 0);*/
-                            /*$scope.message = messageService.GetMessage($routeParams.id);
-                            $scope.$apply();
-                    });*/
-				};
-		}]);
+					);
+			    };
+			}]);
 });

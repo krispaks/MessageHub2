@@ -35,31 +35,6 @@
                 <div class="list-group-item active">
                     Comments
                 </div>
-                <!--<div class="list-group-item" ng-init="toggle = false">
-                    <div class="list-group" data-ng-repeat="comment in message.commentList">
-                        <div class="list-group-item" data-ng-hide="!toggle && $index > 2">
-                            {{comment.value}}
-                            <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate}}</h6>
-                        </div>
-                    </div>
-
-                    <h5 class="text-center" data-ng-show="message.commentList.length <= 0">No comments<br></h5>
-
-                    <div class="text-center" data-ng-show="message.commentList.length > 3">
-                        <button type="button" class="btn btn-primary center-block" ng-show="!toggle" ng-click="toggle = true">Load More</button>
-                        <button type="button" class="btn btn-primary center-block" ng-show="toggle" ng-click="toggle = false">Load Less</button>
-                        <br><br>
-                    </div>
-
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <form role="form" method="POST" data-ng-submit="SaveComment(message.newComment)">
-                                <textarea class="form-control" placeholder="New comment" ng-model="message.newComment.value"></textarea><br>
-                                <input type="submit" value="Post Comment" class="btn btn-primary" style="float: right;" /><br><br>
-                            </form>
-                        </div>
-                    </div>
-                </div>-->
 
                 <div class="list-group-item" data-ng-controller="CommentListCtrl">
 
@@ -73,10 +48,8 @@
                     </div>
 
                     <div class="list-group">
-                        <div class="list-group-item" id="auto_stretch_div" data-ng-init="numMessages = message.commentList.length">
+                        <div class="list-group-item" on-scroll-show style="height: 350px; overflow: auto;">
                             <h5 class="text-center" data-ng-show="message.commentList.length <= 0">No comments<br></h5>
-                            <!--numShown = {{numShown}}
-                            numMessages = {{message.commentList.length}}-->
                             <div class="list-group" data-ng-repeat="comment in message.commentList | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
                                 <div class="list-group-item" data-ng-hide="$index > (5 + numShown)">
                                     {{comment.value}}
@@ -85,47 +58,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--<script type="text/javascript">
-                        $(window).scroll(function () {
-                            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-                                $('div#loadmoreajaxloader').show();
-                                /*$.ajax({
-                                    url: "loadmore.php",
-                                    success: function (html) {
-                                        if (html) {
-                                            $("#postswrapper").append(html);
-                                            $('div#loadmoreajaxloader').hide();
-                                        } else {
-                                            $('div#loadmoreajaxloader').html('<center>No more posts to show.</center>');
-                                        }
-                                    }
-                                });*/
-                                console.log("scrooooll");
-                                $scope.numShown += 1;
-                            }
-                        });
-                </script>-->
-
-                    <!--<div class="text-center" data-ng-show="message.commentList.length > 3">
-                        <button type="button" class="btn btn-primary center-block" ng-show="!toggle" ng-click="toggle = true">Load More</button>
-                        <button type="button" class="btn btn-primary center-block" ng-show="toggle" ng-click="toggle = false">Load Less</button>
-                        <br><br>
-                    </div>-->
                 </div>
             </div>
         </div>
     </div>
 
-    <!--<div class="row">
-        <div data-ng-repeat="comment in comments">
-            <div>
-                <label>{{comment.createdByName}}</label>
-                <label>{{comment.value}}</label>
-                <label>{{comment.CreatedDate | date : mediumDate}}</label>
-            </div>
-        </div>
-    </div>-->
     <div>
         <a data-ng-href="/Message" class="btn btn-primary">Back To List</a>
     </div>
