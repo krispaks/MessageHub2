@@ -16,13 +16,14 @@ namespace MessageHub.Lib.UnitOfWork
         //public IRepository<Message, MessageHubDbContext> MessageHubRepositoryRepository { get; set; }
         //public MessageRavenRepository<Message, IDocumentSession> MessageHubRepositoryRepository { get; set; }
         public IDocumentSession context;
+        public static DocumentStore documentStore;
         public IRepository<Message, IDocumentSession> MessageRavenRepositoryRepository { get; set; }
         public IRepository<Comment, IDocumentSession> CommentRavenRepositoryRepository { get; set; }
 
 		public RavenMessageUoW()
 		{
             // intialize db
-            DocumentStore documentStore = new DocumentStore {
+            documentStore = new DocumentStore {
                 // db connection
                 Url = "http://localhost:8080/",
                 DefaultDatabase = "MessageHubDB"
@@ -30,7 +31,7 @@ namespace MessageHub.Lib.UnitOfWork
             documentStore.Initialize();
 
             // initialize session
-            context = documentStore.OpenSession();
+            //context = documentStore.OpenSession();
 
             MessageRavenRepositoryRepository = new MessageRavenRepository<Message, DocumentSession> {
                 Context = context

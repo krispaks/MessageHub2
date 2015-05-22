@@ -50,25 +50,24 @@
 
         .controller('MessageDetailCtrl'
 			, ['$scope'
+            , '$timeout'
 			, '$location'
 			, '$routeParams'
 			, '$log'
 			, 'messageService'
 			, 'commentService'
-			, function ($scope, $location, $routeParams, $log, messageService, commentService) {
+			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
 
-			    $scope.message = messageService.GetMessage($routeParams.id);
 			    $scope.numShown = 0;
+			    $scope.message = messageService.GetMessage($routeParams.id);
 
 			    $scope.SaveComment = function (comment) {
+			        // the comment is saved onto the db
 			        commentService.SaveComment(comment).$promise.then(
 						function (data) {
-						    // scope manually refreshed on comment saved
-						    setTimeout(function () {
-						        $scope.$apply(function () {
-						            $scope.message = messageService.GetMessage($routeParams.id);
-						        });
-						    }, 0);
+						    // when the promise is fulfilled, the message content gotta be updated
+						    $scope.message = messageService.GetMessage($routeParams.id);
+						    //$scope.$apply();
 						},
 						function (reason) {
 						    $log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);

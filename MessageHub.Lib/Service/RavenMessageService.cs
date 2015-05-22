@@ -53,13 +53,8 @@ namespace MessageHub.Lib.Service
                 this._logService.Log("Start GetMessageList");
 
                 // gets all the messages from the db
+                //_uow.context = _uow.documentStore.OpenSession();
                 var messages = _uow.MessageRavenRepositoryRepository.Get();
-
-                // prueba de funcionamiento
-                /*foreach (var mess in messages){
-                    int ident = mess.Id;
-                }*/
-
                 return messages;
                 
             } catch (Exception ex) {
@@ -141,7 +136,6 @@ namespace MessageHub.Lib.Service
             try
             {
                 this._logService.Log("Start GetMessageDetail");
-
                 MessageDetailDTO dto = new MessageDetailDTO
                 {
                     MessageInfo = _uow.MessageRavenRepositoryRepository.Get(id),

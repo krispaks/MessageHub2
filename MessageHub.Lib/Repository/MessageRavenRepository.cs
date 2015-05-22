@@ -1,4 +1,5 @@
 ﻿using MessageHub.Lib.Entity;
+using MessageHub.Lib.UnitOfWork;
 using MessageHub.Lib.Utility;
 using Raven.Abstractions.Commands;
 using Raven.Client;
@@ -17,22 +18,24 @@ namespace MessageHub.Lib.Repository
         where TEntity : BaseEntity
     {
 
-        private DocumentStore documentStore;
+        //private DocumentStore documentStore;
         private IDocumentSession session;
 
         public MessageRavenRepository()
         {
             // intialize db
-            DocumentStore documentStore = new DocumentStore
+            /*DocumentStore documentStore = new DocumentStore
             {
                 // db connection
                 Url = "http://localhost:8080/",
                 DefaultDatabase = "MessageHubDB"
             };
-            documentStore.Initialize();
+            documentStore.Conventions.MaxNumberOfRequestsPerSession = 1024;
+            documentStore.Initialize();*/
 
             // initialize session
-            session = documentStore.OpenSession();
+            //session = documentStore.OpenSession();
+            //session.Advanced.MaxNumberOfRequestsPerSession = 1024;       
         }
 
         public IDocumentSession Context
@@ -58,11 +61,14 @@ namespace MessageHub.Lib.Repository
         {
             IQueryable<TEntity> query = null;
 
+            // open a new session on the documentStore defined at the UoW
+            session = RavenMessageUoW.documentStore.OpenSession();
+
             int start = 0;
             while (true)
-            {
+            {   
                 // each round of the loop we take 128 regs from the db
-                IQueryable<TEntity> tempQuery = session.Query<TEntity>().Take(128).Skip(start);
+                IQueryable<TEntity> tempQuery = session.Query<TEntity>().Take(1024).Skip(start);
                 // when there's no more regs to take, we break the loop
                 if (tempQuery.ToList().Count() == 0)
                     break;
@@ -80,23 +86,30 @@ namespace MessageHub.Lib.Repository
 
         public IEnumerable<TEntity> GetPaged(Utility.PagingInfo pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
-            //using (session = documentStore.OpenSession())
-            //{
-                IQueryable<TEntity> query = session.Query<TEntity>();
-                Filter(ref query, filter);
-                IncludeProperties(ref query, includeProperties);
-                var orderedQuery = OrderBy(query, orderBy);
-                return PagedData(orderedQuery, pageInfo);
-            //}
+            // open a new session on the documentStore defined at the UoW
+            session = RavenMessageUoW.documentStore.OpenSession();
+
+            IQueryable<TEntity> query = session.Query<TEntity>();
+            Filter(ref query, filter);
+            IncludeProperties(ref query, includeProperties);
+            var orderedQuery = OrderBy(query, orderBy);
+            return PagedData(orderedQuery, pageInfo);
+
         }
 
         public void Insert(TEntity entity)
         {
+            // open a new session on the documentStore defined at the UoW
+            session = RavenMessageUoW.documentStore.OpenSession();
+
             session.Store(entity);
         }
 
         public void Delete(int id)
         {
+            // open a new session on the documentStore defined at the UoW
+            session = RavenMessageUoW.documentStore.OpenSession();
+
             var message = session.Load<TEntity>(id);
             session.Delete(message);
             /*
@@ -114,6 +127,9 @@ namespace MessageHub.Lib.Repository
 
         public void Update(TEntity entity)
         {
+            // open a new session on the documentStore defined at the UoW
+            session = RavenMessageUoW.documentStore.OpenSession();
+
             session.Store(entity);
         }
 
