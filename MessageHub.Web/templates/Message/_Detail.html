@@ -49,8 +49,8 @@
 
                     <div class="list-group">
                         <div class="list-group-item" on-scroll-show style="height: 350px; overflow: auto;">
-                            <h5 class="text-center" data-ng-show="message.commentList.length <= 0">No comments<br></h5>
-                            <div class="list-group" data-ng-repeat="comment in message.commentList | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
+                            <h5 class="text-center" data-ng-show="comments.length <= 0">No comments<br></h5>
+                            <div class="list-group" data-ng-repeat="comment in comments | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
                                 <div class="list-group-item" data-ng-hide="$index > (5 + numShown)">
                                     {{comment.value}}
                                     <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate | date:'MM/dd/yyyy HH:mm'}}</h6>

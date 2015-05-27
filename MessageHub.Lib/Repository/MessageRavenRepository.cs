@@ -68,7 +68,7 @@ namespace MessageHub.Lib.Repository
             while (true)
             {   
                 // each round of the loop we take 128 regs from the db
-                IQueryable<TEntity> tempQuery = session.Query<TEntity>().Take(1024).Skip(start);
+                IQueryable<TEntity> tempQuery = session.Query<TEntity>().Take(128).Skip(start);
                 // when there's no more regs to take, we break the loop
                 if (tempQuery.ToList().Count() == 0)
                     break;

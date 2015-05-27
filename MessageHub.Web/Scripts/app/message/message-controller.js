@@ -59,7 +59,71 @@
 			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
 
 			    $scope.numShown = 0;
-			    $scope.message = messageService.GetMessage($routeParams.id);
+			    messageService.GetMessage($routeParams.id).$promise.then(function (data) {
+			        //console.log(JSON.stringify(data));
+
+                    // when it receives the response, attachs the data to the scope
+
+			        $scope.message = {
+			            "id": data["id"],
+			            "title": data["title"],
+			            "content": data["content"],
+			            "createdBy": data["createdBy"],
+			            "createdDate": data["createdDate"]
+			        };
+
+                    // now there's a different scope for the content of the message and the comments
+			        $scope.comments = data["commentList"];
+
+			        //console.log("JSON 2 = " + JSON.stringify($scope.message));
+			    });
+                
+			    function disarm() {
+			        console.log("disarm!");
+
+			        //console.log("comments = " + JSON.stringify($scope.message["commentList"]));
+			        //console.log("length = " + $scope.message["commentList"].length);
+			        for (var i = 0; i < $scope.message["commentList"].length; i++) {
+			            // lets do some changes here...
+			            /*if (i == 2) {
+                            //$scope.releases[i].name = "newname";
+                            var jsontext = '{"a": 15, "b": 17}';
+                            $scope.tests[i].content = JSON.parse(jsontext);
+                        }*/
+			            console.log("LEVEL " + i + " - title: " + $scope.message["commentList"][i]["value"]);
+			        }
+			    }                
+
+			    // ----- START TEST ---------------------------------------------------------------------------------------------------------------------------
+			    $scope.tests = [
+                    { name: "Development", active: false, content: {a: 0} },
+                    { name: "Production", active: false, content: {a: 3, b: 4} },
+                    { name: "Staging", active: false, content: { a: 1, b: 2} }
+			    ];
+
+			    $scope.pru = 
+                    { name: "Development", active: false, content: { a: 0 } }
+			    ;
+
+			    console.dir($scope.tests[0]);
+			    console.dir($scope.pru["name"]);
+
+                // disarm them jsons
+			    for (var i = 0; i < $scope.tests.length; i++) {
+			        // lets do some changes here...
+			        if (i == 2) {
+			            //$scope.releases[i].name = "newname";
+			            var jsontext = '{"a": 15, "b": 17}';
+			            $scope.tests[i].content = JSON.parse(jsontext);
+			        }
+
+                    // and print the content
+			        /*console.log("level 1 name: " + $scope.tests[i].name);
+			        console.log($scope.tests[i].content);*/
+			    }
+
+			    //console.log($scope.tests);
+			    // ----- END TEST -----------------------------------------------------------------------------------------------------------------------------
 
 			    $scope.SaveComment = function (comment) {
 			        // the comment is saved onto the db
