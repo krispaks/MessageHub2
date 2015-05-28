@@ -60,7 +60,8 @@
 
 			    $scope.numShown = 0;
 			    messageService.GetMessage($routeParams.id).$promise.then(function (data) {
-			        //console.log(JSON.stringify(data));
+			        console.log(">>> MESSAGE <<<");
+			        console.log(JSON.stringify(data));
 
                     // when it receives the response, attachs the data to the scope
 
@@ -80,9 +81,15 @@
 			        };
 
                     // now there's a different scope for the content of the message and the comments
-			        $scope.comments = data["commentList"];
+			        //$scope.comments = data["commentList"];
 
 			        //console.log("JSON 2 = " + JSON.stringify($scope.message));
+			    });
+
+			    commentService.GetComments($routeParams.id).$promise.then(function (data) {
+			        console.log(">>> COMMENTS <<<");
+			        console.log(JSON.stringify(data));
+			        $scope.comments = data;
 			    });
                 
                 // disarm them jsons (actually not used)
@@ -110,11 +117,15 @@
 						    $("#newCommentBox").val('');
 
 						    // when the promise is fulfilled, the comment list gotta be updated
-						    messageService.GetMessage($routeParams.id).$promise.then(function (data) {
+						    /*messageService.GetMessage($routeParams.id).$promise.then(function (data) {
 						        // the comment list is updated with the new comments
 						        $scope.comments = data["commentList"];
-						    });
+						    });*/
 						    //$scope.$apply();
+
+						    commentService.GetComments($routeParams.id).$promise.then(function (data) {
+						        $scope.comments = data;
+						    });
 						},
 						function (reason) {
 						    $log.error('Errot at MessageDetailCtrl SaveComment: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);

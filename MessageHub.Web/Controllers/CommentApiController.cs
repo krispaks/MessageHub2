@@ -7,6 +7,7 @@ using System.Web.Http;
 using MessageHub.Lib.Service;
 using MessageHub.Web.Models;
 using MessageHub.Lib.Entity;
+using MessageHub.Lib.Utility;
 
 namespace MessageHub.Web.Controllers
 {
@@ -27,9 +28,49 @@ namespace MessageHub.Web.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        public string Get(int id)
+        // returns the list of comments posted for a specified message id
+        public HttpResponseMessage Get(int id)
         {
-            return "value";
+            HttpResponseMessage response = new HttpResponseMessage();
+            var commentList = new List<CommentViewModel>();
+
+            //var message = this.messageService.GetMessage(id);
+            var comments = this._commentService.GetComments(id);
+
+            foreach (var comm in comments)
+            {
+                commentList.Add(new CommentViewModel
+                {
+                    Id = comm.Id,
+                    MessageId = comm.MessageId,
+                    Value = comm.Value,
+                    CreatedBy = "KPACA",
+                    CreatedDate = UtilityDate.HubDateString(comm.CreatedDate)
+
+                });
+            }
+
+            /*var vm = new MessageViewModel();
+
+			vm.CommentList = new List<CommentViewModel>();
+
+            var comments = this._commentService.GetComments(id);
+            foreach (var comm in comments)
+            {
+                vm.CommentList.Add(new CommentViewModel
+                {
+                    Id = comm.Id,
+                    MessageId = comm.MessageId,
+                    Value = comm.Value,
+                    CreatedBy = "KPACA",
+                    CreatedDate = UtilityDate.HubDateString(comm.CreatedDate)
+
+                });
+            }*/
+
+            response = Request.CreateResponse(HttpStatusCode.OK, commentList);
+
+            return response;
         }
 
 		public HttpResponseMessage Post(CommentViewModel newComment)

@@ -52,6 +52,11 @@ namespace MessageHub.Lib.Service
 			}
 		}
 
+        public IEnumerable<Entity.Comment> GetComments(int id)
+        {
+            return null;
+        }
+
 		private bool Validate(Comment comment)
 		{
 			return true;

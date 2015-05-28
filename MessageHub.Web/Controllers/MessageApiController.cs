@@ -59,8 +59,7 @@ namespace MessageHub.Web.Controllers
 
 			try
 			{
-				//var message = this.messageService.GetMessage(id);
-				var messageDetail = this.messageService.GetMessageDetail(id);
+				/*var messageDetail = this.messageService.GetMessageDetail(id);
 
 				var vm = new MessageViewModel
 				{
@@ -69,9 +68,20 @@ namespace MessageHub.Web.Controllers
 					Content = messageDetail.MessageInfo.Content,
 					CreatedBy = "KPACA",
 					CreatedDate = UtilityDate.HubDateString(messageDetail.MessageInfo.CreatedDate)
-				};
+				};*/
 
-				vm.NewComment = new CommentViewModel
+                var message = this.messageService.GetMessage(id);
+
+                var vm = new MessageViewModel
+				{
+                    Id = message.Id,
+                    Title = message.Title,
+                    Content = message.Content,
+                    CreatedBy = "KPACA",
+                    CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
+                };
+
+				/*vm.NewComment = new CommentViewModel
 				{
 					MessageId = messageDetail.MessageInfo.Id
 				};
@@ -86,10 +96,10 @@ namespace MessageHub.Web.Controllers
 						MessageId = item.MessageId,
 						Value = item.Value,
 						CreatedBy = "KPACA",
-                        CreatedDate = UtilityDate.HubDateString(item.CreatedDate)/*CreatedDate = item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff")*/
+                        CreatedDate = UtilityDate.HubDateString(item.CreatedDate)
                         
 					});
-				}
+				}*/
 
 				response = Request.CreateResponse(HttpStatusCode.OK, vm);
 			}

@@ -70,7 +70,7 @@ namespace MessageHub.Lib.Service
             try {
                 this._logService.Log("Start GetMessage");
 
-                // gets all the messages from the db
+                // gets a message from the db by its id
                 var message = _uow.MessageRavenRepositoryRepository.Get(id);
                 return message;
 
@@ -79,6 +79,28 @@ namespace MessageHub.Lib.Service
                 throw;
             } finally {
                 this._logService.Log("End GetMessage");
+            }
+        }
+
+        public IEnumerable<Entity.Comment> GetComments(int id)
+        {
+            try
+            {
+                this._logService.Log("Start GetComments");
+
+                // gets all the comments for a specified message
+                var comments = _uow.CommentRavenRepositoryRepository.Get(filter: x => x.MessageId == id);
+                return comments;
+
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at GetComments : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End GetComments");
             }
         }
 

@@ -10,5 +10,6 @@ namespace MessageHub.Lib.Service
 	public interface ICommentService
 	{
 		int SaveComment(Comment comment);
+        IEnumerable<Entity.Comment> GetComments(int id);
 	}
 }
