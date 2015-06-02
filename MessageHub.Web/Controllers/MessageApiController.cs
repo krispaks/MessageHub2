@@ -55,36 +55,36 @@ namespace MessageHub.Web.Controllers
 			return response;
 		}
 		
-		public HttpResponseMessage Get([FromBody] MessageSearchCriteria searchCriteria)
-		{
-			HttpResponseMessage response = new HttpResponseMessage();
+		//public HttpResponseMessage Get([FromBody] MessageSearchCriteria searchCriteria)
+		//{
+		//	HttpResponseMessage response = new HttpResponseMessage();
 
-			try
-			{
-				var searchCriteriaDTO = new MessageSearchCriteriaDTO();
+		//	try
+		//	{
+		//		var searchCriteriaDTO = new MessageSearchCriteriaDTO();
 
-				var messageList = this.messageService.GetPagedMessageList(searchCriteriaDTO);
+		//		var messageList = this.messageService.GetPagedMessageList(searchCriteriaDTO);
 
-				List<MessageListViewModel> searchResult = messageList.Select(message => new MessageListViewModel
-				{
-					Id = message.Id,
-					Title = message.Title,
-					ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
-					//ContentConcat = message.Content,
-					CreatedBy = "KPACA",
-					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
-				}).ToList();
+		//		List<MessageListViewModel> searchResult = messageList.Select(message => new MessageListViewModel
+		//		{
+		//			Id = message.Id,
+		//			Title = message.Title,
+		//			ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
+		//			//ContentConcat = message.Content,
+		//			CreatedBy = "KPACA",
+		//			CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
+		//		}).ToList();
 
-				response = Request.CreateResponse(HttpStatusCode.OK, searchResult);
-			}
-			catch (Exception ex)
-			{
-				this.logger.Log(string.Format("Error at Message Get : {0}", ex.Message));
-				response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
-			}
+		//		response = Request.CreateResponse(HttpStatusCode.OK, searchResult);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		this.logger.Log(string.Format("Error at Message Get : {0}", ex.Message));
+		//		response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+		//	}
 
-			return response;
-		}
+		//	return response;
+		//}
 		
 		public HttpResponseMessage Get(int id)
 		{

@@ -15,7 +15,6 @@
 				},
 				function(reason) {
 					$log.error('Errot at MessageListCtrl GetMessages: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
-					$location.url('/Error');
 				}
 			);
 	        
@@ -30,7 +29,7 @@
 					function (reason) {
 						$log.error('Errot at MessageListCtrl GetMessages: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
 						$location.url('/Error');
-					});
+				});
 			};
 		}])
 		.controller('MessageCreateCtrl', ['$scope', '$location', '$log', 'messageService', function ($scope, $location, $log, messageService) {
