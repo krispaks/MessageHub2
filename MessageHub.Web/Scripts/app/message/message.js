@@ -5,8 +5,9 @@
         , '../commentModule/comment-controller'
 		, '../commentModule/comment-service'
         , '../directiveResource/directives'
+        , 'uiBootstrap'
 		, 'angularRoute']
-		, function (angular, angularResource, messageController, messageService, commentController, commentService, directives, angularRoute) {
+		, function (angular, angularResource, messageController, messageService, commentController, commentService, uiBootstrap, directives, angularRoute) {
 		'use strict';
 
 		return angular.module('messageModule'
@@ -16,5 +17,6 @@
 							, 'messageModule.Services'
                             , 'commentModule.Controllers'
                             , 'docsSimpleDirective'
+                            /*, 'angularUtils.directives.dirPagination'*/
 							, 'commentModule.Services']);
 });
