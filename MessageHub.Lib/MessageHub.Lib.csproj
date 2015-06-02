@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\MessageDetailDTO.cs" />
+    <Compile Include="DTO\MessageSearchCriteriaDTO.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Category.cs" />
     <Compile Include="Entity\Comment.cs" />

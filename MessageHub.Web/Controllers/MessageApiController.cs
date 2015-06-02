@@ -9,6 +9,7 @@ using MessageHub.Lib.UnitOfWork;
 using MessageHub.Lib.Utility;
 using MessageHub.Web.Models;
 using MessageHub.Lib.Entity;
+using MessageHub.Lib.DTO;
 
 namespace MessageHub.Web.Controllers
 {
@@ -37,6 +38,37 @@ namespace MessageHub.Web.Controllers
 					Id = message.Id,
 					Title = message.Title,
                     ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
+					//ContentConcat = message.Content,
+					CreatedBy = "KPACA",
+					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
+				}).ToList();
+
+				response = Request.CreateResponse(HttpStatusCode.OK, searchResult);
+			}
+			catch (Exception ex)
+			{
+				this.logger.Log(string.Format("Error at Message Get : {0}", ex.Message));
+				response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
+			}
+
+			return response;
+		}
+
+		public HttpResponseMessage Get([FromBody] MessageSearchCriteria searchCriteria)
+		{
+			HttpResponseMessage response = new HttpResponseMessage();
+
+			try
+			{
+				var searchCriteriaDTO = new MessageSearchCriteriaDTO();
+
+				var messageList = this.messageService.GetPagedMessageList(searchCriteriaDTO);
+
+				List<MessageListViewModel> searchResult = messageList.Select(message => new MessageListViewModel
+				{
+					Id = message.Id,
+					Title = message.Title,
+					ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
 					//ContentConcat = message.Content,
 					CreatedBy = "KPACA",
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)

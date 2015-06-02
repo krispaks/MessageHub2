@@ -8,11 +8,21 @@
 			$scope.categoryddlist = [{ 'id': 1, 'name': 'Category1' }, { 'id': 2, 'name': 'Category2' }];
 			$scope.subCategoryddlist = [{ 'id': 1, 'name': 'SubCategory1', 'parentid': 1 }, { 'id': 2, 'name': 'SubCategory2', 'parentid': 1 }, { 'id': 3, 'name': 'SubCategory3', 'parentid': 2 }];
 
-			//page data
-			$scope.messages = messageService.GetMessages(null);
+			// loading of messages
+			messageService.GetMessages(null).$promise.then(
+				function(data) {
+					$scope.messages = data;
+				},
+				function(reason) {
+					$log.error('Errot at MessageListCtrl GetMessages: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+					$location.url('/Error');
+				}
+			);
 	        
 			//functions
-			$scope.SearchMessages = function(searchCriteria) {
+			$scope.SearchMessages = function () {
+
+				var searchCriteria = {};
 				messageService.GetMessages(searchCriteria).$promise.then(
 					function(data) {
 						$scope.messages = data;
