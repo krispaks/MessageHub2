@@ -24,7 +24,10 @@
     			//}).query();
 
 			    return $resource('/api/MessageApi').query();
-		    },
+    		},
+    		GetThings: function(page) {
+    		    return $resource('/api/MessageApi', { page: page }).query();
+    		},
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();
     		},

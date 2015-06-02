@@ -11,11 +11,13 @@ requirejs.config({
 		categoryModule: '../app/category',
 		commentModule: '../app/comment',
 		directiveResource: '../app/directives',
-		pubsub: 'pubsub'
+		pubsub: 'pubsub',
+		uiBootstrap: 'ui-bootstrap'
 	},
 	shim: {
 		'angular': { 'exports': 'angular' },
 		'angularRoute': ['angular'],
-		'angularResource': ['angular']
+		'angularResource': ['angular'],
+		'uiBootstrap': ['angular']
 	}
 });
