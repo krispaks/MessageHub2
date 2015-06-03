@@ -75,6 +75,27 @@ namespace MessageHub.Lib.Service
 			}
 		}
 
+		public IEnumerable<Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
+		{
+			try
+			{
+				this._logService.Log("Start GetPagedMessageList");
+
+				return _uow.MessageHubRepository.GetPaged(searchCriteria.PagingInfo, 
+					filter: x=> x.Title == searchCriteria.Title 
+						|| x.SubCategoryId == searchCriteria.SubCategory);
+			}
+			catch (Exception ex)
+			{
+				this._logService.Log(string.Format("Error at GetPagedMessageList : {0}", ex.Message));
+				throw;
+			}
+			finally
+			{
+				this._logService.Log("End GetPagedMessageList");
+			}
+		}
+
         public Message GetMessage(int id)
         {
             try {
@@ -118,5 +139,6 @@ namespace MessageHub.Lib.Service
 		{
 			return true;
 		}
+		
 	}
 }
