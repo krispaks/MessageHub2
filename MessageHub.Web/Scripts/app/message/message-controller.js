@@ -8,9 +8,28 @@
 		    $scope.categoryddlist = [{ 'id': 1, 'name': 'Category1' }, { 'id': 2, 'name': 'Category2' }];
 		    $scope.subCategoryddlist = [{ 'id': 1, 'name': 'SubCategory1', 'parentid': 1 }, { 'id': 2, 'name': 'SubCategory2', 'parentid': 1 }, { 'id': 3, 'name': 'SubCategory3', 'parentid': 2 }];
 
-		    //page data
-            /* >>> REMOVED <<< */
-		    //$scope.messages = messageService.GetMessages(null);
+		    //page data & pagination
+		    $scope.totalItems = 15;
+		    $scope.itemsPerPage = 5;
+		    $scope.currentPage = 1;
+		    $scope.maxSize = 5;
+
+		    getResultsPage($scope.currentPage);
+
+		    $scope.setPage = function (pageNo) {
+		        $scope.currentPage = pageNo;
+		    };
+
+		    $scope.pageChanged = function () {
+		        console.log('Page changed to: ' + $scope.currentPage);
+		        getResultsPage($scope.currentPage);
+		    };
+
+		    function getResultsPage(pageNumber) {
+		        messageService.GetThings(pageNumber).$promise.then(function (data) {
+		            $scope.messages = data;
+		        });
+		    }
 
 		    //functions
 		    $scope.SearchMessages = function (searchCriteria) {
@@ -135,79 +154,20 @@
 			    };
 			}])
 
-            .controller('PaginationDemoCtrl', function ($scope, $log) {
-                $scope.totalItems = 64;
-                $scope.currentPage = 4;
+        .controller('PaginationDemoCtrl', function ($scope, $log) {
+            $scope.totalItems = 64;
+            $scope.currentPage = 4;
 
-                $scope.setPage = function (pageNo) {
-                    $scope.currentPage = pageNo;
-                };
+            $scope.setPage = function (pageNo) {
+                $scope.currentPage = pageNo;
+            };
 
-                $scope.pageChanged = function () {
-                    $log.log('Page changed to: ' + $scope.currentPage);
-                };
+            $scope.pageChanged = function () {
+                $log.log('Page changed to: ' + $scope.currentPage);
+            };
 
-                $scope.maxSize = 5;
-                $scope.bigTotalItems = 175;
-                $scope.bigCurrentPage = 1;
-            })
-
-	        .controller('MessagePaginationCtrl', function ($scope, $http, messageService) {
-
-	            $scope.totalItems = 15;
-	            $scope.itemsPerPage = 5;
-	            $scope.currentPage = 1;
-	            $scope.maxSize = 5;
-
-	            getResultsPage($scope.currentPage);
-
-	            $scope.setPage = function (pageNo) {
-	                $scope.currentPage = pageNo;
-	            };
-
-	            $scope.pageChanged = function() {
-	                console.log('Page changed to: ' + $scope.currentPage);
-	                getResultsPage($scope.currentPage);
-	            };
-                
-	            function getResultsPage(pageNumber) {
-	                messageService.GetThings(pageNumber).$promise.then(function (data) {
-	                    $scope.messages = data;
-	                    console.log(JSON.stringify(data));
-	                });
-
-	                //$scope.messages = data;
-	            }
-
-                //$scope.messages = [];
-	            /*$scope.totalMessages = 65;
-	            $scope.messagesPerPage = 5;
-	            getResultsPage(1);
-
-	            $scope.pagination = {
-	                current: 1
-	            };
-
-	            $scope.pageChanged = function (newPage) {
-	                getResultsPage(newPage);
-	            };
-
-	            function getResultsPage(pageNumber) {
-	                /*$http.get('path/to/api/users?page=' + pageNumber)
-                        .then(function (result) {
-                            $scope.messages = result.data.Items;
-                            $scope.totalMessages = result.data.Count
-                        });*/
-	                /*messageService.GetThings(pageNumber).$promise.then(function (data) {
-	                    $scope.users = data;
-
-	                    console.log(" - message - ");
-	                    console.log(JSON.stringify(data));
-	                    console.log(data);
-	                    console.log(" - pgNum " + pageNumber + " - ");
-	                });
-
-	                //$scope.messages = data;
-	            }*/
-	        });
+            $scope.maxSize = 5;
+            $scope.bigTotalItems = 175;
+            $scope.bigCurrentPage = 1;
+        })
 });

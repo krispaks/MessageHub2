@@ -49,19 +49,7 @@
         <h6 class="list-group-item-text">Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</h6>
     </a>
 </div>
-
-<div data-ng-controller="MessagePaginationCtrl">
-
-    <div class="list-group" data-ng-repeat="message in messages">
-        <a data-ng-href="/Message/Detail/{{message.id}}" class="list-group-item">
-            <h4 class="list-group-item-heading">{{message.title}}</h4>
-            <h5 class="list-group-item-text">{{message.contentConcat}}</h5>
-            <h6 class="list-group-item-text">Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</h6>
-        </a>
-    </div>
-
-    <pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
-</div>
+<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
 
 <div>
     <a data-ng-href="/Message/Create" class="btn btn-primary" style="float:right;">Create</a>
