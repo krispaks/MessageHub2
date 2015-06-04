@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="DTO\MessageDetailDTO.cs" />
     <Compile Include="DTO\MessageSearchCriteriaDTO.cs" />
+    <Compile Include="DTO\PagedResultDTO.cs" />
+    <Compile Include="DTO\PagingInfoDTO.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Category.cs" />
     <Compile Include="Entity\Comment.cs" />
@@ -105,7 +107,6 @@
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\MessageUoW.cs" />
     <Compile Include="UnitOfWork\RavenMessageUoW.cs" />
-    <Compile Include="Utility\PagingInfo.cs" />
     <Compile Include="Utility\UtilityDate.cs" />
   </ItemGroup>
   <ItemGroup>

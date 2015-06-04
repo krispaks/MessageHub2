@@ -8,7 +8,7 @@ namespace MessageHub.Web.Models
 {
 	interface IViewModel
 	{
-		int Id { get; set; }
+		long Id { get; set; }
 		string CreatedBy { get; set; }
 		string CreatedDate { get; set; }
 	}

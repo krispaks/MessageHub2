@@ -5,12 +5,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using MessageHub.Lib.Utility;
+using MessageHub.Lib.DTO;
+using MessageHub.Lib.Entity;
 
 namespace MessageHub.Lib.Repository
 {
 	public interface IRepository<TEntity, TContext> : IDisposable
-		where TEntity : class
+		where TEntity : BaseEntity
 		where TContext : class 
 	{
 		TContext Context { get; set; }
@@ -31,7 +32,7 @@ namespace MessageHub.Lib.Repository
 		/// <summary>
 		/// Gets a paged entity based on filter and ordering by property
 		/// </summary>
-		IEnumerable<TEntity> GetPaged(PagingInfo pageInfo,
+		PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo,
 			Expression<Func<TEntity, bool>> filter = null,
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			string includeProperties = "");

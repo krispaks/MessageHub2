@@ -7,7 +7,7 @@ namespace MessageHub.Web.Models
 {
 	public class CommentViewModel : IViewModel
 	{
-		public int Id { get; set; }
+		public long Id { get; set; }
 		public int MessageId { get; set; }
 		public string Value { get; set; }
 		public string CreatedBy { get; set; }

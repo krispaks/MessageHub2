@@ -243,8 +243,12 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IViewModel.cs" />
     <Compile Include="Models\MessageListViewModel.cs" />
-    <Compile Include="Models\MessageSearchCriteria.cs" />
+    <Compile Include="Models\MessageSearchCriteriaViewModel.cs" />
+    <Compile Include="Models\MessageDetailViewModel.cs" />
     <Compile Include="Models\MessageViewModel.cs" />
+    <Compile Include="Models\PagedResultViewModel.cs" />
+    <Compile Include="Models\PagedSearchCriteriaViewModel.cs" />
+    <Compile Include="Models\PageInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />

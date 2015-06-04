@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using MessageHub.Lib.DTO;
 
 namespace MessageHub.Lib.Repository
 {
@@ -84,7 +85,7 @@ namespace MessageHub.Lib.Repository
             return OrderBy(query, orderBy);
         }
 
-        public IEnumerable<TEntity> GetPaged(Utility.PagingInfo pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
             // open a new session on the documentStore defined at the UoW
             session = RavenMessageUoW.documentStore.OpenSession();
@@ -93,7 +94,12 @@ namespace MessageHub.Lib.Repository
             Filter(ref query, filter);
             IncludeProperties(ref query, includeProperties);
             var orderedQuery = OrderBy(query, orderBy);
-            return PagedData(orderedQuery, pageInfo);
+
+			return new PagedResultDTO<TEntity>
+			{
+				Data = PagedData(orderedQuery, pageInfo),
+				PagingInfo = pageInfo
+			};
 
         }
 
@@ -173,7 +179,7 @@ namespace MessageHub.Lib.Repository
             }
         }
 
-        private IQueryable<TEntity> PagedData(IQueryable<TEntity> query, PagingInfo pageInfo)
+        private IQueryable<TEntity> PagedData(IQueryable<TEntity> query, PagingInfoDTO pageInfo)
         {
             pageInfo.TotalRecords = query.Count();
             pageInfo.TotalPages = (int)Math.Ceiling(pageInfo.TotalRecords / (float)pageInfo.Rows);

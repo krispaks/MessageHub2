@@ -25,7 +25,10 @@
 
 			    return $resource('/api/MessageApi').query();
     		},
-    		GetThings: function(page) {
+    		GetPagedMessageList: function (searchCriteria) {
+    			return $resource('/api/MessageApi', searchCriteria).get();
+			},
+		    GetThings: function(page) {
     		    return $resource('/api/MessageApi', { page: page }).query();
     		},
     		GetMessage: function(id) {

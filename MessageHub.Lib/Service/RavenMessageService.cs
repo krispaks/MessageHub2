@@ -176,9 +176,8 @@ namespace MessageHub.Lib.Service
                 this._logService.Log("End GetMessageDetail");
             }
 		}
-
-
-		public IEnumerable<Entity.Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
+		
+		public PagedResultDTO<Entity.Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
 		{
 			throw new NotImplementedException();
 		}

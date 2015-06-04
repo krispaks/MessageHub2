@@ -75,7 +75,7 @@ namespace MessageHub.Lib.Service
 			}
 		}
 
-		public IEnumerable<Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
+		public PagedResultDTO<Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
 		{
 			try
 			{

@@ -9,11 +9,12 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.Entity;
+using MessageHub.Lib.DTO;
 
 namespace MessageHub.Lib.Repository
 {
 	public class MessageHubRepository<TEntity> : IRepository<TEntity, MessageHubDbContext>
-		where TEntity : class
+		where TEntity : BaseEntity
 	{
 		private MessageHubDbContext _context = null;
 		private DbSet<TEntity> _dbSet = null;
@@ -53,7 +54,7 @@ namespace MessageHub.Lib.Repository
 			return OrderBy(query, orderBy);
 		}
 
-		public IEnumerable<TEntity> GetPaged(PagingInfo pageInfo, 
+		public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, 
 			Expression<Func<TEntity, bool>> filter = null, 
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			string includeProperties = "")
@@ -66,7 +67,11 @@ namespace MessageHub.Lib.Repository
 
 			var orderedQuery = OrderBy(query, orderBy);
 
-			return PagedData(orderedQuery, pageInfo);
+			return new PagedResultDTO<TEntity>
+			{
+				Data = PagedData(orderedQuery, pageInfo),
+				PagingInfo = pageInfo
+			};
 		}
 
 		public void Insert(TEntity entity)
@@ -116,7 +121,7 @@ namespace MessageHub.Lib.Repository
 			}
 			else
 			{
-				return query;
+				return query.OrderByDescending(x=>x.Id);
 			}
 		}
 
@@ -141,11 +146,12 @@ namespace MessageHub.Lib.Repository
 			return query.Provider.CreateQuery<TEntity>(resultExp);
 		}
 
-		private IQueryable<TEntity> PagedData(IQueryable<TEntity> query, PagingInfo pageInfo)
-		{	
+		private IQueryable<TEntity> PagedData(IQueryable<TEntity> query, PagingInfoDTO pageInfo)
+		{
+
 			pageInfo.TotalRecords = query.Count();
 			pageInfo.TotalPages = (int)Math.Ceiling(pageInfo.TotalRecords / (float)pageInfo.Rows);
-			
+
 			return query.Skip((pageInfo.Page - 1) * pageInfo.Rows).Take(pageInfo.Rows);
 		}
 

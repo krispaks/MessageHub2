@@ -12,7 +12,7 @@ namespace MessageHub.Lib.Service
 	{
 		int SaveMessage(Message message);
 		IEnumerable<Message> GetMessageList();
-		IEnumerable<Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria);
+		PagedResultDTO<Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria);
 		Message GetMessage(int id);
 		MessageDetailDTO GetMessageDetail(int id);
 	}
