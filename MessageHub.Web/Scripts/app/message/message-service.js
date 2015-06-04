@@ -4,7 +4,8 @@
 	return angular.module('messageModule.Services', [])
     .factory('messageService', ['$resource', function ($resource) {
     	return {
-    		GetMessages: function(searchCriteria) {
+    	    GetMessages: function (searchCriteria) {
+    	        console.log("mess");
     			if (!searchCriteria) {
     				searchCriteria = {
     					Title: '',
@@ -26,10 +27,12 @@
 			    return $resource('/api/MessageApi').query();
     		},
     		GetPagedMessageList: function (searchCriteria) {
+    		    console.log("paged");
     			return $resource('/api/MessageApi', searchCriteria).get();
 			},
-		    GetThings: function(page) {
-    		    return $resource('/api/MessageApi', { page: page }).query();
+    		GetThings: function (page) {
+    		    console.log("thng");
+    		    return $resource('/api/MessageApi', { page: page }).get();
     		},
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();

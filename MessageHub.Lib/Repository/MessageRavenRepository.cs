@@ -87,17 +87,39 @@ namespace MessageHub.Lib.Repository
 
         public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
+            IQueryable<TEntity> query = null;
+
             // open a new session on the documentStore defined at the UoW
             session = RavenMessageUoW.documentStore.OpenSession();
 
-            IQueryable<TEntity> query = session.Query<TEntity>();
+            int start = 0;
+            while (true)
+            {
+                // each round of the loop we take 128 regs from the db
+                IQueryable<TEntity> tempQuery = session.Query<TEntity>().Take(128).Skip(start);
+                // when there's no more regs to take, we break the loop
+                if (tempQuery.ToList().Count() == 0)
+                    break;
+                start += tempQuery.ToList().Count();
+
+                // chorizo that concats new entries to the query each round of the loop
+                query = query == null ? query = tempQuery : query = query.ToList().Concat(tempQuery.ToList()).ToList().AsQueryable();
+            }
+
             Filter(ref query, filter);
+
             IncludeProperties(ref query, includeProperties);
             var orderedQuery = OrderBy(query, orderBy);
+
+            /*foreach (var item in orderedQuery)
+            {
+                int itemId = item.Id;
+            }*/
 
 			return new PagedResultDTO<TEntity>
 			{
 				Data = PagedData(orderedQuery, pageInfo),
+                //Data = orderedQuery,
 				PagingInfo = pageInfo
 			};
 

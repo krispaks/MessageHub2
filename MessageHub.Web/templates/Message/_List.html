@@ -49,7 +49,7 @@
         <h6 class="list-group-item-text">Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</h6>
     </a>
 </div>
-<pagination boundary-links="true" total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+<pagination boundary-links="true" total-items="pageInfo.TotalRecords" ng-model="pageInfo.Page" items-per-page="pageInfo.Rows" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
 
 <div>
     <a data-ng-href="/Message/Create" class="btn btn-primary" style="float:right;">Create</a>
