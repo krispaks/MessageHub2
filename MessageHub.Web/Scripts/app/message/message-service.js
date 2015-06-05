@@ -37,7 +37,8 @@
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();
     		},
-    		SaveMessage: function(message) {
+    		SaveMessage: function (message) {
+    		    console.log("save: "+message);
     			return $resource('/api/MessageApi').save(message);
     		}
     	};

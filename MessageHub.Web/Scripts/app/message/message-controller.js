@@ -107,55 +107,49 @@
 			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
 
 			    $scope.numShown = 0;
-			    //messageService.GetMessage($routeParams.id).$promise.then(function (data) {
-			    //    console.log(">>> MESSAGE <<<");
-			    //    console.log(JSON.stringify(data));
+                // gets the info for the message and attaches it to the scope's message variable
+			    messageService.GetMessage($routeParams.id).$promise.then(function (data) {
+			        //console.log(JSON.stringify(data));
 
-                //    // when it receives the response, attachs the data to the scope
+                    // when it receives the response, attachs the data to the scope
+			        $scope.message = {
+			            "id": data.message["id"],
+			            "title": data.message["title"],
+			            "content": data.message["content"],
+			            "createdBy": data.message["createdBy"],
+			            "createdDate": data.message["createdDate"],
+			            "newComment": {
+			                "id": 0,
+			                "messageId": data.message["id"],
+			                "value": null,
+			                "createdBy": null,
+			                "createdDate": null
+			            }
+			        };
+			    });
 
-			    //    $scope.message = {
-			    //        "id": data.message["id"],
-			    //        "title": data.message["title"],
-			    //        "content": data.message["content"],
-			    //        "createdBy": data.message["createdBy"],
-			    //        "createdDate": data.message["createdDate"],
-			    //        "newComment": {
-			    //            "id": 0,
-			    //            "messageId": data.message["id"],
-			    //            "value": null,
-			    //            "createdBy": null,
-			    //            "createdDate": null
-			    //        }
-			    //    };
-
-                //    // now there's a different scope for the content of the message and the comments
-			    //    //$scope.comments = data["commentList"];
-
-			    //    //console.log("JSON 2 = " + JSON.stringify($scope.message));
-			    //});
-
+			    // gets the list of comments and attaches it to the scope's comments variable
 			    commentService.GetComments($routeParams.id).$promise.then(function (data) {
-			        console.log(">>> COMMENTS <<<");
-			        console.log(JSON.stringify(data));
+			        //console.log(JSON.stringify(data));
 			        $scope.comments = data;
 			    });
                 
                 // disarm them jsons (actually not used)
-			    function disarm() {
-			        console.log("disarm!");
+			    //function disarm() {
+			    //    console.log("disarm!");
 
-			        //console.log("comments = " + JSON.stringify($scope.message["commentList"]));
-			        //console.log("length = " + $scope.message["commentList"].length);
-			        for (var i = 0; i < $scope.message["commentList"].length; i++) {
-			            // lets do some changes here...
-			            /*if (i == 2) {
-                            //$scope.releases[i].name = "newname";
-                            var jsontext = '{"a": 15, "b": 17}';
-                            $scope.tests[i].content = JSON.parse(jsontext);
-                        }*/
-			            console.log("LEVEL " + i + " - title: " + $scope.message["commentList"][i]["value"]);
-			        }
-			    }
+			    //    //console.log("comments = " + JSON.stringify($scope.message["commentList"]));
+			    //    //console.log("length = " + $scope.message["commentList"].length);
+			    //    for (var i = 0; i < $scope.message["commentList"].length; i++) {
+			    //        // lets do some changes here...
+			    //        /*if (i == 2) {
+                //            //$scope.releases[i].name = "newname";
+                //            var jsontext = '{"a": 15, "b": 17}';
+                //            $scope.tests[i].content = JSON.parse(jsontext);
+                //        }*/
+			    //        console.log("LEVEL " + i + " - title: " + $scope.message["commentList"][i]["value"]);
+			    //    }
+			    //}
 
 			    $scope.SaveComment = function (comment) {
 			        // the comment is saved onto the db
@@ -165,12 +159,6 @@
 						    $("#newCommentBox").val('');
 
 						    // when the promise is fulfilled, the comment list gotta be updated
-						    /*messageService.GetMessage($routeParams.id).$promise.then(function (data) {
-						        // the comment list is updated with the new comments
-						        $scope.comments = data["commentList"];
-						    });*/
-						    //$scope.$apply();
-
 						    commentService.GetComments($routeParams.id).$promise.then(function (data) {
 						        $scope.comments = data;
 						    });
