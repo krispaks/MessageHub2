@@ -25,35 +25,6 @@ namespace MessageHub.Web.Controllers
 			this.messageService = messageService;
 			this.logger = logger;
 		}
-		
-		//public HttpResponseMessage Get()
-		//{
-		//	HttpResponseMessage response = new HttpResponseMessage();
-
-		//	try
-		//	{
-		//		var messageList = this.messageService.GetMessageList();
-
-		//		List<MessageListViewModel> searchResult = messageList.Select(message => new MessageListViewModel
-		//		{
-		//			Id = message.Id,
-		//			Title = message.Title,
-		//			ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
-		//			//ContentConcat = message.Content,
-		//			CreatedBy = "KPACA",
-		//			CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
-		//		}).ToList();
-
-		//		response = Request.CreateResponse(HttpStatusCode.OK, searchResult);
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		this.logger.Log(string.Format("Error at Message Get : {0}", ex.Message));
-		//		response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex);
-		//	}
-
-		//	return response;
-		//}
 
 		public HttpResponseMessage Get([FromUri] MessageSearchCriteriaViewModel searchCriteria)
 		{
@@ -84,10 +55,6 @@ namespace MessageHub.Web.Controllers
 					CreatedBy = "KPACA",
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				}).ToList();
-
-                foreach(var item in searchResult){
-                    long itemid = item.Id;
-                }
 
 				var vm = new PagedResultViewModel<MessageListViewModel>
 				{
