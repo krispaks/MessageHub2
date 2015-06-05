@@ -85,6 +85,10 @@ namespace MessageHub.Web.Controllers
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				}).ToList();
 
+                foreach(var item in searchResult){
+                    long itemid = item.Id;
+                }
+
 				var vm = new PagedResultViewModel<MessageListViewModel>
 				{
 					Data = searchResult,

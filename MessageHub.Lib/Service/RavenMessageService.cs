@@ -179,7 +179,23 @@ namespace MessageHub.Lib.Service
 		
 		public PagedResultDTO<Entity.Message> GetPagedMessageList(MessageSearchCriteriaDTO searchCriteria)
 		{
-			throw new NotImplementedException();
+            try
+            {
+                this._logService.Log("Start GetPagedMessageList");
+
+                var paged = _uow.MessageRavenRepositoryRepository.GetPaged(searchCriteria.PagingInfo);
+
+                return paged;
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at GetPagedMessageList : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End GetPagedMessageList");
+            }
 		}
 	}
 }

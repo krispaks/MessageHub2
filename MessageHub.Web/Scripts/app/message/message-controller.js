@@ -11,7 +11,7 @@
 			$scope.searchCriteria.Tag = '';
 			$scope.pageInfo = {};
 			$scope.pageInfo.Page = 1;
-			$scope.pageInfo.Rows = 10;
+			$scope.pageInfo.Rows = 5;
 			$scope.pageInfo.TotalPages = 0;
 			$scope.pageInfo.TotalRecords = 0;
 
@@ -19,29 +19,38 @@
 			//dropdownlist
 			$scope.categoryddlist = [{ 'id': 1, 'name': 'Category1' }, { 'id': 2, 'name': 'Category2' }];
 			$scope.subCategoryddlist = [{ 'id': 1, 'name': 'SubCategory1', 'parentid': 1 }, { 'id': 2, 'name': 'SubCategory2', 'parentid': 1 }, { 'id': 3, 'name': 'SubCategory3', 'parentid': 2 }];
+            
+			getResultsPage($scope.pageInfo.Page);
 
-		    //page data & pagination
-		    $scope.totalItems = 15;
-		    $scope.itemsPerPage = 5;
-		    $scope.currentPage = 1;
-		    $scope.maxSize = 5;
+			$scope.setPage = function (pageNo) {
+			    $scope.pageInfo.Page = pageNo;
+			};
 
-		    getResultsPage($scope.currentPage);
+			$scope.pageChanged = function () {
+			    console.log('Page changed to: ' + $scope.pageInfo.Page);
+			    getResultsPage($scope.pageInfo.Page);
+			};
 
-		    $scope.setPage = function (pageNo) {
-		        $scope.currentPage = pageNo;
-		    };
+			function getResultsPage(pageNumber) {
 
-		    $scope.pageChanged = function () {
-		        console.log('Page changed to: ' + $scope.currentPage);
-		        getResultsPage($scope.currentPage);
-		    };
+			    var searchPaging = {};
+			    searchPaging.Page = $scope.pageInfo.Page;
+			    searchPaging.Rows = $scope.pageInfo.Rows;
+			    console.log("page=" + searchPaging.Page + ", rows=" + searchPaging.Rows);
+			    messageService.GetPagedMessageList(searchPaging).$promise.then(
+					function (data) {
+					    $scope.messages = data.data;
 
-		    function getResultsPage(pageNumber) {
-		        messageService.GetThings(pageNumber).$promise.then(function (data) {
-		            $scope.messages = data;
-		        });
-		    }
+					    $scope.pageInfo.Page = data.pageInfo.page;
+					    $scope.pageInfo.Rows = data.pageInfo.rows;
+					    $scope.pageInfo.TotalPages = data.pageInfo.totalPages;
+					    $scope.pageInfo.TotalRecords = data.pageInfo.totalRecords;
+
+					},
+					function (reason) {
+					    $log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+					});
+			}
 	        
 			//functions
 			$scope.SearchMessages = function () {
