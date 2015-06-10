@@ -7,19 +7,43 @@
 
         <form method="GET" role="form" data-ng-submit="SearchMessages()">
 
+            <!-- Simple dropdown -->
+            <!--<button class="btn dropdown-toggle" name="recordinput" data-toggle="dropdown">
+            Record
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                  <li><a href="#">A</a></li>
+                  <li><a href="#">CNAME</a></li>
+                  <li><a href="#">MX</a></li>
+                  <li><a href="#">PTR</a></li>
+            </ul>-->
+
+            <!--<div class="btn-group">
+              <button class="btn dropdown-toggle btn-select" data-toggle="dropdown" href="#">Select Category <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <!--<li><a href="#">Item I</a></li>
+                <li><a href="#">Item II</a></li>
+                <li><a href="#">Item III</a></li>-->
+                <!--<li data-ng-repeat="choice in items">
+                    <a href="#">{{choice}}</a>
+                </li>
+              </ul>
+            </div>-->
+
             <div class="row">
                 <div class="col-sm-6">
                     <input type="text" class="form-control" placeholder="Title" data-ng-model="searchCriteria.Title" />
                 </div>
 
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-model="searchCriteria.Category" data-ng-options="category.id as category.name for category in categoryddlist" style="float:right;">
+                    <select class="form-control" data-ng-model="searchCategory" data-ng-options="category.id as category.name for category in categoryList" style="float:right;">
                         <option value="">Select Category</option>
                     </select>
                 </div>
 
                 <div class="col-sm-2">
-            </div>
+                </div>
             </div>
             <br>
 
@@ -28,7 +52,7 @@
                     <input type="text" class="form-control" placeholder="Tags" data-ng-model="searchCriteria.Tag" />
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-model="searchCriteria.SubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
+                    <select class="form-control" data-ng-model="searchSubcategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subcategoryList | secondDropdown: searchCategory" style="float:right;">
                         <option value="">Select Sub Category</option>
                     </select>
                 </div>
