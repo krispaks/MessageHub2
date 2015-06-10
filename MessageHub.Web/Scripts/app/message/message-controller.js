@@ -15,12 +15,7 @@
 			$scope.pageInfo.TotalPages = 0;
 			$scope.pageInfo.TotalRecords = 0;
 
-
-			//dropdownlist
-			$scope.categoryddlist = [{ 'id': 1, 'name': 'Category1' }, { 'id': 2, 'name': 'Category2' }];
-			$scope.subCategoryddlist = [{ 'id': 1, 'name': 'SubCategory1', 'parentid': 1 }, { 'id': 2, 'name': 'SubCategory2', 'parentid': 1 }, { 'id': 3, 'name': 'SubCategory3', 'parentid': 2 }];
-            
-		    // new dropdowns
+            // new dropdowns
 
             // parent dropdown
 			$scope.categoryList = [{
@@ -53,63 +48,6 @@
 			    id: 13,
 			    name: 'Category 2 - B'
 			}];
-
-		    // new dropdown *************************************************************************************************************************
-
-			/*$(".dropdown-menu li a").click(function () {
-			    console.log("try");
-			    var selText = $(this).text();
-			    $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-                console.log("text = "+selText);
-			});*/
-
-			/*$(".dropdown-menu li a").click(function () {
-			    var selText = $(this).text();
-			    $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-			});
-
-			$("#btnSearch").click(function () {
-			    alert($('.btn-select').text() + ", " + $('.btn-select2').text());
-			});*/
-
-			$scope.items = [
-                'category A',
-                'category B',
-                'category C'
-			];
-
-			/*$scope.status = {
-			    isopen: false
-			};
-
-			$scope.toggled = function (open) {
-			    $log.log('Dropdown is now: ', open);
-			};
-
-			$scope.toggleDropdown = function ($event) {
-			    $event.preventDefault();
-			    $event.stopPropagation();
-			    $scope.status.isopen = !$scope.status.isopen;
-			    console.log("toggle");
-			};
-
-			$("a.dropdown-toggle").click(function (ev) {
-			    console.log("drop");
-			    return false;
-			});
-
-		    // ----------------------------------------------
-
-			$(".dropdown-menu li a").click(function () {
-			    var selText = $(this).text();
-			    $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
-			});
-
-			$("#btnSearch").click(function () {
-			    alert($('.btn-select').text() + ", " + $('.btn-select2').text());
-			});*/
-
-		    // 'til here ****************************************************************************************************************************
 
 			getResultsPage($scope.pageInfo.Page);
 
