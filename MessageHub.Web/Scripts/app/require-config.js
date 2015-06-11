@@ -8,8 +8,8 @@ requirejs.config({
 		angularRoute: 'angular-route',
 		angularResource: 'angular-resource',
 		messageModule: '../app/message',
-		categoryModule: '../app/category',
 		commentModule: '../app/comment',
+		categoryModule: '../app/category',
 		directiveResource: '../app/directives',
 		pubsub: 'pubsub',
 		uiBootstrap: 'ui-bootstrap'

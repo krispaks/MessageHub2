@@ -3,7 +3,8 @@
 
 	return angular.module('messageModule.Services', [])
     .factory('messageService', ['$resource', function ($resource) {
-    	return {
+        return {
+
     	    GetMessages: function (searchCriteria) {
     	        console.log("mess");
     			if (!searchCriteria) {
@@ -27,18 +28,21 @@
 			    return $resource('/api/MessageApi').query();
     		},
     		GetPagedMessageList: function (searchCriteria) {
-    		    console.log("paged");
     			return $resource('/api/MessageApi', searchCriteria).get();
 			},
     		GetThings: function (page) {
-    		    console.log("thng");
     		    return $resource('/api/MessageApi', { page: page }).get();
     		},
+
+    		SaveCategory: function (category) {
+    		    console.log("ms: category");
+    		    return $resource('/api/CategoryApi').save(category);
+    		},
+
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();
     		},
     		SaveMessage: function (message) {
-    		    console.log("save: "+message);
     			return $resource('/api/MessageApi').save(message);
     		}
     	};

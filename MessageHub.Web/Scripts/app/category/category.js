@@ -5,6 +5,7 @@
 		, 'angularRoute']
 		, function (angular, angularResource, categoryController, categoryService, angularRoute) {
 			'use strict';
+			console.log("CATEGORY.JS");
 
 			return angular.module('categoryModule'
 								, ['ngRoute'

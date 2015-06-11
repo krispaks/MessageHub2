@@ -51,12 +51,15 @@ namespace MessageHub.Web
 
             container.RegisterType<IMessageService, RavenMessageService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, RavenCommentService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ICategoryService, RavenCategoryService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILoggingService, LoggingService>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IRavenMessageUoW, RavenMessageUoW>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRavenCategoryUoW, RavenCategoryUoW>(new HierarchicalLifetimeManager());
 
             container.RegisterType<IRepository<Message, IDocumentSession>, MessageRavenRepository<Message, IDocumentSession>>(new HierarchicalLifetimeManager());
             container.RegisterType<IRepository<Comment, IDocumentSession>, MessageRavenRepository<Comment, IDocumentSession>>(new HierarchicalLifetimeManager());
+            container.RegisterType<IRepository<Category, IDocumentSession>, CategoryRavenRepository<Category, IDocumentSession>>(new HierarchicalLifetimeManager());
         }
     }
 }

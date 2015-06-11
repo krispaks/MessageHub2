@@ -91,10 +91,13 @@
     <Compile Include="Entity\Message.cs" />
     <Compile Include="Entity\MessageHubDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CategoryRavenRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\MessageHubRepository.cs" />
     <Compile Include="Repository\MessageRavenRepository.cs" />
     <Compile Include="Service\CommentService.cs" />
+    <Compile Include="Service\RavenCategoryService.cs" />
+    <Compile Include="Service\ICategoryService.cs" />
     <Compile Include="Service\ICommentService.cs" />
     <Compile Include="Service\ILoggingService.cs" />
     <Compile Include="Service\IMessageService.cs" />
@@ -102,6 +105,8 @@
     <Compile Include="Service\MessageService.cs" />
     <Compile Include="Service\RavenCommentService.cs" />
     <Compile Include="Service\RavenMessageService.cs" />
+    <Compile Include="UnitOfWork\RavenCategoryUoW.cs" />
+    <Compile Include="UnitOfWork\IRavenCategoryUoW.cs" />
     <Compile Include="UnitOfWork\IMessageUoW.cs" />
     <Compile Include="UnitOfWork\IRavenMessageUoW.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />

@@ -5,9 +5,19 @@
         , '../commentModule/comment-controller'
 		, '../commentModule/comment-service'
         , '../directiveResource/directives'
+		, '../categoryModule/category-service'
         , 'uiBootstrap'
 		, 'angularRoute']
-		, function (angular, angularResource, messageController, messageService, commentController, commentService, uiBootstrap, directives, angularRoute) {
+		, function (angular
+            , angularResource
+            , messageController
+            , messageService
+            , commentController
+            , commentService
+            , directives
+            , categoryService
+            , uiBootstrap
+            , angularRoute) {
 		'use strict';
 
 		return angular.module('messageModule'
@@ -16,7 +26,7 @@
 							, 'messageModule.Controllers'
 							, 'messageModule.Services'
                             , 'commentModule.Controllers'
+                            , 'commentModule.Services'
                             , 'docsSimpleDirective'
-                            /*, 'angularUtils.directives.dirPagination'*/
-							, 'commentModule.Services']);
+							, 'categoryModule.Services']);
 });

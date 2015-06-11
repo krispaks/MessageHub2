@@ -1,8 +1,8 @@
 ﻿define(['angular'], function(angular) {
 	'use strict';
 
-	return angular.module('messageModule.Controllers', ['messageModule.Services', 'commentModule.Services', 'ui.bootstrap'])
-		.controller('MessageListCtrl', ['$scope', '$location', '$log', 'messageService', function ($scope, $location, $log, messageService) {
+	return angular.module('messageModule.Controllers', ['messageModule.Services', 'commentModule.Services', 'categoryModule.Services', 'ui.bootstrap'])
+		.controller('MessageListCtrl', ['$scope', '$location', '$log', 'messageService', 'categoryService', function ($scope, $location, $log, messageService, categoryService) {
 
 			$scope.searchCriteria = {};
 			$scope.searchCriteria.Title = '';
@@ -15,40 +15,10 @@
 			$scope.pageInfo.TotalPages = 0;
 			$scope.pageInfo.TotalRecords = 0;
 
-            // new dropdowns
+			$scope.categoryList = [];
+			$scope.subcategoryList = [];
 
-            // parent dropdown
-			$scope.categoryList = [{
-			    id: 1,
-			    name: 'Category 1'
-			}, {
-			    id: 2,
-			    name: 'Category 2'
-			}];
-
-            // child dropdown (depends on the selection on the father)
-			$scope.subcategoryList = [{
-			    parent: 1,
-			    id: 9,
-			    name: 'Category 1 - A'
-			}, {
-			    parent: 1,
-			    id: 10,
-			    name: 'Category 1 - B'
-			}, {
-			    parent: 1,
-			    id: 11,
-			    name: 'Category 1 - C'
-			}, {
-			    parent: 2,
-			    id: 12,
-			    name: 'Category 2 - A'
-			}, {
-			    parent: 2,
-			    id: 13,
-			    name: 'Category 2 - B'
-			}];
-
+            // gets the messages for the page
 			getResultsPage($scope.pageInfo.Page);
 
 			$scope.setPage = function (pageNo) {
@@ -61,7 +31,6 @@
 			};
 
 			function getResultsPage(pageNumber) {
-
 			    var searchPaging = {};
 			    searchPaging.Page = $scope.pageInfo.Page;
 			    searchPaging.Rows = $scope.pageInfo.Rows;
@@ -80,8 +49,28 @@
 					    $log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
 					});
 			}
+
+		    // gets the list of categories and populates the categories and subcategories scope vars
+			categoryService.GetCateories().$promise.then(
+					function (data) {
+					    $.each(data, function (i, item) {
+					        item.parentId == 0 ? $scope.categoryList.push(item) : $scope.subcategoryList.push(item);
+					    });
+					},
+					function (reason) {
+					    $log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+					});
+
+		    // save a new category
+		    /*categoryService.SaveCategory().$promise.then(
+					function (data) {
+					    console.log("CATEGORY: " + JSON.stringify(data));
+					},
+					function (reason) {
+					    $log.error('Errot at MessageListCtrl SaveCategory: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+					});*/
 	        
-			//functions
+			// search functionality
 			$scope.SearchMessages = function () {
 				var searchPaging = {};
 				searchPaging.Title = $scope.searchCriteria.Title;
@@ -90,11 +79,8 @@
 				searchPaging.Page = $scope.pageInfo.Page;
 				searchPaging.Rows = $scope.pageInfo.Rows;
 
-				console.log("search - title: "+searchPaging.Title+", subcategory: "+searchPaging.SubCategory);
-
 				messageService.GetPagedMessageList(searchPaging).$promise.then(
 					function (data) {
-						alert('test');
 						$scope.messages = data.data;
 					},
 					function (reason) {
@@ -110,7 +96,7 @@
                     return filtered;
                 }
                 angular.forEach(searchSubcategory, function (item) {
-                    if (item.parent == searchCategory) {
+                    if (item.parentId == searchCategory) {
                         filtered.push(item);
                     }
                 });
@@ -119,6 +105,8 @@
         })
 
 		.controller('MessageCreateCtrl', ['$scope', '$location', '$log', 'messageService', function ($scope, $location, $log, messageService) {
+
+		    console.log("MESSAGE-CONTROLLER.JS (MessageCreateCtrl)");
 
 		    //dropdownlist
 		    $scope.categoryddlist = [
@@ -152,6 +140,8 @@
 			, 'messageService'
 			, 'commentService'
 			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
+
+			    console.log("MESSAGE-CONTROLLER.JS (MessageDetailCtrl)");
 
 			    $scope.numShown = 0;
                 // gets the info for the message and attaches it to the scope's message variable
@@ -218,6 +208,9 @@
 			}])
 
             .controller('PaginationDemoCtrl', function ($scope, $log) {
+
+                console.log("MESSAGE-CONTROLLER.JS (PaginationDemoCtrl)");
+
                 $scope.totalItems = 64;
                 $scope.currentPage = 4;
 

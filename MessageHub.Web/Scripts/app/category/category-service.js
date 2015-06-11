@@ -5,7 +5,6 @@
     .factory('categoryService', ['$resource', function ($resource) {
     	return {
     		GetCateories: function () {
-    			
     			//NOTE KPACA 10/20: in $resource all you have to do is pass in a javascript object {}. 
     			//the Web API Model Binder (FromURI) will bind it to the Object parameter in the service.)
     			return $resource('/api/CategoryApi').query();
