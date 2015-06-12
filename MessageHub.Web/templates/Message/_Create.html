@@ -20,7 +20,7 @@
                     <p style="float:right;">Category</p>
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-model="myCategory" data-ng-options="category.id as category.name for category in categoryddlist" style="float:right;">
+                    <select class="form-control" data-ng-model="searchCategory" data-ng-options="category.id as category.name for category in categoryList" style="float:right;">
                         <option value="">Select Category</option>
                     </select>
                 </div>
@@ -32,8 +32,8 @@
                     <p style="float:right;">Sub-category</p>
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" data-ng-model="mySubCategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subCategoryddlist | filter: subCategory.parentid: searchCriteria.Category" style="float:right;">
-                        <option value="">Select Sub-Category</option>
+                    <select class="form-control" data-ng-model="searchSubcategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subcategoryList | secondDropdown: searchCategory" style="float:right;">
+                        <option value="">Select Sub Category</option>
                     </select>
                 </div>
                 <div class="col-sm-6"></div>

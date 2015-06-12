@@ -15,9 +15,6 @@
 			$scope.pageInfo.TotalPages = 0;
 			$scope.pageInfo.TotalRecords = 0;
 
-			$scope.categoryList = [];
-			$scope.subcategoryList = [];
-
             // gets the messages for the page
 			getResultsPage($scope.pageInfo.Page);
 
@@ -49,6 +46,10 @@
 					    $log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
 					});
 			}
+
+            // array for the dropdown for categories and subcategories
+			$scope.categoryList = [];
+			$scope.subcategoryList = [];
 
 		    // gets the list of categories and populates the categories and subcategories scope vars
 			categoryService.GetCateories().$promise.then(
@@ -104,19 +105,22 @@
             };
         })
 
-		.controller('MessageCreateCtrl', ['$scope', '$location', '$log', 'messageService', function ($scope, $location, $log, messageService) {
+		.controller('MessageCreateCtrl', ['$scope', '$location', '$log', 'messageService', 'categoryService', function ($scope, $location, $log, messageService, categoryService) {
 
-		    console.log("MESSAGE-CONTROLLER.JS (MessageCreateCtrl)");
+		    // array for the dropdown for categories and subcategories
+		    $scope.categoryList = [];
+		    $scope.subcategoryList = [];
 
-		    //dropdownlist
-		    $scope.categoryddlist = [
-                { 'id': 1, 'name': 'Category1' },
-                { 'id': 2, 'name': 'Category2' }
-		    ];
-		    $scope.myCategory = $scope.categoryddlist[0];
-
-		    $scope.subCategoryddlist = [{ 'id': 1, 'name': 'SubCategory1', 'parentid': 1 }, { 'id': 2, 'name': 'SubCategory2', 'parentid': 1 }, { 'id': 3, 'name': 'SubCategory3', 'parentid': 2 }];
-		    $scope.mySubCategory = $scope.subCategoryddlist[0];
+		    // gets the list of categories and populates the categories and subcategories scope vars
+		    categoryService.GetCateories().$promise.then(
+					function (data) {
+					    $.each(data, function (i, item) {
+					        item.parentId == 0 ? $scope.categoryList.push(item) : $scope.subcategoryList.push(item);
+					    });
+					},
+					function (reason) {
+					    $log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);
+					});
 
 		    $scope.SaveMessage = function (message) {
 		        console.log("message = " + message);
@@ -140,8 +144,6 @@
 			, 'messageService'
 			, 'commentService'
 			, function ($scope, $timeout, $location, $routeParams, $log, messageService, commentService) {
-
-			    console.log("MESSAGE-CONTROLLER.JS (MessageDetailCtrl)");
 
 			    $scope.numShown = 0;
                 // gets the info for the message and attaches it to the scope's message variable
@@ -208,8 +210,6 @@
 			}])
 
             .controller('PaginationDemoCtrl', function ($scope, $log) {
-
-                console.log("MESSAGE-CONTROLLER.JS (PaginationDemoCtrl)");
 
                 $scope.totalItems = 64;
                 $scope.currentPage = 4;
