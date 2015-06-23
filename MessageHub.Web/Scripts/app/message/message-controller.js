@@ -84,7 +84,8 @@
 				searchPaging.Page = $scope.pageInfo.Page;
 				searchPaging.Rows = $scope.pageInfo.Rows;
 
-				console.log("  search: " + searchPaging.Title);
+				console.log("   title: " + searchPaging.Title);
+				console.log("category: " + searchPaging.SubCategory);
 
 				messageService.GetPagedMessageList(searchPaging).$promise.then(
 					function (data) {

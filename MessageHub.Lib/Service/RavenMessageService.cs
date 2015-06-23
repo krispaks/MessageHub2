@@ -183,10 +183,17 @@ namespace MessageHub.Lib.Service
             {
                 this._logService.Log("Start GetPagedMessageList");
 
-                var paged = _uow.MessageRavenRepositoryRepository.GetPaged(searchCriteria.PagingInfo,
+                var paged = _uow.MessageRavenRepositoryRepository.GetPaged(
+                    searchCriteria.PagingInfo,
                     //filter: x => x.Title);
                     //filter: x => x.Title == searchCriteria.Title /*|| x.SubCategoryId == searchCriteria.SubCategory*/);
-                    filter: x => x.Title, filterField: searchCriteria.Title);
+                    //filterTitleExpression: x => x.Title,
+                    filterTitleExpression: x => x.Title,
+                    filterTitleField: searchCriteria.Title,
+                    filterSubCategoryExpression: x => x.SubCategoryId,
+                    filterSubCategoryField: ""+searchCriteria.SubCategory,
+                    filterTagsExpression: x => x.Category, /***  it's not suposed to be category, but there's no tags in here! ***/
+                    filterTagsField: searchCriteria.Tag);
 
                 /*bool contained = false;
                 //if (searchCriteria.Title != null)

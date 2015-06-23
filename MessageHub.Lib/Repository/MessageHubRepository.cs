@@ -76,7 +76,17 @@ namespace MessageHub.Lib.Repository
 			};
 		}
 
-        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, object>> filter = null, string filterField = "", Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public PagedResultDTO<TEntity> GetPaged(
+            PagingInfoDTO pageInfo,
+            Expression<Func<TEntity, object>> filterTitleExpression = null,
+            string filterTitleField = "",
+            Expression<Func<TEntity, object>> filterSubCategoryExpression = null,
+            string filterSubCategoryField = "",
+            Expression<Func<TEntity, object>> filterTagsExpression = null,
+            string filterTagsField = "",
+            Func<IQueryable<TEntity>,
+            IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
             return null;
         }

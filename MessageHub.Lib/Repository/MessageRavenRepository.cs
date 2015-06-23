@@ -90,7 +90,16 @@ namespace MessageHub.Lib.Repository
             return null;
         }
 
-        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, object>> filter = null, string filterField = "", Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public PagedResultDTO<TEntity> GetPaged(
+            PagingInfoDTO pageInfo,
+            Expression<Func<TEntity, object>> filterTitleExpression = null,
+            string filterTitleField = "",
+            Expression<Func<TEntity, object>> filterSubCategoryExpression = null,
+            string filterSubCategoryField = "",
+            Expression<Func<TEntity, object>> filterTagsExpression = null,
+            string filterTagsField = "",
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
         {
             IQueryable<TEntity> query = null;
 
@@ -111,28 +120,15 @@ namespace MessageHub.Lib.Repository
                 query = query == null ? query = tempQuery : query = query.ToList().Concat(tempQuery.ToList()).ToList().AsQueryable();
             }
 
-            //var queryAux = session.Advanced.LuceneQuery<TEntity>();
-            //query = queryAux.WhereIn("Title", new[] {"Test1"}).AsQueryable();
+            // checks if there's no category selected
+            if (filterSubCategoryField.Equals("0"))
+                filterSubCategoryField = "";
 
-            // -----
-
-            // disarm the expression
-            //var filterBody = (MemberExpression)filter.Body;
-            //var filterParam = Expression.Parameter(typeof(string), "p");
-
-            //Expression<Func<TEntity, object>> filterAux = Expression.Lambda<Func<TEntity, object>>(filterBody, filterParam);
-
-            //var result = query.Search(filterAux, "").As<TEntity>().ToList();
-
-            // -----
-
-            //query.S
-
-            //Expression<Func<TEntity, object>> filterAux = null;
-            //filterAux = filter;
-
-            query = query.Search(filter, "*"+filterField+"*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards);
-            //Filter(ref query, filter);
+            // first search field: title [use of wildcards for 'contains' kinda like functionality]
+            // second search field: category [it's suposed to be exact as the parameter passed]
+            query = query
+                .Search(filterTitleExpression, "*" + filterTitleField + "*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards)
+                .Search(filterSubCategoryExpression, "" + filterSubCategoryField, options: SearchOptions.And);
 
             IncludeProperties(ref query, includeProperties);
             var orderedQuery = OrderBy(query, orderBy);
