@@ -183,8 +183,17 @@ namespace MessageHub.Lib.Service
             {
                 this._logService.Log("Start GetPagedMessageList");
 
-                var paged = _uow.MessageRavenRepositoryRepository.GetPaged(searchCriteria.PagingInfo);
+                var paged = _uow.MessageRavenRepositoryRepository.GetPaged(searchCriteria.PagingInfo,
+                    //filter: x => x.Title);
+                    //filter: x => x.Title == searchCriteria.Title /*|| x.SubCategoryId == searchCriteria.SubCategory*/);
+                    filter: x => x.Title, filterField: searchCriteria.Title);
 
+                /*bool contained = false;
+                //if (searchCriteria.Title != null)
+                foreach(var item in paged.Data){
+                    contained = item.Title.Contains("Test");
+                }*/
+                
                 return paged;
             }
             catch (Exception ex)

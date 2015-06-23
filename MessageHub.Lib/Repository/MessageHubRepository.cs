@@ -56,12 +56,14 @@ namespace MessageHub.Lib.Repository
 
 		public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, 
 			Expression<Func<TEntity, bool>> filter = null, 
+            //System.Linq.Expressions.Expression<System.Func<TEntity, object>> filter = null,
+            //string filterField = "",
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			string includeProperties = "")
 		{
 			IQueryable<TEntity> query = this._dbSet;
 
-			Filter(ref query, filter);
+			//Filter(ref query, filter);
 
 			IncludeProperties(ref query, includeProperties);
 
@@ -73,6 +75,11 @@ namespace MessageHub.Lib.Repository
 				PagingInfo = pageInfo
 			};
 		}
+
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, object>> filter = null, string filterField = "", Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        {
+            return null;
+        }
 
 		public void Insert(TEntity entity)
 		{

@@ -85,7 +85,12 @@ namespace MessageHub.Lib.Repository
             return OrderBy(query, orderBy);
         }
 
-        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        {
+            return null;
+        }
+
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, object>> filter = null, string filterField = "", Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
             IQueryable<TEntity> query = null;
 
@@ -106,15 +111,31 @@ namespace MessageHub.Lib.Repository
                 query = query == null ? query = tempQuery : query = query.ToList().Concat(tempQuery.ToList()).ToList().AsQueryable();
             }
 
-            Filter(ref query, filter);
+            //var queryAux = session.Advanced.LuceneQuery<TEntity>();
+            //query = queryAux.WhereIn("Title", new[] {"Test1"}).AsQueryable();
+
+            // -----
+
+            // disarm the expression
+            //var filterBody = (MemberExpression)filter.Body;
+            //var filterParam = Expression.Parameter(typeof(string), "p");
+
+            //Expression<Func<TEntity, object>> filterAux = Expression.Lambda<Func<TEntity, object>>(filterBody, filterParam);
+
+            //var result = query.Search(filterAux, "").As<TEntity>().ToList();
+
+            // -----
+
+            //query.S
+
+            //Expression<Func<TEntity, object>> filterAux = null;
+            //filterAux = filter;
+
+            query = query.Search(filter, "*"+filterField+"*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards);
+            //Filter(ref query, filter);
 
             IncludeProperties(ref query, includeProperties);
             var orderedQuery = OrderBy(query, orderBy);
-
-            /*foreach (var item in orderedQuery)
-            {
-                int itemId = item.Id;
-            }*/
 
 			return new PagedResultDTO<TEntity>
 			{
@@ -177,7 +198,10 @@ namespace MessageHub.Lib.Repository
         private void Filter(ref IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter = null)
         {
             if (filter != null)
+                //query = query.Search(x => x , "");
                 query = query.Where(filter);
+
+            
         }
 
         private void IncludeProperties(ref IQueryable<TEntity> query, string includeProperties = "")

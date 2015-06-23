@@ -29,6 +29,9 @@
 
 			function getResultsPage(pageNumber) {
 			    var searchPaging = {};
+			    /*>>*/searchPaging.Title = $scope.searchCriteria.Title;
+			    /*>>*/searchPaging.SubCategory = $scope.searchSubcategory;
+			    /*>>*/searchPaging.Tag = $scope.searchCriteria.Tag;
 			    searchPaging.Page = $scope.pageInfo.Page;
 			    searchPaging.Rows = $scope.pageInfo.Rows;
 			    console.log("page=" + searchPaging.Page + ", rows=" + searchPaging.Rows);
@@ -73,6 +76,7 @@
 	        
 			// search functionality
 			$scope.SearchMessages = function () {
+			    $scope.pageInfo.Page = 1;
 				var searchPaging = {};
 				searchPaging.Title = $scope.searchCriteria.Title;
 				searchPaging.SubCategory = $scope.searchSubcategory;
@@ -80,9 +84,17 @@
 				searchPaging.Page = $scope.pageInfo.Page;
 				searchPaging.Rows = $scope.pageInfo.Rows;
 
+				console.log("  search: " + searchPaging.Title);
+
 				messageService.GetPagedMessageList(searchPaging).$promise.then(
 					function (data) {
-						$scope.messages = data.data;
+					    console.log("response: "+JSON.stringify(data));
+					    $scope.messages = data.data;
+
+					    $scope.pageInfo.Page = data.pageInfo.page;
+					    $scope.pageInfo.Rows = data.pageInfo.rows;
+					    $scope.pageInfo.TotalPages = data.pageInfo.totalPages;
+					    $scope.pageInfo.TotalRecords = data.pageInfo.totalRecords;
 					},
 					function (reason) {
 						$log.error('Errot at MessageListCtrl GetPagedMessageList: ' + reason.data.Message + '- Detail: ' + reason.data.MessageDetail);

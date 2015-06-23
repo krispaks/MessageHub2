@@ -34,8 +34,21 @@ namespace MessageHub.Lib.Repository
 		/// </summary>
 		PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo,
 			Expression<Func<TEntity, bool>> filter = null,
+            //System.Linq.Expressions.Expression<System.Func<TEntity, object>> filterExpression = null,
+            //string filterField = "",
 			Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
 			string includeProperties = "");
+
+        /// <summary>
+        /// Gets a paged entity based on filter and ordering by property
+        /// </summary>
+        PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo,
+            Expression<Func<TEntity, object>> filter = null,
+            string filterField = "",
+            //System.Linq.Expressions.Expression<System.Func<TEntity, object>> filterExpression = null,
+            //string filterField = "",
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
 
 		/// <summary>
 		/// Save Data in DataStore

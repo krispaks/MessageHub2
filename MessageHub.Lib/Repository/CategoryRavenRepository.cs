@@ -93,7 +93,12 @@ namespace MessageHub.Lib.Repository
             return query;
         }
 
-        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, System.Linq.Expressions.Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
+        {
+            return null;
+        }
+
+        public PagedResultDTO<TEntity> GetPaged(PagingInfoDTO pageInfo, Expression<Func<TEntity, object>> filter = null, string filterField = "", Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "")
         {
             return null;
         }
