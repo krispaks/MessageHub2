@@ -34,7 +34,7 @@
 			    /*>>*/searchPaging.Tag = $scope.searchCriteria.Tag;
 			    searchPaging.Page = $scope.pageInfo.Page;
 			    searchPaging.Rows = $scope.pageInfo.Rows;
-			    console.log("page=" + searchPaging.Page + ", rows=" + searchPaging.Rows);
+
 			    messageService.GetPagedMessageList(searchPaging).$promise.then(
 					function (data) {
 					    $scope.messages = data.data;
@@ -161,7 +161,6 @@
 			    $scope.numShown = 0;
                 // gets the info for the message and attaches it to the scope's message variable
 			    messageService.GetMessage($routeParams.id).$promise.then(function (data) {
-			        //console.log(JSON.stringify(data));
 
                     // when it receives the response, attachs the data to the scope
 			        $scope.message = {
@@ -182,7 +181,6 @@
 
 			    // gets the list of comments and attaches it to the scope's comments variable
 			    commentService.GetComments($routeParams.id).$promise.then(function (data) {
-			        //console.log(JSON.stringify(data));
 			        $scope.comments = data;
 			    });
                 

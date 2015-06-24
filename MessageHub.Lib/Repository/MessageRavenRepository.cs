@@ -24,19 +24,6 @@ namespace MessageHub.Lib.Repository
 
         public MessageRavenRepository()
         {
-            // intialize db
-            /*DocumentStore documentStore = new DocumentStore
-            {
-                // db connection
-                Url = "http://localhost:8080/",
-                DefaultDatabase = "MessageHubDB"
-            };
-            documentStore.Conventions.MaxNumberOfRequestsPerSession = 1024;
-            documentStore.Initialize();*/
-
-            // initialize session
-            //session = documentStore.OpenSession();
-            //session.Advanced.MaxNumberOfRequestsPerSession = 1024;       
         }
 
         public IDocumentSession Context
@@ -126,6 +113,7 @@ namespace MessageHub.Lib.Repository
 
             // first search field: title [use of wildcards for 'contains' kinda like functionality]
             // second search field: category [it's suposed to be exact as the parameter passed]
+            // third search field will be TAGS when they're implemented
             query = query
                 .Search(filterTitleExpression, "*" + filterTitleField + "*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards)
                 .Search(filterSubCategoryExpression, "" + filterSubCategoryField, options: SearchOptions.And);
@@ -136,7 +124,6 @@ namespace MessageHub.Lib.Repository
 			return new PagedResultDTO<TEntity>
 			{
 				Data = PagedData(orderedQuery, pageInfo),
-                //Data = orderedQuery,
 				PagingInfo = pageInfo
 			};
 
@@ -157,24 +144,12 @@ namespace MessageHub.Lib.Repository
 
             var message = session.Load<TEntity>(id);
             session.Delete(message);
-            /*
-             for using TEntity instead of the id, it would be something like this:
-                session.Delete(message);
-                session.SaveChanges();
-             */
-
-            /*
-             for deleting without even loading the file, it would be like this:
-                session.Advanced.Defer(new DeleteCommandData { Key = "messages/"+id });
-                session.SaveChanges();
-             */
         }
 
         public void Update(TEntity entity)
         {
             // open a new session on the documentStore defined at the UoW
             session = RavenMessageUoW.documentStore.OpenSession();
-
             session.Store(entity);
         }
 
@@ -194,7 +169,6 @@ namespace MessageHub.Lib.Repository
         private void Filter(ref IQueryable<TEntity> query, Expression<Func<TEntity, bool>> filter = null)
         {
             if (filter != null)
-                //query = query.Search(x => x , "");
                 query = query.Where(filter);
 
             

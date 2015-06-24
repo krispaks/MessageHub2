@@ -53,7 +53,6 @@ namespace MessageHub.Lib.Service
                 this._logService.Log("Start GetMessageList");
 
                 // gets all the messages from the db
-                //_uow.context = _uow.documentStore.OpenSession();
                 var messages = _uow.MessageRavenRepositoryRepository.Get();
                 return messages;
                 
@@ -113,6 +112,7 @@ namespace MessageHub.Lib.Service
 
                 if (Validate(message))
                 {
+                    // updates the content of a message in the db
                     _uow.MessageRavenRepositoryRepository.Update(message);
                     _uow.SaveChanges();
 
@@ -185,21 +185,13 @@ namespace MessageHub.Lib.Service
 
                 var paged = _uow.MessageRavenRepositoryRepository.GetPaged(
                     searchCriteria.PagingInfo,
-                    //filter: x => x.Title);
-                    //filter: x => x.Title == searchCriteria.Title /*|| x.SubCategoryId == searchCriteria.SubCategory*/);
-                    //filterTitleExpression: x => x.Title,
+                    // passes the lambda expression for each of the fields and the content of the field entered by the user
                     filterTitleExpression: x => x.Title,
                     filterTitleField: searchCriteria.Title,
                     filterSubCategoryExpression: x => x.SubCategoryId,
                     filterSubCategoryField: ""+searchCriteria.SubCategory,
-                    filterTagsExpression: x => x.Category, /***  it's not suposed to be category, but there's no tags in here! ***/
+                    filterTagsExpression: x => x.Category, /***  it's not suposed to be category, but there's no tags in here yet! ***/
                     filterTagsField: searchCriteria.Tag);
-
-                /*bool contained = false;
-                //if (searchCriteria.Title != null)
-                foreach(var item in paged.Data){
-                    contained = item.Title.Contains("Test");
-                }*/
                 
                 return paged;
             }
