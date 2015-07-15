@@ -23,6 +23,8 @@ namespace MessageHub.Web
 			config.DependencyResolver = new UnityDependencyResolver(UnityConfig.GetConfiguredContainer());
 
 			app.UseWebApi(config);
+
+            app.MapSignalR();
         }
     }
 }

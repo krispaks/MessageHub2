@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="container body-content">
+        <div class="container body-content" id="container">
             <div class="row">
                 <div class="col-sm-8">
                     <br>
@@ -41,8 +41,8 @@
                             <h4 class="list-group-item-heading">Chat</h4>
                         </div>
 
-                        <div class="panel-body">
-                            Some cool groovy chat
+                        <div ng-controller="chatCtrl" class="panel-body">
+                            @Html.Partial("_ChatPartial")
                         </div>
                     </div>
 
@@ -67,6 +67,12 @@
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
+<!-- OJO quitar esta mierda de aqui -->
+        <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+        <script src="~/signalr/hubs"></script>
+
+        <script src="~/Scripts/lib/chat.js"></script>
+<!-- hasta aqui -->
     </body>
 </html>
 
