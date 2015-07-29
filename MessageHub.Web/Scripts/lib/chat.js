@@ -26,7 +26,7 @@ $(function () {
         console.log("NEW MESSAGE: " + message + " [" + strFrom + " - " + strTo + "]");
 
         // checks if the window is already been creted
-        if(username != strFrom)
+        if (username != strFrom) {
             if (document.getElementById("" + strFrom) != null) {
                 // yeah, its been created
                 console.log(strFrom + " EXISTE");
@@ -38,6 +38,8 @@ $(function () {
                     document.getElementById("" + strFrom).style.visibility = "visible";
                     document.getElementById("" + strFrom).style.zIndex = layerIndex++;
                 }
+
+                addMsg(message, strFrom, strTo);
             } else {
                 // the window doesnt exist. we need to create it
                 console.log(strFrom + " NO EXISTE");
@@ -63,9 +65,38 @@ $(function () {
                     "</div>" +
                 "</form>";
                 document.getElementById(clone.id).getElementsByClassName("text-box")[0].appendChild(textdiv);
+
+                // loads the previous messages from the db
+                getPreviousChatController(username, strFrom);   /* --- run the next one when this one's finished --- */
+                addMsg(message, strFrom, strTo);
             }
+        } else {
+            addMsg(message, strFrom, strTo);
+        }
 
         // adds the message to the window
+        /*if (strFrom != username) {
+            // creates a new div that contains the new message and appends it to the parent node
+            var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
+            console.log("content = " + messageList.textContent);
+            var newcontent = document.createElement('div');
+            newcontent.innerHTML = "<p><span class='label label-info' style='font-size: 100%; font-weight: normal';>" + message + "</span></p>";
+            messageList.appendChild(newcontent.firstChild);
+            // scrolls the div to the bottom (so the new messages are seen)
+            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+        } else {
+            // creates a new div that contains the new message and appends it to the parent node
+            var messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
+            console.log("content = " + messageList.textContent);
+            var newcontent = document.createElement('div');
+            newcontent.innerHTML = "<p><span class='label label-success' style='font-size: 100%; font-weight: normal;'>" + message + "</span></p>";
+            messageList.appendChild(newcontent.firstChild);
+            // scrolls the div to the bottom (so the new messages are seen)
+            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+        }*/
+    };
+
+    function addMsg(message, strFrom, strTo) {
         if (strFrom != username) {
             // creates a new div that contains the new message and appends it to the parent node
             var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
@@ -85,7 +116,7 @@ $(function () {
             // scrolls the div to the bottom (so the new messages are seen)
             messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
         }
-    };
+    }
 
     // Get the user name and store it to prepend to messages.
     //$('#displayname').val(prompt('Enter your name:', ''));
@@ -175,11 +206,7 @@ function openChatWindow(param) {
         document.getElementById(clone.id).style.zIndex = layerIndex++;
         var targetDiv = document.getElementById(clone.id).getElementsByClassName("chatTitle")[0];
         targetDiv.innerHTML = "Chat with " + param;
-        //var textBox = document.getElementById(clone.id).getElementsByClassName("text-box")[0];
-        //textBox.innerHTML = "<input type=\"text\" id=\"message\" value=\"caca\"/><input type=\"button\" onClick=\"console.log('HEY: '+document.getElementById('message').value); sendMessage('HOLA', this.parentNode.parentNode.parentNode.parentNode.id)\"; id=\"sendmessage\" value=\"Send\" />";
-        //$('#' + clone.id + ' .text-box').append("HOLA");
         var textdiv = document.createElement('div');
-        //textdiv.innerHTML = "<input type=\"text\" id=\"msg_" + param + "\" value=\"\"/><input type=\"button\" id=\"sendmessage\" value=\"Send\" onClick=\"sendMessage(document.getElementById('msg_" + param + "').value, this.parentNode.parentNode.parentNode.parentNode.parentNode.id); document.getElementById('msg_" + param + "').value = '';\" />";
         textdiv.innerHTML = "" +
             "<form onsubmit=\"sendMessage(document.getElementById('msg_" + param + "').value, this.parentNode.parentNode.parentNode.parentNode.parentNode.id); document.getElementById('msg_" + param + "').value = ''; return false;\">" +
                 "<div class=\"row\">" +
@@ -188,6 +215,9 @@ function openChatWindow(param) {
                 "</div>" +
             "</form>";
         document.getElementById(clone.id).getElementsByClassName("text-box")[0].appendChild(textdiv);
+
+        // loads the previous messages from the db
+        getPreviousChatController(username, param);
 
         // create the one-to-one group in the server
         var res = chat.server.createGroup(username, param);
@@ -219,47 +249,62 @@ function htmlEncode(value) {
 
 // store the chat message in the db
 function storeChatController(from, to, content) {
-    console.log("call-controller");
+    var chatMsg = [from, to, content];
 
-        var chatMsg = [from, to, content];
+    jQuery.ajax({
+        type: 'POST',
+        url: '/api/ChatMessageApi/SaveChatMsg',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(chatMsg),
+        success: function (data) {
+            console.log("succesfully stored chat message");
+        },
+        failure: function (errMsg) {
+            console.log("error storing chat message");
+        }
+    });
+}
 
-        jQuery.ajax({
-            type: 'POST',
-            url: '/api/ChatMessageApi/SaveChatMsg',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify(chatMsg),
-            success: function (data) {
-                console.log("succesfully stored chat message");
-            },
-            failure: function (errMsg) {
-                console.log("error storing chat message");
-            }
-        });
+// get the previous chats from the db
+function getPreviousChatController(from, to) {
+    console.log(" >>> connects to the db to get "+from+" and "+to+"'s messages");
+    var users = [from, to];
 
-    // call the chat controller for storing the conversation
-    //$.ajax({
-    //    url: '/api/ChatMessageApi/SomeAction',
-    //    type: 'POST',
-    //    //contentType: 'application/json;',
-    //    data: {
-    //        pass: 'hola'
-    //    },
-    //    //data: JSON.stringify({
-    //    //    From: 'user1',
-    //    //    To: 'user2',
-    //    //    Content: 'somethin'
-    //    //}),
-    //    success: function (valid) {
-    //        if (valid) {
-    //            //show that id is valid 
-    //            console.log("chat succesfully stored")
-    //        } else {
-    //            //show that id is not valid 
-    //            console.log("error storing chat :(")
-    //        }
-    //    }
-    //});
+    jQuery.ajax({
+        type: 'GET',
+        url: '/api/ChatMessageApi/GetChatMsgList',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: {from: from, to: to},
+        success: function (data) {
+            console.log("succesfully loaded message list");
+            fillChatBox(data, to);
+        },
+        failure: function (errMsg) {
+            console.log("error loading message list");
+        }
+    });
+}
+
+// places the conversation loaded from the db in the chat box
+function fillChatBox(content, id) {
+    console.log("fill chat box with this: " + JSON.stringify(content));
+
+    // prepares the div for inserting the new content
+    var messageList = document.getElementById("" + id).getElementsByClassName("message-list")[0];
+
+    // process each entry of the json
+    jQuery.each(content, function (i, val) {
+        var newcontent = document.createElement('div');
+        var color = val.from == username ? "AAAAAA" : "CCCCCC";
+        newcontent.innerHTML = "<p><span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #"+color+";'>" + val.from + ": " + val.content + "</span></p>";
+        messageList.appendChild(newcontent.firstChild);
+
+    });
+
+    // scrolls the div to the bottom (so the new messages are seen)
+    messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
 }
 
 // drag functionality for the chat window

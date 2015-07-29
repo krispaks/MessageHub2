@@ -24,45 +24,30 @@ namespace MessageHub.Web.Controllers
 			this.logger = logger;
 		}
 
-        //public int Post()
-        //{
-        //    ChatMessage message = new ChatMessage
-        //    {
-        //        From = "from",
-        //        To = "to",
-        //        Content = "content"
-        //    };
-
-        //    int value = this.chatMessageService.SaveChatMessage(message);
-
-        //    return value;
-        //}
-
-        public ActionResult SomeAction(string pass)
-        {
-            ChatMessage chatMessage = new ChatMessage
-            {
-                From = "tim",
-                To = "mat",
-                Content = "omg"
-            };
-
-            int value = this.chatMessageService.SaveChatMessage(chatMessage);
-            return null;
-        }
-
         public ActionResult SaveChatMsg(List<String> json)
         {
             ChatMessage message = new ChatMessage
             {
                 From = json.ElementAt(0),
                 To = json.ElementAt(1),
-                Content = json.ElementAt(2)
+                Content = json.ElementAt(2),
+                Time = UtilityDate.HubDateString(UtilityDate.HubDateTime())
             };
 
             int value = this.chatMessageService.SaveChatMessage(message);
 
             return null;
+        }
+
+        public IEnumerable<ChatMessage> GetChatMsgList(string from, string to)
+        {
+            var msglist = this.chatMessageService.GetChatMessageList(from, to);
+
+            //List<string> myList = new List<string>() { "test1", "test2" };
+
+            //return this.Json(new List<string>( 0 ),JsonRequestBehavior.AllowGet);
+
+            return msglist;
         }
     }
 }

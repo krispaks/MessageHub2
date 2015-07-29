@@ -38,5 +38,29 @@ namespace MessageHub.Lib.Service
 				this._logService.Log("End SaveChatMessage");
 			}
         }
+
+        public IEnumerable<Entity.ChatMessage> GetChatMessageList(string from, string to)
+        {
+            try
+            {
+                this._logService.Log("Start GetChatMessageList");
+
+                // gets all the chat messages from the db
+                var chatmessages = _uow.ChatMessageRavenRepositoryRepository.Get();
+                // filter the results
+                chatmessages = chatmessages.Where(x => ((x.From == from) && (x.To == to)) || ((x.From == to) && (x.To == from)));
+                return chatmessages;
+
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at GetChatMessageList : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End GetChatMessageList");
+            }
+        }
 	}
 }

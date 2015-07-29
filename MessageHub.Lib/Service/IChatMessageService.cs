@@ -11,5 +11,6 @@ namespace MessageHub.Lib.Service
 	public interface IChatMessageService
 	{
         int SaveChatMessage(ChatMessage chatMessage);
+        IEnumerable<Entity.ChatMessage> GetChatMessageList(string from, string to);
 	}
 }
