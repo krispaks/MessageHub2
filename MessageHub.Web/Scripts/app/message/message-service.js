@@ -44,6 +44,10 @@
     		},
     		SaveMessage: function (message) {
     			return $resource('/api/MessageApi').save(message);
+    		},
+
+    		SaveChatMessage: function (message) {
+    		    return $resource('/api/ChatMessageApi').save(message);
     		}
     	};
     }]);

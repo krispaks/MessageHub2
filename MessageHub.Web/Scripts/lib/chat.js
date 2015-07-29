@@ -11,12 +11,14 @@ var layerIndex = 10;
 $(function () {
     // Reference the auto-generated proxy for the hub.
 
+    console.log("1st CALL - USERNAME: "+username);
+
     chat = $.connection.chatHub;
     console.log('connected to chat from chat.js');
 
     // Create a function that the hub can call back to display messages.
     chat.client.addNewMessageToPage = function (name, message) {
-        // Add the message to the page. 
+        // Add the message to the page.
         $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
     };
 
@@ -29,9 +31,7 @@ $(function () {
                 // yeah, its been created
                 console.log(strFrom + " EXISTE");
                 if (document.getElementById("" + strFrom).style.visibility == "visible") {
-                    // the window is already open on the screen. just put it on top of the others
-                    //console.log(param + " VISIBLE");
-                    //document.getElementById("" + param).style.zIndex = layerIndex++;
+                    // we dont do anything cause the user might not want that window to be popping up all the time
                 } else {
                     // the window has been closed but still exists. lets open it again
                     console.log(strFrom + " INVISIBLE");
@@ -90,7 +90,7 @@ $(function () {
     // Get the user name and store it to prepend to messages.
     //$('#displayname').val(prompt('Enter your name:', ''));
 
-    // Start the connection.
+    // start the connection
     $.connection.hub.start().done(function () {
         // checks online users
         chat.server.getUsers();
@@ -198,18 +198,68 @@ function openChatWindow(param) {
 
 // click to send a message to a user
 function sendMessage(strChatText, strTo) {
-    console.log("message="+strChatText+", to="+strTo);
+    console.log("message=" + strChatText + ", to=" + strTo);
+    // connects to the hub to send the message
     if (strChatText != '') {
         //var strGroupName = $(this).parent().attr('groupname');
         if (typeof strTo !== 'undefined' && strTo !== false)
             chat.server.send(username + ': ' + strChatText, username, strTo);
     }
+
+    // connects to the controller to store the message in the db
+    storeChatController(username, strTo, strChatText);
+
     return false;
 }
 
 function htmlEncode(value) {
     var encodedValue = $('<div />').text(value).html();
     return encodedValue;
+}
+
+// store the chat message in the db
+function storeChatController(from, to, content) {
+    console.log("call-controller");
+
+        var chatMsg = [from, to, content];
+
+        jQuery.ajax({
+            type: 'POST',
+            url: '/api/ChatMessageApi/SaveChatMsg',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(chatMsg),
+            success: function (data) {
+                console.log("succesfully stored chat message");
+            },
+            failure: function (errMsg) {
+                console.log("error storing chat message");
+            }
+        });
+
+    // call the chat controller for storing the conversation
+    //$.ajax({
+    //    url: '/api/ChatMessageApi/SomeAction',
+    //    type: 'POST',
+    //    //contentType: 'application/json;',
+    //    data: {
+    //        pass: 'hola'
+    //    },
+    //    //data: JSON.stringify({
+    //    //    From: 'user1',
+    //    //    To: 'user2',
+    //    //    Content: 'somethin'
+    //    //}),
+    //    success: function (valid) {
+    //        if (valid) {
+    //            //show that id is valid 
+    //            console.log("chat succesfully stored")
+    //        } else {
+    //            //show that id is not valid 
+    //            console.log("error storing chat :(")
+    //        }
+    //    }
+    //});
 }
 
 // drag functionality for the chat window

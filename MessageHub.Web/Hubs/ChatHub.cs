@@ -134,6 +134,10 @@ namespace MessageHub.Web.Hubs
         // server hub method "send"
         public void Send(string message, string strFrom, string strTo)
         {
+            // store the message in the db
+            //ChatRaven.StoreMessage(message, strFrom, strTo);
+
+            // send the message to both users using the group
             string groupName = GetUniqueGroupName(strFrom, strTo);
 
             if (Clients != null)
