@@ -67,8 +67,9 @@ $(function () {
                 document.getElementById(clone.id).getElementsByClassName("text-box")[0].appendChild(textdiv);
 
                 // loads the previous messages from the db
-                getPreviousChatController(username, strFrom);   /* --- run the next one when this one's finished --- */
-                addMsg(message, strFrom, strTo);
+                //getPreviousChatController(username, strFrom);   /* --- run the next one when this one's finished --- */
+                //addMsg(message, strFrom, strTo);
+                getPreviousChatController(username, strFrom, message);
             }
         } else {
             addMsg(message, strFrom, strTo);
@@ -95,28 +96,6 @@ $(function () {
             messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
         }*/
     };
-
-    function addMsg(message, strFrom, strTo) {
-        if (strFrom != username) {
-            // creates a new div that contains the new message and appends it to the parent node
-            var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
-            console.log("content = " + messageList.textContent);
-            var newcontent = document.createElement('div');
-            newcontent.innerHTML = "<p><span class='label label-info' style='font-size: 100%; font-weight: normal';>" + message + "</span></p>";
-            messageList.appendChild(newcontent.firstChild);
-            // scrolls the div to the bottom (so the new messages are seen)
-            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
-        } else {
-            // creates a new div that contains the new message and appends it to the parent node
-            var messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
-            console.log("content = " + messageList.textContent);
-            var newcontent = document.createElement('div');
-            newcontent.innerHTML = "<p><span class='label label-success' style='font-size: 100%; font-weight: normal;'>" + message + "</span></p>";
-            messageList.appendChild(newcontent.firstChild);
-            // scrolls the div to the bottom (so the new messages are seen)
-            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
-        }
-    }
 
     // Get the user name and store it to prepend to messages.
     //$('#displayname').val(prompt('Enter your name:', ''));
@@ -173,6 +152,29 @@ $(function () {
     };
 });
 
+function addMsg(message, strFrom, strTo) {
+    if (strFrom != username) {
+        // creates a new div that contains the new message and appends it to the parent node
+        var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
+        console.log("content = " + messageList.textContent);
+        var newcontent = document.createElement('div');
+        newcontent.innerHTML = "<p><span class='label label-info' style='font-size: 100%; font-weight: normal';>" + message + "</span></p>";
+        messageList.appendChild(newcontent.firstChild);
+        // scrolls the div to the bottom (so the new messages are seen)
+        messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+    } else {
+        // creates a new div that contains the new message and appends it to the parent node
+        var messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
+        console.log("content = " + messageList.textContent);
+        var newcontent = document.createElement('div');
+        newcontent.innerHTML = "<p><span class='label label-success' style='font-size: 100%; font-weight: normal;'>" + message + "</span></p>";
+        messageList.appendChild(newcontent.firstChild);
+        // scrolls the div to the bottom (so the new messages are seen)
+        messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+    }
+    console.log(" * ADDEED A MESSAGE");
+}
+
 // click on a user to start a chat room
 function openChatWindow(param) {
     console.log("open chat with " + param);
@@ -217,7 +219,7 @@ function openChatWindow(param) {
         document.getElementById(clone.id).getElementsByClassName("text-box")[0].appendChild(textdiv);
 
         // loads the previous messages from the db
-        getPreviousChatController(username, param);
+        getPreviousChatController(username, param, null);
 
         // create the one-to-one group in the server
         var res = chat.server.createGroup(username, param);
@@ -267,7 +269,7 @@ function storeChatController(from, to, content) {
 }
 
 // get the previous chats from the db
-function getPreviousChatController(from, to) {
+function getPreviousChatController(from, to, message) {
     console.log(" >>> connects to the db to get "+from+" and "+to+"'s messages");
     var users = [from, to];
 
@@ -280,11 +282,16 @@ function getPreviousChatController(from, to) {
         success: function (data) {
             console.log("succesfully loaded message list");
             fillChatBox(data, to);
+            // if its suposed to show a new message too
+            if(message != null)
+                addMsg(message, to, from);
         },
         failure: function (errMsg) {
             console.log("error loading message list");
         }
     });
+
+    console.log(" * FINISH LOADING MESSAGES");
 }
 
 // places the conversation loaded from the db in the chat box
@@ -296,9 +303,15 @@ function fillChatBox(content, id) {
 
     // process each entry of the json
     jQuery.each(content, function (i, val) {
+        var printLine = val.from + ": " + val.content;
+        // if the chain is too long, split it in lines
+        if (printLine.length >= 20) {
+
+        }
+        // create a new globe for the message
         var newcontent = document.createElement('div');
         var color = val.from == username ? "AAAAAA" : "CCCCCC";
-        newcontent.innerHTML = "<p><span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #"+color+";'>" + val.from + ": " + val.content + "</span></p>";
+        newcontent.innerHTML = "<p><span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #" + color + ";'>" + printLine + "</span></p>";
         messageList.appendChild(newcontent.firstChild);
 
     });
