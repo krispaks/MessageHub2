@@ -67,38 +67,12 @@ $(function () {
                 document.getElementById(clone.id).getElementsByClassName("text-box")[0].appendChild(textdiv);
 
                 // loads the previous messages from the db
-                //getPreviousChatController(username, strFrom);   /* --- run the next one when this one's finished --- */
-                //addMsg(message, strFrom, strTo);
                 getPreviousChatController(username, strFrom, message);
             }
         } else {
             addMsg(message, strFrom, strTo);
         }
-
-        // adds the message to the window
-        /*if (strFrom != username) {
-            // creates a new div that contains the new message and appends it to the parent node
-            var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
-            console.log("content = " + messageList.textContent);
-            var newcontent = document.createElement('div');
-            newcontent.innerHTML = "<p><span class='label label-info' style='font-size: 100%; font-weight: normal';>" + message + "</span></p>";
-            messageList.appendChild(newcontent.firstChild);
-            // scrolls the div to the bottom (so the new messages are seen)
-            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
-        } else {
-            // creates a new div that contains the new message and appends it to the parent node
-            var messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
-            console.log("content = " + messageList.textContent);
-            var newcontent = document.createElement('div');
-            newcontent.innerHTML = "<p><span class='label label-success' style='font-size: 100%; font-weight: normal;'>" + message + "</span></p>";
-            messageList.appendChild(newcontent.firstChild);
-            // scrolls the div to the bottom (so the new messages are seen)
-            messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
-        }*/
     };
-
-    // Get the user name and store it to prepend to messages.
-    //$('#displayname').val(prompt('Enter your name:', ''));
 
     // start the connection
     $.connection.hub.start().done(function () {
@@ -117,7 +91,6 @@ $(function () {
     // loads the username
     username = $('#username').val();
     // function to be called by the hub when a user connects and in the load of the page
-    //chat.client.userConnects = function (name, connection) {
     chat.client.userConnects = function (name, connection) {
         console.log(name + " is connected");
 
@@ -153,26 +126,48 @@ $(function () {
 });
 
 function addMsg(message, strFrom, strTo) {
+    var messageList;
+    var color;
     if (strFrom != username) {
         // creates a new div that contains the new message and appends it to the parent node
-        var messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
-        console.log("content = " + messageList.textContent);
-        var newcontent = document.createElement('div');
-        newcontent.innerHTML = "<p><span class='label label-info' style='font-size: 100%; font-weight: normal';>" + message + "</span></p>";
-        messageList.appendChild(newcontent.firstChild);
-        // scrolls the div to the bottom (so the new messages are seen)
-        messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+        messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
+        color = "67a0e6";
     } else {
         // creates a new div that contains the new message and appends it to the parent node
-        var messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
-        console.log("content = " + messageList.textContent);
-        var newcontent = document.createElement('div');
-        newcontent.innerHTML = "<p><span class='label label-success' style='font-size: 100%; font-weight: normal;'>" + message + "</span></p>";
-        messageList.appendChild(newcontent.firstChild);
-        // scrolls the div to the bottom (so the new messages are seen)
-        messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+        messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
+        color = "9acc3d";
     }
+    // fills the div with its content
+    console.log("content = " + messageList.textContent);
+    var newcontent = document.createElement('div');
+    //message = "hello, this is a very long message only for testing, it doesnt have absolutely no other purpose. it might bother you, but i really dont care :)"
+    newcontent.innerHTML = "<p>"+ splitMsg(message, color) + "</p>";  // friend
+    messageList.appendChild(newcontent.firstChild);
+    // scrolls the div to the bottom (so the new messages are seen)
+    messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
+
     console.log(" * ADDEED A MESSAGE");
+}
+
+function splitMsg(message, color) {
+    var msgReturn = '';
+    var msgAux = '';
+    var msgSplit = message.split(" ");
+
+    // splits the message to be shown in different lines if its too long
+    for (i = 0; i < msgSplit.length; i++) {
+        if ((msgAux.length + msgSplit[i].length) >= 40) {
+            msgReturn += "<span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #" + color + "';>" + msgAux + "</span><br>";
+            msgAux = msgSplit[i] + " ";
+        } else {
+            msgAux += msgSplit[i] + " ";
+        }
+
+        if (i == (msgSplit.length - 1))
+            if (msgAux != '')
+                msgReturn += "<span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #" + color + "';>" + msgAux + "</span><br>";
+    }
+    return msgReturn;
 }
 
 // click on a user to start a chat room
@@ -310,12 +305,12 @@ function fillChatBox(content, id) {
         }
         // create a new globe for the message
         var newcontent = document.createElement('div');
-        var color = val.from == username ? "AAAAAA" : "CCCCCC";
-        newcontent.innerHTML = "<p><span class='label label-default' style='font-size: 100%; font-weight: normal; background-color: #" + color + ";'>" + printLine + "</span></p>";
+        var color = val.from == username ? "c9d4b0" : "b0bdcf";
+        newcontent.innerHTML = "<p>" + splitMsg(printLine, color) + "</p>";
         messageList.appendChild(newcontent.firstChild);
 
     });
-
+    
     // scrolls the div to the bottom (so the new messages are seen)
     messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
 }
