@@ -115,9 +115,11 @@ $(function () {
         $('#connected-users').html("");
         if (users.length <= 2) {
             $('#connected-users').append('<a class="list-group-item">No users connected</a>');
+            if(users.length > 0)
+                console.log("connected user " + 1 + " name = " + users[1][0] + " [" + users[1][1] + "]");
         } else {
             for (var i = 1; i < users.length; i++) {
-                console.log("connected users. user " + i + " name = " + users[i][0]);
+                console.log("connected user " + i + " name = " + users[i][0] + " [" + users[i][1] + "]");
                 if (users[i][0] != username)
                     $('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + users[i][0] + '\'); return false;" class="list-group-item">' + htmlEncode(users[i][0]) + '</a>');
             }
