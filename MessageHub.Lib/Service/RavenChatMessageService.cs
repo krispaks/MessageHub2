@@ -28,6 +28,14 @@ namespace MessageHub.Lib.Service
 				_uow.ChatMessageRavenRepositoryRepository.Insert(chatMessage);
 				_uow.SaveChanges();
 
+                // checks if the message has been correctly stored in the db
+                var chatCheck = _uow.ChatMessageRavenRepositoryRepository.Get().Where(x => x.Id == chatMessage.Id);
+                if (chatCheck.Count() <= 0)
+                {
+                    _uow.ChatMessageRavenRepositoryRepository.Insert(chatMessage);
+                    _uow.SaveChanges();
+                }
+
 				retValue = chatMessage.Id;
 
 				return retValue;
@@ -39,6 +47,7 @@ namespace MessageHub.Lib.Service
 			}
         }
 
+        bool first = false;
         public IEnumerable<Entity.ChatMessage> GetChatMessageList(string from, string to)
         {
             try

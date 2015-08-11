@@ -90,6 +90,10 @@ $(function () {
 
     // loads the username
     username = $('#username').val();
+    // function to be called by the hub to reset the list of connected users
+    chat.client.resetUsers = function () {
+        users = [[]];
+    }
     // function to be called by the hub when a user connects and in the load of the page
     chat.client.userConnects = function (name, connection) {
         console.log(name + " is connected");

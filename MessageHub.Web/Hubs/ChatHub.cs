@@ -28,14 +28,9 @@ namespace MessageHub.Web.Hubs
         //{
         //    Clients.All.addNewMessageToPage(name, message);
         //}
-
-        public static bool disconnecting = false;
-
+        
         public override Task OnConnected()
         {
-            // waits until its finished disconnecting for reconnecting
-            while (disconnecting == true) { }   // VERY DIRTY needs a better solution
-
             int element = -1;
             // checks if the user is already registered
             for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
@@ -59,7 +54,6 @@ namespace MessageHub.Web.Hubs
         public override Task OnDisconnected(bool stopCalled)
         {
             //UserHandler.ConnectionIds.Remove(new string[2] {Context.User.Identity.Name, Context.ConnectionId});
-            disconnecting = true;
             int element = -1;
             // checks wheres the user in the list
             for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
@@ -79,8 +73,6 @@ namespace MessageHub.Web.Hubs
                 if (!UserHandler.ConnectionIds.ElementAt(i)[1].Equals("NULL"))
                     Clients.All.userConnects(UserHandler.ConnectionIds.ElementAt(i)[0], UserHandler.ConnectionIds.ElementAt(i)[1]);
             }
-
-            disconnecting = false;
             return base.OnDisconnected(stopCalled);
         }
 
@@ -90,6 +82,9 @@ namespace MessageHub.Web.Hubs
 
             // adds the new user connected to the list of active users
             // --- userList.Add(new string[2] {userName, Context.ConnectionId});
+
+            // resets the list of connected users
+            Clients.All.resetUsers();
 
             // returns the complete list of users
             for (int i = 0; i < UserHandler.ConnectionIds.Count; i++ )
