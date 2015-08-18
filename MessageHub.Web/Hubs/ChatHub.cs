@@ -67,12 +67,14 @@ namespace MessageHub.Web.Hubs
                 UserHandler.ConnectionIds.ElementAt(element)[1] = "NULL";
 
             // returns the complete list of users
-            for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
-            {
-                // returns the info for the user if the status of the connection is not NULL
-                if (!UserHandler.ConnectionIds.ElementAt(i)[1].Equals("NULL"))
-                    Clients.All.userConnects(UserHandler.ConnectionIds.ElementAt(i)[0], UserHandler.ConnectionIds.ElementAt(i)[1]);
-            }
+            //for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
+            //{
+            //    // returns the info for the user if the status of the connection is not NULL
+            //    if (!UserHandler.ConnectionIds.ElementAt(i)[1].Equals("NULL"))
+            //        Clients.All.userConnects(UserHandler.ConnectionIds.ElementAt(i)[0], UserHandler.ConnectionIds.ElementAt(i)[1]);
+            //}
+            GetUsers();
+
             return base.OnDisconnected(stopCalled);
         }
 

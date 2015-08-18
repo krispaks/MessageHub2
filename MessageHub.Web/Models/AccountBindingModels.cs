@@ -35,6 +35,22 @@ namespace MessageHub.Web.Models
     public class RegisterBindingModel
     {
         [Required]
+        [Display(Name = "Firstname")]
+        public string Firstname { get; set; }
+
+        [Required]
+        [Display(Name = "Lastname")]
+        public string Lastname { get; set; }
+
+        [Required]
+        [Display(Name = "Date of birth")]
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        [Display(Name = "Sex")]
+        public bool Sex { get; set; }
+
+        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

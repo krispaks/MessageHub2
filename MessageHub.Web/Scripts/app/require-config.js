@@ -12,7 +12,8 @@ requirejs.config({
 		categoryModule: '../app/category',
 		directiveResource: '../app/directives',
 		pubsub: 'pubsub',
-		uiBootstrap: 'ui-bootstrap'
+		uiBootstrap: 'ui-bootstrap',
+		moment: '../moment'
 	},
 	shim: {
 		'angular': { 'exports': 'angular' },
