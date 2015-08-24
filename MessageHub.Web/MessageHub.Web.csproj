@@ -254,6 +254,22 @@
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\ChatRaven.cs" />
+    <Compile Include="Migrations\201508241633262_Firstname.cs" />
+    <Compile Include="Migrations\201508241633262_Firstname.Designer.cs">
+      <DependentUpon>201508241633262_Firstname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508241634560_Lastname.cs" />
+    <Compile Include="Migrations\201508241634560_Lastname.Designer.cs">
+      <DependentUpon>201508241634560_Lastname.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508241636055_DateOfBirth.cs" />
+    <Compile Include="Migrations\201508241636055_DateOfBirth.Designer.cs">
+      <DependentUpon>201508241636055_DateOfBirth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508241636519_Sex.cs" />
+    <Compile Include="Migrations\201508241636519_Sex.Designer.cs">
+      <DependentUpon>201508241636519_Sex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -415,7 +431,20 @@
       <Name>MessageHub.Lib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201508241633262_Firstname.resx">
+      <DependentUpon>201508241633262_Firstname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508241634560_Lastname.resx">
+      <DependentUpon>201508241634560_Lastname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508241636055_DateOfBirth.resx">
+      <DependentUpon>201508241636055_DateOfBirth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508241636519_Sex.resx">
+      <DependentUpon>201508241636519_Sex.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
