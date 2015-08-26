@@ -95,13 +95,13 @@ $(function () {
         users = [[]];
     }
     // function to be called by the hub when a user connects and in the load of the page
-    chat.client.userConnects = function (name, connection) {
-        console.log(name + " is connected");
+    chat.client.userConnects = function (email, connection) {
+        console.log(email + " is connected");
 
         var userPos = -1;
         // checks if the user is already in the list
         for(var i=0; i<users.length; i++){
-            if (users[i][0] == name) {
+            if (users[i][0] == email) {
                 // the user is already in the list
                 userPos = i;
             }
@@ -111,7 +111,7 @@ $(function () {
             users[userPos][1] = connection;
         } else {
             // the user is added to the list of active users (username + connection info)
-            users[users.length] = [name, connection];
+            users[users.length] = [email, connection];
             console.log("users[" + (users.length - 1) + "] = " + users[(users.length - 1)][0] + " - " + users[(users.length - 1)][1]);
         }
 
@@ -120,10 +120,10 @@ $(function () {
         if (users.length <= 2) {
             $('#connected-users').append('<a class="list-group-item">No users connected</a>');
             if(users.length > 0)
-                console.log("connected user " + 1 + " name = " + users[1][0] + " [" + users[1][1] + "]");
+                console.log("connected user " + 1 + " email = " + users[1][0] + " [" + users[1][1] + "]");
         } else {
             for (var i = 1; i < users.length; i++) {
-                console.log("connected user " + i + " name = " + users[i][0] + " [" + users[i][1] + "]");
+                console.log("connected user " + i + " email = " + users[i][0] + " [" + users[i][1] + "]");
                 if (users[i][0] != username)
                     $('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + users[i][0] + '\'); return false;" class="list-group-item">' + htmlEncode(users[i][0]) + '</a>');
             }
@@ -236,7 +236,8 @@ function sendMessage(strChatText, strTo) {
     if (strChatText != '') {
         //var strGroupName = $(this).parent().attr('groupname');
         if (typeof strTo !== 'undefined' && strTo !== false)
-            chat.server.send(username + ': ' + strChatText, username, strTo);
+            chat.server.send(strChatText, username, strTo);
+            //chat.server.send(username + ': ' + strChatText, username, strTo);
     }
 
     // connects to the controller to store the message in the db
@@ -304,7 +305,8 @@ function fillChatBox(content, id) {
 
     // process each entry of the json
     jQuery.each(content, function (i, val) {
-        var printLine = val.from + ": " + val.content;
+        //var printLine = val.from + ": " + val.content;
+        var printLine = val.content;
         // if the chain is too long, split it in lines
         if (printLine.length >= 20) {
 

@@ -26,9 +26,8 @@ namespace MessageHub.Lib.UnitOfWork
                 DefaultDatabase = "MessageHubDB"
             };
             documentStore.Initialize();
-
-            // initialize session
-            //context = documentStore.OpenSession();
+            // allow multiple operations at the same time
+            documentStore.Conventions.AllowMultipuleAsyncOperations = true;
 
             ChatMessageRavenRepositoryRepository = new ChatMessageRavenRepository<ChatMessage, DocumentSession> {
                 Context = context
@@ -39,7 +38,6 @@ namespace MessageHub.Lib.UnitOfWork
         {
             int retValue = 0;
             try {
-                //retValue = this.repository.Save();
                 using (context) {
                     retValue = this.ChatMessageRavenRepositoryRepository.Save();
                 }
