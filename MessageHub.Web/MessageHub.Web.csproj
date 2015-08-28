@@ -249,6 +249,7 @@
     <Compile Include="Controllers\CommentApiController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\MessageApiController.cs" />
+    <Compile Include="Controllers\UserInfoApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

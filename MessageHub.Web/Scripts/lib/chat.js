@@ -122,11 +122,68 @@ $(function () {
             if(users.length > 0)
                 console.log("connected user " + 1 + " email = " + users[1][0] + " [" + users[1][1] + "]");
         } else {
+            // aux list for storing the users
+            var auxList = [[]];
+            var wait = true;
+            // fill the list with the content of the db
             for (var i = 1; i < users.length; i++) {
                 console.log("connected user " + i + " email = " + users[i][0] + " [" + users[i][1] + "]");
-                if (users[i][0] != username)
-                    $('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + users[i][0] + '\'); return false;" class="list-group-item">' + htmlEncode(users[i][0]) + '</a>');
+                if (users[i][0] != username) {
+                    console.log("I'm gonna ask for the info for: "+users[i][0]);
+                    jQuery.ajax({
+                        type: 'GET',
+                        url: '/api/UserInfoApi/GetUserRealName',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        data: { email: users[i][0] },
+                        success: function (data) {
+                            console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0]+"'");
+                            //$('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + data[0] + '\'); return false;" class="list-group-item">' + htmlEncode(data[1] + " " + data[2]) + '</a>');
+                            // include the user in the aux list to be able to sort
+                            var alreadyIn = false;
+                            for(var k = 0; k < auxList.length; k++){
+                                if(auxList[k][0] == data[0])
+                                    alreadyIn = true;
+                            }
+                            if(alreadyIn == false)
+                                auxList[auxList.length] = ["" + data[0], "" + data[1], "" + data[2]];
+                            //$('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + data[0] + '\'); return false;" class="list-group-item">'
+                            //        + '<h5 class="list-group-item-title" style="padding: 0px 0px; margin-top: -5px; margin-bottom: 0px;">'
+                            //        + htmlEncode(data[1] + " " + data[2])
+                            //        + '</h5>'
+                            //        + '<h6 class="list-group-item-title" style="padding: 0px 0px; margin-top: 5px; margin-bottom: -5px; color: #999999;">'
+                            //        + htmlEncode(data[0])
+                            //        + '</h6>'
+                            //    + '</a>');
+
+                            // if the user list has been completed
+                            if (i >= users.length) {
+                                $('#connected-users').html("");
+                                // sort the auxList by name and fill the chat box with it
+                                for (var j = 0; j < auxList.length; j++) {
+                                    if (auxList[j][0] != undefined) {
+                                        console.log("auxList pos " + j + ": " + auxList[j][0] + " - " + auxList[j][1] + " - " + auxList[j][2]);
+                                        $('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + auxList[j][0] + '\'); return false;" class="list-group-item">'
+                                                + '<h5 class="list-group-item-title" style="padding: 0px 0px; margin-top: -5px; margin-bottom: 0px;">'
+                                                + htmlEncode(auxList[j][1] + " " + auxList[j][2])
+                                                + '</h5>'
+                                                + '<h6 class="list-group-item-title" style="padding: 0px 0px; margin-top: 5px; margin-bottom: -5px; color: #999999;">'
+                                                + htmlEncode(auxList[j][0])
+                                                + '</h6>'
+                                            + '</a>');
+                                    }
+                                }
+                            }
+                        },
+                        failure: function (errMsg) {
+                            console.log("error getting the name");
+                            $('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + users[i][0] + '\'); return false;" class="list-group-item">' + htmlEncode("NULL") + '</a>');
+                        }
+                    });
+                }
             }
+
+            //while (wait == true) { }
         }
     };
 });
@@ -294,6 +351,28 @@ function getPreviousChatController(from, to, message) {
     });
 
     console.log(" * FINISH LOADING MESSAGES");
+}
+
+// get a user's name by his username
+function getUserRealName(username) {
+    // copia esto donde lo necesites (aqui ya no se esta usando)
+    var returnVal = "";
+    jQuery.ajax({
+        type: 'GET',
+        url: '/api/ChatMessageApi/GetUserRealName',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: { username: username },
+        success: function (data) {
+            console.log("succesfully got the name '" + data + "'");
+            returnVal = data + "";
+        },
+        failure: function (errMsg) {
+            console.log("error getting the name");
+            returnVal = "NULL";
+        }
+    });
+    return returnVal;
 }
 
 // places the conversation loaded from the db in the chat box
