@@ -182,8 +182,6 @@ $(function () {
                     });
                 }
             }
-
-            //while (wait == true) { }
         }
     };
 });
