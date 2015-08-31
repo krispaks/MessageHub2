@@ -90,6 +90,24 @@ $(function () {
 
     // loads the username
     username = $('#username').val();
+
+    // attaches the users real name to the chat module
+    jQuery.ajax({
+        type: 'GET',
+        url: '/api/UserInfoApi/GetUserRealName',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: { email: username },
+        success: function (data) {
+            console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
+            $('#user-status').append("You're logged in as <strong>"+data[1]+" "+data[2]+"</strong>.<br><br>");
+        },
+        failure: function (errMsg) {
+            console.log("error getting the name");
+            $('#user-status').append("You're logged in as <strong>" + username + "</strong>.<br><br>");
+        }
+    });
+
     // function to be called by the hub to reset the list of connected users
     chat.client.resetUsers = function () {
         users = [[]];
@@ -262,8 +280,25 @@ function openChatWindow(param) {
         // sets its properties
         document.getElementById(clone.id).style.visibility = "visible";
         document.getElementById(clone.id).style.zIndex = layerIndex++;
+        //targetDiv.innerHTML = "Chat with " + param;
         var targetDiv = document.getElementById(clone.id).getElementsByClassName("chatTitle")[0];
-        targetDiv.innerHTML = "Chat with " + param;
+        
+        jQuery.ajax({
+            type: 'GET',
+            url: '/api/UserInfoApi/GetUserRealName',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: { email: param },
+            success: function (data) {
+                console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
+                targetDiv.innerHTML = "Chat with " + data[1] + " " + data[2];
+            },
+            failure: function (errMsg) {
+                console.log("error getting the name");
+                targetDiv.innerHTML = "Chat with " + param;
+            }
+        });
+
         var textdiv = document.createElement('div');
         textdiv.innerHTML = "" +
             "<form onsubmit=\"sendMessage(document.getElementById('msg_" + param + "').value, this.parentNode.parentNode.parentNode.parentNode.parentNode.id); document.getElementById('msg_" + param + "').value = ''; return false;\">" +
@@ -352,18 +387,18 @@ function getPreviousChatController(from, to, message) {
 }
 
 // get a user's name by his username
-function getUserRealName(username) {
+function getUserRealName(mail) {
     // copia esto donde lo necesites (aqui ya no se esta usando)
     var returnVal = "";
     jQuery.ajax({
         type: 'GET',
-        url: '/api/ChatMessageApi/GetUserRealName',
+        url: '/api/UserInfoApi/GetUserRealName',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
-        data: { username: username },
+        data: { email: mail },
         success: function (data) {
-            console.log("succesfully got the name '" + data + "'");
-            returnVal = data + "";
+            console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
+            returnVal = data[1] + " " + data[2];
         },
         failure: function (errMsg) {
             console.log("error getting the name");
