@@ -46,7 +46,8 @@
     <a data-ng-href="/Message/Detail/{{message.id}}" class="list-group-item">
         <h4 class="list-group-item-heading">{{message.title}}</h4>
         <h5 class="list-group-item-text">{{message.contentConcat}}</h5>
-        <h6 class="list-group-item-text">Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}</h6>
+        <hr style="margin-top: 10px; margin-bottom: 10px;"/>
+        <h6 class="list-group-item-text" style="color: #999999;">{{message.createdBy}} - <i>{{message.createdDate | date : mediumDate}}</i></h6>
     </a>
 </div>
 <pagination boundary-links="true" total-items="pageInfo.TotalRecords" ng-model="pageInfo.Page" items-per-page="pageInfo.Rows" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>

@@ -80,7 +80,7 @@ namespace MessageHub.Web.Controllers
 
                     Name = "Category 1 - A",
                     Description = "Subcategory A for Category 1",
-                    CreatedBy = 1,
+                    CreatedBy = "mail@mail.com",
                     CreatedDate = UtilityDate.HubDateTime()
                 };
 

@@ -26,7 +26,7 @@ namespace MessageHub.Test
 				Title = "Test",
 				Content = "Test",
 				SubCategoryId = 2,
-				CreatedBy = 1,
+				CreatedBy = "mail@mail.com",
 				CreatedDate = UtilityDate.HubDateTime()
 			});
 
@@ -42,7 +42,7 @@ namespace MessageHub.Test
 				Title = "Test",
 				Content = "Test",
 				SubCategoryId = 2,
-				CreatedBy = 1,
+				CreatedBy = "mail@mail.com",
 				CreatedDate = UtilityDate.HubDateTime()
 			});
 

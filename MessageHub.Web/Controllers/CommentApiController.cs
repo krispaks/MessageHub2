@@ -44,7 +44,7 @@ namespace MessageHub.Web.Controllers
                     Id = comm.Id,
                     MessageId = comm.MessageId,
                     Value = comm.Value,
-                    CreatedBy = "KPACA",
+                    CreatedBy = comm.CreatedBy,
                     CreatedDate = UtilityDate.HubDateString(comm.CreatedDate)
 
                 });
@@ -82,7 +82,8 @@ namespace MessageHub.Web.Controllers
 		        var comment = new Comment
 		        {
 			        Value = newComment.Value,
-					MessageId = newComment.MessageId
+                    MessageId = newComment.MessageId,
+                    CreatedBy = newComment.CreatedBy
 		        };
 
 				int value = _commentService.SaveComment(comment);

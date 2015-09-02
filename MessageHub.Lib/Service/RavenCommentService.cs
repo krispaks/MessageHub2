@@ -32,7 +32,7 @@ namespace MessageHub.Lib.Service
                 if (Validate(comment))
                 {
                     comment.CreatedDate = UtilityDate.HubDateTime();
-                    comment.CreatedBy = 1;
+                    comment.CreatedBy = comment.CreatedBy;
                     _commentRepository.Insert(comment);
                     retValue = _commentRepository.Save();
                 }

@@ -54,7 +54,7 @@ namespace MessageHub.Test
                 Title = "Test Service UoW",
                 Content = "Test Service UoW",
                 SubCategoryId = 1,
-                CreatedBy = 1,
+                CreatedBy = "mail@mail.com",
                 CreatedDate = UtilityDate.HubDateTime()
             });
         }
@@ -72,7 +72,7 @@ namespace MessageHub.Test
             // updates the content of the message
             origMsg.Title = "Test-Mod UoW";
             origMsg.Content = "Test-Mod UoW";
-            origMsg.ModifiedBy = 7;
+            origMsg.ModifiedBy = "mail@mail.com";
             origMsg.ModifiedDate = UtilityDate.HubDateTime();
 
             // saves it to the db
@@ -108,7 +108,7 @@ namespace MessageHub.Test
                 MessageId = 193,
                 Value = "Just another test comment",
                 Message = null,
-                CreatedBy = 1,
+                CreatedBy = "mail@mail.com",
                 CreatedDate = UtilityDate.HubDateTime()
             });
         }

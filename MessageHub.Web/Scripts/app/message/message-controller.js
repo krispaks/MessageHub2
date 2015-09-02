@@ -136,6 +136,7 @@
 					});
 
 		    $scope.SaveMessage = function (message) {
+		        message.createdBy = $('#username').val();
 		        console.log("message = " + message);
 				messageService.SaveMessage(message).$promise.then(
 					function () {
@@ -202,6 +203,7 @@
 			    //}
 
 			    $scope.SaveComment = function (comment) {
+			        comment.createdBy = $('#username').val();
 			        // the comment is saved onto the db
 			        commentService.SaveComment(comment).$promise.then(
 						function (data) {

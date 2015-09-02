@@ -9,7 +9,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="list-group-item-heading">{{message.title}}</h3>
-            Created by: {{message.createdBy}}, {{message.createdDate | date : mediumDate}}
+            Created by: {{message.createdBy}} - <i>{{message.createdDate | date : mediumDate}}</i>
         </div>
 
         <div class="panel-body">
@@ -48,12 +48,12 @@
                     </div>
 
                     <div class="list-group">
-                        <div class="list-group-item" on-scroll-show style="height: 350px; overflow: auto;">
+                        <div class="list-group-item" on-scroll-show style="max-height: 450px; overflow: auto;">
                             <h5 class="text-center" data-ng-show="comments.length <= 0">No comments<br></h5>
                             <div class="list-group" data-ng-repeat="comment in comments | orderBy: '-createdDate.toString()'"><!-- minus to invert order -->
                                 <div class="list-group-item" data-ng-hide="$index > (5 + numShown)">
                                     {{comment.value}}
-                                    <h6 class="list-group-item-text">{{comment.createdBy}}, {{comment.createdDate | date:'MM/dd/yyyy HH:mm'}}</h6>
+                                    <h6 class="list-group-item-text" style="color: #999999;">{{comment.createdBy}} - <i>{{comment.createdDate | date : mediumDate}} {{comment.createdDate | date:'HH:mm'}}</i></h6>
                                 </div>
                             </div>
                         </div>

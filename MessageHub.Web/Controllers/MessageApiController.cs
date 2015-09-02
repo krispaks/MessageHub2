@@ -19,6 +19,7 @@ namespace MessageHub.Web.Controllers
 	{
 		private IMessageService messageService = null;
 		private ILoggingService logger = null;
+        private UserInfoApiController userInfo = null;
 
 		public MessageApiController(IMessageService messageService, ILoggingService logger)
 		{
@@ -46,13 +47,16 @@ namespace MessageHub.Web.Controllers
 
 				var pagedResult = this.messageService.GetPagedMessageList(searchCriteriaDTO);
 
+                userInfo = new UserInfoApiController();
+
 				List<MessageListViewModel> searchResult = pagedResult.Data.ToList().Select(message => new MessageListViewModel
 				{
 					Id = message.Id,
 					Title = message.Title,
 					ContentConcat = message.Content.Length <= 192 ? message.Content : message.Content.Substring(0, 192) + "...",
 					//ContentConcat = message.Content,
-					CreatedBy = "KPACA",
+					//CreatedBy = message.CreatedBy,
+                    CreatedBy = userInfo.GetUserRealName(message.CreatedBy)[1] + " " + userInfo.GetUserRealName(message.CreatedBy)[2],
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				}).ToList();
 
@@ -87,6 +91,9 @@ namespace MessageHub.Web.Controllers
 			{
 
                 var message = this.messageService.GetMessage(id);
+
+                userInfo = new UserInfoApiController();
+
 				var vm = new MessageDetailViewModel
 				{
 					Message = new MessageViewModel
@@ -94,7 +101,7 @@ namespace MessageHub.Web.Controllers
 						Id = message.Id,
 						Title = message.Title,
 						Content = message.Content,
-						CreatedBy = "KPACA",
+                        CreatedBy = userInfo.GetUserRealName(message.CreatedBy)[1] + " " + userInfo.GetUserRealName(message.CreatedBy)[2],
 						CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 					}
 				};
@@ -122,7 +129,7 @@ namespace MessageHub.Web.Controllers
                     Title = newMessage.Title,
                     Content = newMessage.Content,
                     SubCategoryId = 1,
-                    CreatedBy = 1,
+                    CreatedBy = newMessage.CreatedBy,
                     CreatedDate = UtilityDate.HubDateTime()
                 };
 
