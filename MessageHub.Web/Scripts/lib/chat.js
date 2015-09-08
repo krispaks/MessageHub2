@@ -1,26 +1,11 @@
-﻿//define([function () {
-//    'use strict';
-//    console.log('chat script!');
-//}]);
-
+﻿
 var users = [[]];
 var username = null;
 var chat = null;
 var layerIndex = 10;
 
 $(function () {
-    // Reference the auto-generated proxy for the hub.
-
-    console.log("1st CALL - USERNAME: "+username);
-
     chat = $.connection.chatHub;
-    console.log('connected to chat from chat.js');
-
-    // Create a function that the hub can call back to display messages.
-    chat.client.addNewMessageToPage = function (name, message) {
-        // Add the message to the page.
-        $('#discussion').append('<li><strong>' + htmlEncode(name) + '</strong>: ' + htmlEncode(message) + '</li>');
-    };
 
     chat.client.addMessage = function (message, strFrom, strTo) {
         console.log("NEW MESSAGE: " + message + " [" + strFrom + " - " + strTo + "]");
@@ -78,14 +63,6 @@ $(function () {
     $.connection.hub.start().done(function () {
         // checks online users
         chat.server.getUsers();
-
-        // sends a new message to be broadcasted (its still general chat)
-        $('#sendmessage').click(function () {
-            // Call the Send method on the hub. 
-            chat.server.send($('#displayname').val(), $('#message').val());
-            // Clear text box and reset focus for next comment. 
-            $('#message').val('').focus();
-        });
     });
 
     // loads the username
@@ -112,11 +89,13 @@ $(function () {
     chat.client.resetUsers = function () {
         users = [[]];
     }
+
     // function to be called by the hub when a user connects and in the load of the page
     chat.client.userConnects = function (email, connection) {
         console.log(email + " is connected");
 
         var userPos = -1;
+
         // checks if the user is already in the list
         for(var i=0; i<users.length; i++){
             if (users[i][0] == email) {
@@ -124,6 +103,7 @@ $(function () {
                 userPos = i;
             }
         }
+
         // if the user is already in the list, we update the connection id
         if (userPos != -1) {
             users[userPos][1] = connection;
@@ -156,28 +136,24 @@ $(function () {
                         data: { email: users[i][0] },
                         success: function (data) {
                             console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0]+"'");
-                            //$('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + data[0] + '\'); return false;" class="list-group-item">' + htmlEncode(data[1] + " " + data[2]) + '</a>');
                             // include the user in the aux list to be able to sort
                             var alreadyIn = false;
                             for(var k = 0; k < auxList.length; k++){
                                 if(auxList[k][0] == data[0])
                                     alreadyIn = true;
                             }
+
                             if(alreadyIn == false)
                                 auxList[auxList.length] = ["" + data[0], "" + data[1], "" + data[2]];
-                            //$('#connected-users').append('<a href="#" onClick="openChatWindow(\'' + data[0] + '\'); return false;" class="list-group-item">'
-                            //        + '<h5 class="list-group-item-title" style="padding: 0px 0px; margin-top: -5px; margin-bottom: 0px;">'
-                            //        + htmlEncode(data[1] + " " + data[2])
-                            //        + '</h5>'
-                            //        + '<h6 class="list-group-item-title" style="padding: 0px 0px; margin-top: 5px; margin-bottom: -5px; color: #999999;">'
-                            //        + htmlEncode(data[0])
-                            //        + '</h6>'
-                            //    + '</a>');
 
                             // if the user list has been completed
                             if (i >= users.length) {
                                 $('#connected-users').html("");
-                                // sort the auxList by name and fill the chat box with it
+                                // sort the auxList by name
+                                auxList.sort(function (a, b) {
+                                    return (a[1] + " " + a[2] < b[1] + " " + b[2] ? -1 : (a[1] + " " + a[2] > b[1] + " " + b[2] ? 1 : 0));
+                                });
+                                // fill the chat box with the sorted list
                                 for (var j = 0; j < auxList.length; j++) {
                                     if (auxList[j][0] != undefined) {
                                         console.log("auxList pos " + j + ": " + auxList[j][0] + " - " + auxList[j][1] + " - " + auxList[j][2]);
@@ -204,9 +180,11 @@ $(function () {
     };
 });
 
+// a user sends a message to another user
 function addMsg(message, strFrom, strTo) {
     var messageList;
     var color;
+
     if (strFrom != username) {
         // creates a new div that contains the new message and appends it to the parent node
         messageList = document.getElementById("" + strFrom).getElementsByClassName("message-list")[0];
@@ -216,6 +194,7 @@ function addMsg(message, strFrom, strTo) {
         messageList = document.getElementById("" + strTo).getElementsByClassName("message-list")[0];
         color = "9acc3d";
     }
+
     // fills the div with its content
     console.log("content = " + messageList.textContent);
     var newcontent = document.createElement('div');
@@ -224,10 +203,9 @@ function addMsg(message, strFrom, strTo) {
     messageList.appendChild(newcontent.firstChild);
     // scrolls the div to the bottom (so the new messages are seen)
     messageList.parentNode.scrollTop = messageList.parentNode.scrollHeight;
-
-    console.log(" * ADDEED A MESSAGE");
 }
 
+// splits the message to fit the chat window
 function splitMsg(message, color) {
     var msgReturn = '';
     var msgAux = '';
@@ -299,6 +277,7 @@ function openChatWindow(param) {
             }
         });
 
+        // lower part of the window (text input, send button)
         var textdiv = document.createElement('div');
         textdiv.innerHTML = "" +
             "<form onsubmit=\"sendMessage(document.getElementById('msg_" + param + "').value, this.parentNode.parentNode.parentNode.parentNode.parentNode.id); document.getElementById('msg_" + param + "').value = ''; return false;\">" +
@@ -386,9 +365,9 @@ function getPreviousChatController(from, to, message) {
     console.log(" * FINISH LOADING MESSAGES");
 }
 
-// get a user's name by his username
+// get a user's real name (first and last) by his username
 function getUserRealName(mail) {
-    // copia esto donde lo necesites (aqui ya no se esta usando)
+    // (not used, but kept to be used where needed)
     var returnVal = "";
     jQuery.ajax({
         type: 'GET',
@@ -408,7 +387,7 @@ function getUserRealName(mail) {
     return returnVal;
 }
 
-// places the conversation loaded from the db in the chat box
+// place the conversation loaded from the db in the chat box
 function fillChatBox(content, id) {
     console.log("fill chat box with this: " + JSON.stringify(content));
 
@@ -417,12 +396,8 @@ function fillChatBox(content, id) {
 
     // process each entry of the json
     jQuery.each(content, function (i, val) {
-        //var printLine = val.from + ": " + val.content;
         var printLine = val.content;
-        // if the chain is too long, split it in lines
-        if (printLine.length >= 20) {
 
-        }
         // create a new globe for the message
         var newcontent = document.createElement('div');
         var color = val.from == username ? "c9d4b0" : "b0bdcf";

@@ -43,10 +43,6 @@ namespace MessageHub.Web.Controllers
         {
             var msglist = this.chatMessageService.GetChatMessageList(from, to);
 
-            //List<string> myList = new List<string>() { "test1", "test2" };
-
-            //return this.Json(new List<string>( 0 ),JsonRequestBehavior.AllowGet);
-
             return msglist;
         }
     }

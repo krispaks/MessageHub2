@@ -1,21 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @Html.Hidden("username", @User.Identity.GetUserName())
 
-<div class="nav navbar-nav navbar-left" id="user-status">
-    <!--You're logged in as <strong>@User.Identity.GetUserName()</strong>.<br><br>-->
-</div>
+<div class="nav navbar-nav navbar-left" id="user-status"></div>
 
 <div class="nav navbar-nav navbar-left" style="width: 100%;">
-
     <div class="list-group" id="connected-users" style="width: 100%;"></div>
-<!--
-    <input type="text" id="message" />
-    <input type="button" id="sendmessage" value="Send" />
-    <input type="hidden" id="displayname" />
-
-    <ul id="discussion">
-    </ul>
--->
 </div>
 
 <div class="panel panel-default" id="FloatingChat" style="position:absolute; width:350px; left:100px; top:100px; visibility:hidden;">
@@ -30,7 +19,6 @@
     </div>
 
     <div id="floatingContent" class="panel-body" style="padding:3px; background-color:#EEEEEE; color:#333333;">
-        <!-- place your HTML content here-->
 	    <div class="list-group-item" id="overflow-chat" style="height: 250px; overflow: auto;">
             <!-- here goes the content of the chat window -->
             <div class="message-list"></div>
@@ -39,6 +27,5 @@
         <div class="list-group-item">
             <div class="text-box"></div>
         </div>
-        <!-- End of content area -->
     </div>
 </div>

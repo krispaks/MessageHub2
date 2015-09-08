@@ -23,12 +23,7 @@ namespace MessageHub.Web.Hubs
 
     public class ChatHub : Hub
     {
-        // sends a message to all users
-        //public void Send(string name, string message)
-        //{
-        //    Clients.All.addNewMessageToPage(name, message);
-        //}
-        
+
         public override Task OnConnected()
         {
             int element = -1;
@@ -42,6 +37,7 @@ namespace MessageHub.Web.Hubs
             if(element == -1)
             {
                 UserHandler.ConnectionIds.Add(new string[2] { Context.User.Identity.Name, Context.ConnectionId });
+
             // if it was, replaces the connection id for the user
             }
             else
@@ -53,7 +49,6 @@ namespace MessageHub.Web.Hubs
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            //UserHandler.ConnectionIds.Remove(new string[2] {Context.User.Identity.Name, Context.ConnectionId});
             int element = -1;
             // checks wheres the user in the list
             for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
@@ -66,25 +61,13 @@ namespace MessageHub.Web.Hubs
             if(element != -1)
                 UserHandler.ConnectionIds.ElementAt(element)[1] = "NULL";
 
-            // returns the complete list of users
-            //for (int i = 0; i < UserHandler.ConnectionIds.Count; i++)
-            //{
-            //    // returns the info for the user if the status of the connection is not NULL
-            //    if (!UserHandler.ConnectionIds.ElementAt(i)[1].Equals("NULL"))
-            //        Clients.All.userConnects(UserHandler.ConnectionIds.ElementAt(i)[0], UserHandler.ConnectionIds.ElementAt(i)[1]);
-            //}
             GetUsers();
 
             return base.OnDisconnected(stopCalled);
         }
 
         // appends the name of each of the users on the client
-        // (on the final version it should check if the user is online or not)
         public void GetUsers() {
-
-            // adds the new user connected to the list of active users
-            // --- userList.Add(new string[2] {userName, Context.ConnectionId});
-
             // resets the list of connected users
             Clients.All.resetUsers();
 
@@ -95,20 +78,6 @@ namespace MessageHub.Web.Hubs
                 if(!UserHandler.ConnectionIds.ElementAt(i)[1].Equals("NULL"))
                     Clients.All.userConnects(UserHandler.ConnectionIds.ElementAt(i)[0], UserHandler.ConnectionIds.ElementAt(i)[1]);
             }
-
-            //ApplicationDbContext context = new ApplicationDbContext();
-            //var users = context.Users.ToList();
-            //foreach (var user in userList)
-            //{   
-            //    Clients.All.userConnects(user.UserName);
-            //}
-
-            /*string userList = "";
-            foreach (var user in usus)
-            {
-                //Clients.All.addNewMessageToPage(user.UserName, "");
-                userList += user.UserName + ", ";
-            }*/
         }
 
         // creates a private group for two users
@@ -137,9 +106,6 @@ namespace MessageHub.Web.Hubs
         // server hub method "send"
         public void Send(string message, string strFrom, string strTo)
         {
-            // store the message in the db
-            //ChatRaven.StoreMessage(message, strFrom, strTo);
-
             // send the message to both users using the group
             string groupName = GetUniqueGroupName(strFrom, strTo);
 
