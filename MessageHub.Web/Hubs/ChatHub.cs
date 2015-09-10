@@ -44,6 +44,10 @@ namespace MessageHub.Web.Hubs
             {
                 UserHandler.ConnectionIds.ElementAt(element)[1] = Context.ConnectionId;
             }
+
+            // returns the name of the user (for him to know who he is)
+            whoAmI();
+
             return base.OnConnected();
         }
 
@@ -64,6 +68,11 @@ namespace MessageHub.Web.Hubs
             GetUsers();
 
             return base.OnDisconnected(stopCalled);
+        }
+
+        // returns the username of the connected user
+        public void whoAmI() {
+            Clients.Caller.whoami(Context.User.Identity.Name);
         }
 
         // appends the name of each of the users on the client

@@ -66,24 +66,28 @@ $(function () {
     });
 
     // loads the username
-    username = $('#username').val();
+    chat.client.whoami = function (iam) {
+        // sets the user name
+        username = iam;
+        console.log("who am i = " + username);
 
-    // attaches the users real name to the chat module
-    jQuery.ajax({
-        type: 'GET',
-        url: '/api/UserInfoApi/GetUserRealName',
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        data: { email: username },
-        success: function (data) {
-            console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
-            $('#user-status').append("You're logged in as <strong>"+data[1]+" "+data[2]+"</strong>.<br><br>");
-        },
-        failure: function (errMsg) {
-            console.log("error getting the name");
-            $('#user-status').append("You're logged in as <strong>" + username + "</strong>.<br><br>");
-        }
-    });
+        // attaches the users real name to the chat module
+        jQuery.ajax({
+            type: 'GET',
+            url: '/api/UserInfoApi/GetUserRealName',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: { email: username },
+            success: function (data) {
+                console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
+                $('#user-status').append("You're logged in as <strong>"+data[1]+" "+data[2]+"</strong>.<br><br>");
+            },
+            failure: function (errMsg) {
+                console.log("error getting the name");
+                $('#user-status').append("You're logged in as <strong>" + username + "</strong>.<br><br>");
+            }
+        });
+    }
 
     // function to be called by the hub to reset the list of connected users
     chat.client.resetUsers = function () {
