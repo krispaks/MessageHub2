@@ -8,8 +8,9 @@
     </div>-->
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="list-group-item-heading">{{message.title}}</h3>
+            <h4 class="list-group-item-heading" style="color: #555">{{message.title | uppercase}}</h4>
             Created by: {{message.createdBy}} - <i>{{message.createdDate | date : mediumDate}}</i>
+            <hr style="margin-top: 15px; margin-bottom: 0px;"/>            
         </div>
 
         <div class="panel-body">
@@ -33,7 +34,8 @@
 
             <div class="list-group">
                 <div class="list-group-item active">
-                    Comments
+                    COMMENTS
+                    <hr style="margin-top: 10px; margin-bottom: 0px;"/>
                 </div>
 
                 <div class="list-group-item" data-ng-controller="CommentListCtrl">

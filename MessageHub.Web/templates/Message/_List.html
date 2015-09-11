@@ -1,6 +1,7 @@
 ﻿<div class="panel panel-default">
     <div class="panel-heading">
-        <h4 class="list-group-item-heading">Search</h4>
+        <h4 class="list-group-item-heading">SEARCH</h4>
+        <hr style="margin-top: 13px; margin-bottom: 0px;"/>
     </div>
 
     <div class="panel-body">
@@ -44,7 +45,7 @@
 
 <div class="list-group" data-ng-repeat="message in messages">
     <a data-ng-href="/Message/Detail/{{message.id}}" class="list-group-item">
-        <h4 class="list-group-item-heading">{{message.title}}</h4>
+        <h4 class="list-group-item-heading" style="margin-top: 5px; color: #555">{{message.title | uppercase}}</h4>
         <h5 class="list-group-item-text">{{message.contentConcat}}</h5>
         <hr style="margin-top: 10px; margin-bottom: 10px;"/>
         <h6 class="list-group-item-text" style="color: #999999;">{{message.createdBy}} - <i>{{message.createdDate | date : mediumDate}}</i></h6>
