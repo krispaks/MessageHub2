@@ -50,7 +50,7 @@ namespace MessageHub.Lib.Repository
             IQueryable<TEntity> query = null;
 
             // open a new session on the documentStore defined at the UoW
-            session = RavenMessageUoW.documentStore.OpenSession();
+            session = RavenChatMessageUoW.documentStore.OpenSession();
 
             int start = 0;
             while (true)
@@ -72,7 +72,7 @@ namespace MessageHub.Lib.Repository
         public void Insert(TEntity entity)
         {
             // open a new session on the documentStore defined at the UoW
-            session = RavenMessageUoW.documentStore.OpenSession();
+            session = RavenChatMessageUoW.documentStore.OpenSession();
 
             session.Store(entity);
         }
@@ -80,7 +80,7 @@ namespace MessageHub.Lib.Repository
         public void Delete(int id)
         {
             // open a new session on the documentStore defined at the UoW
-            session = RavenMessageUoW.documentStore.OpenSession();
+            session = RavenChatMessageUoW.documentStore.OpenSession();
 
             var message = session.Load<TEntity>(id);
             session.Delete(message);
@@ -89,7 +89,7 @@ namespace MessageHub.Lib.Repository
         public void Update(TEntity entity)
         {
             // open a new session on the documentStore defined at the UoW
-            session = RavenMessageUoW.documentStore.OpenSession();
+            session = RavenChatMessageUoW.documentStore.OpenSession();
             session.Store(entity);
         }
 

@@ -55,6 +55,7 @@ namespace MessageHub.Lib.Service
                 this._logService.Log("Start GetChatMessageList");
 
                 // gets all the chat messages from the db
+                //_uow.ChatMessageRavenRepositoryRepository.Context.Advanced.DocumentStore.Conventions.AllowMultipuleAsyncOperations = true;
                 var chatmessages = _uow.ChatMessageRavenRepositoryRepository.Get();
                 // filter the results
                 chatmessages = chatmessages.Where(x => ((x.From == from) && (x.To == to)) || ((x.From == to) && (x.To == from)));

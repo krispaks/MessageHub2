@@ -54,8 +54,18 @@
                         </div>
 
                         <div class="panel-body">
-                            Notifications and stuff, yo
+                            <div class="list-group" id="notification-list" style="width: 100%;"></div>
                         </div>
+
+    <!--
+    <div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion">
+        </ul>
+    </div>
+    -->
                     </div>
                 </div>
             </div>
@@ -74,6 +84,7 @@
         <!-- ? --><script src="~/signalr/hubs"></script>
 
         <script src="~/Scripts/lib/chat.js"></script>
+<script src="~/Scripts/lib/notifications.js"></script>
 <!-- hasta aqui -->
     </body>
 </html>

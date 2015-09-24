@@ -11,5 +11,6 @@ namespace MessageHub.Lib.Service
 	{
 		int SaveComment(Comment comment);
         IEnumerable<Entity.Comment> GetComments(int id);
-	}
+        IEnumerable<Entity.Comment> GetAllComments();
+    }
 }

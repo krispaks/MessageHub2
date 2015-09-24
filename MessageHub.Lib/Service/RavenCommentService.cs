@@ -76,6 +76,28 @@ namespace MessageHub.Lib.Service
             }
         }
 
+        public IEnumerable<Entity.Comment> GetAllComments()
+        {
+            try
+            {
+                this._loggingService.Log("Start GetComments");
+
+                // gets the complete list of comments
+                var comments = _commentRepository.Get();
+                return comments;
+
+            }
+            catch (Exception ex)
+            {
+                this._loggingService.Log(string.Format("Error at GetComments : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._loggingService.Log("End GetComments");
+            }
+        }
+
         private bool Validate(Comment comment)
         {
             return true;

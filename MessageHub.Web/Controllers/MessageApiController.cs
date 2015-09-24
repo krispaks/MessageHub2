@@ -11,6 +11,7 @@ using MessageHub.Web.Models;
 using MessageHub.Lib.Entity;
 using Newtonsoft.Json.Linq;
 using MessageHub.Lib.DTO;
+using MessageHub.Web.Hubs;
 
 namespace MessageHub.Web.Controllers
 {
@@ -20,6 +21,8 @@ namespace MessageHub.Web.Controllers
 		private IMessageService messageService = null;
 		private ILoggingService logger = null;
         private UserInfoApiController userInfo = null;
+
+        private NotificationHub notif = null;
 
 		public MessageApiController(IMessageService messageService, ILoggingService logger)
 		{
@@ -59,6 +62,22 @@ namespace MessageHub.Web.Controllers
                     CreatedBy = userInfo.GetUserRealName(message.CreatedBy)[1] + " " + userInfo.GetUserRealName(message.CreatedBy)[2],
 					CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
 				}).ToList();
+
+                // connects to the notification hub 
+                //string[] notifList = new string[5];
+                //int iterator = 0;
+                //foreach (var item in searchResult) {
+                //    if(iterator < 5){
+                //        notifList[iterator] = item.Title + " *** ";
+                //    }else{
+                //        break;
+                //    }
+                //    iterator += 1;
+                //}
+                //var context = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+                //context.Clients.
+                //notif = new NotificationHub();
+                //notif.NotificationQuery(notifList);
 
 				var vm = new PagedResultViewModel<MessageListViewModel>
 				{
@@ -153,5 +172,9 @@ namespace MessageHub.Web.Controllers
 		public void Delete(int id)
 		{
 		}
+
+        public string NotificationQuery() {
+            return "THESE ARE THE NOTIFS";
+        }
 	}
 }

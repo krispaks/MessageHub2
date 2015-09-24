@@ -254,7 +254,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="Hubs\ChatRaven.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Migrations\201508241633262_Firstname.cs" />
     <Compile Include="Migrations\201508241633262_Firstname.Designer.cs">
       <DependentUpon>201508241633262_Firstname.cs</DependentUpon>
@@ -372,6 +372,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\lib\chat.js" />
+    <Content Include="Scripts\lib\notifications.js" />
     <Content Include="Scripts\lib\pubsub.js" />
     <Content Include="Scripts\lib\ui-bootstrap.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />

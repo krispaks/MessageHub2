@@ -37,8 +37,26 @@ $(function () {
                 // sets its properties
                 document.getElementById(clone.id).style.visibility = "visible";
                 document.getElementById(clone.id).style.zIndex = layerIndex++;
+
+                //targetDiv.innerHTML = "Chat with " + param;
                 var targetDiv = document.getElementById(clone.id).getElementsByClassName("chatTitle")[0];
-                targetDiv.innerHTML = "Chat with " + strFrom;
+
+                jQuery.ajax({
+                    type: 'GET',
+                    url: '/api/UserInfoApi/GetUserRealName',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    data: { email: strFrom },
+                    success: function (data) {
+                        console.log("succesfully got the name '" + data[1] + " " + data[2] + "' for '" + data[0] + "'");
+                        targetDiv.innerHTML = "Chat with " + data[1] + " " + data[2];
+                    },
+                    failure: function (errMsg) {
+                        console.log("error getting the name");
+                        targetDiv.innerHTML = "Chat with " + param + "(ERROR)";
+                    }
+                });
+
                 // adds the text area
                 var textdiv = document.createElement('div');
                 //textdiv.innerHTML = "<input type=\"text\" id=\"cosa\" value=\"\"/><input type=\"button\" id=\"sendmessage\" value=\"Send\" onClick=\"sendMessage(document.getElementById('cosa').value, this.parentNode.parentNode.parentNode.parentNode.parentNode.id);\" />";
