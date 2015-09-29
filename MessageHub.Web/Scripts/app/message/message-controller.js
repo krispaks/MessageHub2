@@ -124,6 +124,12 @@
 		    $scope.categoryList = [];
 		    $scope.subcategoryList = [];
 
+		    // connection with the hub for allowing real-time notifications
+		    var notifications = $.connection.notificationHub;
+		    $.connection.hub.start().done(function () {
+		        console.log("connection with the hub up and running");
+		    });
+
 		    // gets the list of categories and populates the categories and subcategories scope vars
 		    categoryService.GetCateories().$promise.then(
 					function (data) {
@@ -140,6 +146,9 @@
 		        console.log("message = " + message);
 				messageService.SaveMessage(message).$promise.then(
 					function () {
+                        // updates the notification list for all users
+					    notifications.server.updateWithNewNotification();
+
 						$location.url('/Message');
 					},
 					function (reason) {
@@ -184,6 +193,12 @@
 			    commentService.GetComments($routeParams.id).$promise.then(function (data) {
 			        $scope.comments = data;
 			    });
+
+			    // connection with the hub for allowing real-time notifications
+			    var notifications = $.connection.notificationHub;
+			    $.connection.hub.start().done(function () {
+			        console.log("connection with the hub up and running");
+			    });
                 
                 // disarm them jsons (actually not used)
 			    //function disarm() {
@@ -207,6 +222,9 @@
 			        // the comment is saved onto the db
 			        commentService.SaveComment(comment).$promise.then(
 						function (data) {
+						    // updates the notification list for all users
+						    notifications.server.updateWithNewNotification();
+
 						    // empty the comment box
 						    $("#newCommentBox").val('');
 

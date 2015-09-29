@@ -51,8 +51,9 @@
         <h6 class="list-group-item-text" style="color: #999999;">{{message.createdBy}} - <i>{{message.createdDate | date : mediumDate}}</i></h6>
     </a>
 </div>
-<pagination boundary-links="true" total-items="pageInfo.TotalRecords" ng-model="pageInfo.Page" items-per-page="pageInfo.Rows" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+
 
 <div>
-    <a data-ng-href="/Message/Create" class="btn btn-primary" style="float:right;">Create</a>
+    <pagination boundary-links="true" total-items="pageInfo.TotalRecords" ng-model="pageInfo.Page" items-per-page="pageInfo.Rows" ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    <a data-ng-href="/Message/Create" class="btn btn-primary" style="float:right; position: relative; top: 50%; transform: translateY(50%);">Create</a>
 </div>

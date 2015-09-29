@@ -5,25 +5,28 @@ $(function () {
 
     // receives the list of notifications from the hub
     notifications.client.notificationList = function (notifications) {
+        // empties the list of notifications
+        $('#notification-list').html("");
+
         // for each of the notifications, generates an entry in the list
         for (var i = 0; i < notifications.length; i++) {
             // different entry for messages and for comments
             if(notifications[i][4] == "message"){
-                publishNotification(notifications[i][1], "New post published ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-file" aria-hidden="true"></span>');
+                publishNotification(i, notifications[i][1], "New post published ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-file" aria-hidden="true"></span>');
             } else if (notifications[i][4] == "comment") {
-                publishNotification(notifications[i][1], "New comment on ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>');
+                publishNotification(i, notifications[i][1], "New comment on ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>');
             }
         }
     };
 
-    publishNotification = function (name, text, title, id, date, icon) {
+    publishNotification = function (position, name, text, title, id, date, icon) {
         // format the date to be shown in the entry
         var dateFormat = new Date(date);
         var dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
         // generates the entry for each one of the notifications
         $('#notification-list').append(''
-            + '<a href="/Message/Detail/'+id+'" class="list-group-item">'
+            + '<a href="/Message/Detail/' + id + '" class="list-group-item" id="row' + position + '">'
                 + '<div class="row">'
                     + '<div class="col-sm-2" align="right">'
                         + '<h4 class="list-group-item-title"><font color=BBBBBB>'
@@ -46,11 +49,28 @@ $(function () {
                     + '</div>'
                 + '</div>'
             + '</a>'
-        + '');
+        + '')
     };
 
-    updateNotificationList = function () {
-        console.log("Notification List updated");
+    notifications.client.updateNotificationList = function (notifications) {
+        // hides the last element in the list
+        $("#row4").slideToggle("slow");
+        
+        // empties the list of notifications
+        $('#notification-list').html("");
+
+        // for each of the notifications, generates an entry in the list
+        for (var i = 0; i < notifications.length; i++) {
+            // different entry for messages and for comments
+            if (notifications[i][4] == "message") {
+                publishNotification(i, notifications[i][1], "New post published ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-file" aria-hidden="true"></span>');
+            } else if (notifications[i][4] == "comment") {
+                publishNotification(i, notifications[i][1], "New comment on ", notifications[i][2], notifications[i][3], notifications[i][0], '<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>');
+            }
+        }
+        
+        $('#row0').hide();
+        $("#row0").slideToggle("slow");
     }
 
     //notifications.client.broadcastMessage = function (name, message) {

@@ -20,7 +20,8 @@ namespace MessageHub.Web.Hubs
 
         public override Task OnConnected()
         {
-            List<string[]> lista = NotificationQuery();
+            List<string[]> lista = new List<string[]>();
+            lista = NotificationQuery();
 
             Clients.Caller.notificationList(lista);
 
@@ -32,10 +33,13 @@ namespace MessageHub.Web.Hubs
             return base.OnDisconnected(stopCalled);
         }
 
-        public void Send(string name, string message)
+        public void updateWithNewNotification()
         {
-            // Call the broadcastMessage method to update clients.
-            Clients.All.broadcastMessage(name, message);
+            List<string[]> lista = new List<string[]>();
+            lista = NotificationQuery();
+
+            // update the list of notifications for all the clients connected
+            Clients.All.updateNotificationList(lista);
         }
 
         public List<string[]> NotificationQuery()
