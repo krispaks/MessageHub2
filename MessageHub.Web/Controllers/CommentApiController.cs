@@ -76,14 +76,14 @@ namespace MessageHub.Web.Controllers
 		public HttpResponseMessage Post(CommentViewModel newComment)
         {
 			HttpResponseMessage response = new HttpResponseMessage();
-
+            
 	        try
 	        {
 		        var comment = new Comment
 		        {
 			        Value = newComment.Value,
                     MessageId = newComment.MessageId,
-                    CreatedBy = newComment.CreatedBy
+                    CreatedBy = User.Identity.Name
 		        };
 
 				int value = _commentService.SaveComment(comment);

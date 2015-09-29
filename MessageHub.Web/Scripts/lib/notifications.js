@@ -49,6 +49,10 @@ $(function () {
         + '');
     };
 
+    updateNotificationList = function () {
+        console.log("Notification List updated");
+    }
+
     //notifications.client.broadcastMessage = function (name, message) {
     //    console.log("received this message '"+message+"' from "+name);
     //    // Html encode display name and message. 

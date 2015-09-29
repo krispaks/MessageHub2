@@ -7,10 +7,16 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>
-            @Html.ActionLink("Account", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+            <!--@Html.ActionLink("Account", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })-->
+            @{
+               var link = Html.ActionLink("{0}", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" }).ToString();
+               var url = string.Format(link, "<span class=\"glyphicon glyphicon-user\" aria-hidden=\"true\"></span> Account");
+            }
+            @Html.Raw(url)
+
         </li>
         <li>
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            <a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log off</a>
         </li>
     </ul>
     }
