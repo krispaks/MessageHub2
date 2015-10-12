@@ -12,5 +12,7 @@ namespace MessageHub.Web.Models
 		public string Content { get; set; }
 		public string CreatedBy { get; set; }
 		public string CreatedDate { get; set; }
+        public int SubCategoryId { get; set; }
+        public string Tags { get; set; }
 	}
 }

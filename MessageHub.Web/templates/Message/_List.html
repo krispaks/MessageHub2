@@ -26,7 +26,10 @@
 
             <div class="row">
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" placeholder="Tags" data-ng-model="searchCriteria.Tag" />
+                    <input type="text" class="form-control" data-role="tagsinput" placeholder="Tags (separate with commas)" id="tags" data-ng-model="searchCriteria.Tag" />
+                    <script>
+                        var tags = $("#tags").tagsinput('items');
+                    </script>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" data-ng-model="searchSubcategory" data-ng-options="subCategory.id as subCategory.name for subCategory in subcategoryList | secondDropdown: searchCategory" style="float:right;">

@@ -113,10 +113,30 @@ namespace MessageHub.Lib.Repository
 
             // first search field: title [use of wildcards for 'contains' kinda like functionality]
             // second search field: category [it's suposed to be exact as the parameter passed]
-            // third search field will be TAGS when they're implemented
             query = query
                 .Search(filterTitleExpression, "*" + filterTitleField + "*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards)
                 .Search(filterSubCategoryExpression, "" + filterSubCategoryField, options: SearchOptions.And);
+
+            // filters the results for each one of the tags
+            if (filterTagsField != null)
+            {
+                List<TEntity> queryTags = null;
+                // separates each one of the tags entered
+                foreach (var tag in filterTagsField.Split(',').ToList<string>())
+                {
+                    // query to retrieve the results for each specified tag
+                    List<TEntity> queryAux = query
+                        .Search(filterTagsExpression, "*" + tag + "*", escapeQueryOptions: EscapeQueryOptions.AllowAllWildcards, options: SearchOptions.And).ToList();
+
+                    // intersects the results for each of the tags to see which ones they have in common
+                    if (queryTags == null)
+                        queryTags = queryAux;
+                    else
+                        queryTags = queryTags.Intersect(queryAux).ToList();
+                }
+                // returns the common results
+                query = queryTags.AsQueryable();
+            }
 
             IncludeProperties(ref query, includeProperties);
             var orderedQuery = OrderBy(query, orderBy);

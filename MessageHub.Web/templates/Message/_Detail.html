@@ -27,7 +27,11 @@
 
             Tags:
             <div class="list-group">
-                <div class="list-group-item">
+                <div class="list-group-item" data-ng-show="message.tags != null">
+                    <span data-ng-repeat="tag in message.tags"><span class="label label-default">{{tag}}</span> </span>
+                </div>
+
+                <div class="list-group-item" data-ng-show="message.tags == null">
                     No tags specified
                 </div>
             </div>

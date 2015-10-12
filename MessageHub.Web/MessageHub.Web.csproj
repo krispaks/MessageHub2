@@ -301,6 +301,7 @@
       <DependentUpon>MessageHubDB.mdf</DependentUpon>
     </Content>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\bootstrap-tagsinput.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -371,6 +372,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput-angular.js" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput-angular.min.js" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput.js" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput.min.js" />
     <Content Include="Scripts\lib\chat.js" />
     <Content Include="Scripts\lib\notifications.js" />
     <Content Include="Scripts\lib\pubsub.js" />
@@ -422,6 +427,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\_ChatPartial.cshtml" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput.less" />
+    <Content Include="Scripts\lib\bootstrap-tagsinput.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

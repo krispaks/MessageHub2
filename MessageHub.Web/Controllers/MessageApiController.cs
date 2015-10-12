@@ -101,6 +101,7 @@ namespace MessageHub.Web.Controllers
                         Id = message.Id,
                         Title = message.Title,
                         Content = message.Content,
+                        Tags = message.Tags,
                         CreatedBy = userInfo.GetUserRealName(message.CreatedBy)[1] + " " + userInfo.GetUserRealName(message.CreatedBy)[2],
                         CreatedDate = UtilityDate.HubDateString(message.CreatedDate)
                     }
@@ -128,7 +129,8 @@ namespace MessageHub.Web.Controllers
                 {
                     Title = newMessage.Title,
                     Content = newMessage.Content,
-                    SubCategoryId = 1,
+                    SubCategoryId = newMessage.SubCategoryId,
+                    Tags = newMessage.Tags.ToLower(),
                     CreatedBy = User.Identity.Name,
                     CreatedDate = UtilityDate.HubDateTime()
                 };

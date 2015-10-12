@@ -13,12 +13,14 @@ requirejs.config({
 		directiveResource: '../app/directives',
 		pubsub: 'pubsub',
 		uiBootstrap: 'ui-bootstrap',
+		bootstrapTagsinput: 'bootstrap-tagsinput',
 		moment: '../moment'
 	},
 	shim: {
 		'angular': { 'exports': 'angular' },
 		'angularRoute': ['angular'],
 		'angularResource': ['angular'],
-		'uiBootstrap': ['angular']
+		'uiBootstrap': ['angular'],
+		'bootstrapTagsinput': ['angular']
 	}
 });

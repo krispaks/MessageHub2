@@ -190,7 +190,7 @@ namespace MessageHub.Lib.Service
                     filterTitleField: searchCriteria.Title,
                     filterSubCategoryExpression: x => x.SubCategoryId,
                     filterSubCategoryField: ""+searchCriteria.SubCategory,
-                    filterTagsExpression: x => x.Category, /***  it's not suposed to be category, but there's no tags in here yet! ***/
+                    filterTagsExpression: x => x.Tags,
                     filterTagsField: searchCriteria.Tag);
                 
                 return paged;

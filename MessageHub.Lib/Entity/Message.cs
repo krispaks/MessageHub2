@@ -22,8 +22,8 @@ namespace MessageHub.Lib.Entity
 		[Required]
 		public string Content { get; set; }
 
+        public string Tags { get; set; }
 		public int SubCategoryId { get; set; }
-
 		public virtual Category Category { get; set; }
 		public virtual ICollection<Comment> Comments { get; set; }
 	}

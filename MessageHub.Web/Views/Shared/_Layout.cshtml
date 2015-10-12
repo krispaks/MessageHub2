@@ -54,6 +54,7 @@
                         </div>
 
                         <div class="panel-body">
+<a href='@Url.Action("Detail", "Message", new {id = 1121}, Request.Url.Scheme)'>Link Text</a>
                             <div class="list-group" id="notification-list" style="width: 100%;"></div>
                         </div>
 
@@ -82,6 +83,9 @@
 <!-- OJO quitar esta mierda de aqui -->
         <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
         <!-- ? --><script src="~/signalr/hubs"></script>
+
+<link rel="stylesheet" href="~/Content/bootstrap-tagsinput.css" />
+<script src="~/Scripts/lib/bootstrap-tagsinput.js"></script>
 
         <script src="~/Scripts/lib/chat.js"></script>
 <script src="~/Scripts/lib/notifications.js"></script>

@@ -26,7 +26,18 @@ $(function () {
 
         // generates the entry for each one of the notifications
         $('#notification-list').append(''
-            + '<a href="/Message/Detail/' + id + '" class="list-group-item" id="row' + position + '">'
+
+            //+ '<button type="button" id="foo' + position + '" onclick="myFunction()" data-url="@Url.Action("Action", "Controller")">Click me</button>'
+            //+ '<script>'
+            //+ 'function myFunction() {'
+            //    + 'var url = $(this).data("url");'
+            //    + 'url = "/Message/Detail/1409";'
+            //    + 'console.log("url = "+url);'
+            //    + 'window.location.href = url;'
+            //+ '}'
+            //+ '</script>'
+
+            + '<a href="/Message/Detail/' + id + '" class="list-group-item" id="row' + position + '">'                
                 + '<div class="row">'
                     + '<div class="col-sm-2" align="right">'
                         + '<h4 class="list-group-item-title"><font color=BBBBBB>'
@@ -51,6 +62,17 @@ $(function () {
             + '</a>'
         + '')
     };
+
+    $("#foo0").click(function () {
+        console.log("click");
+        var url = $(this).data('url');
+        // do something with the url client side variable, for example redirect
+        window.location.href = url;
+    });
+
+    function myFunction() {
+        console.log("my function");
+    }
 
     notifications.client.updateNotificationList = function (notifications) {
         // hides the last element in the list

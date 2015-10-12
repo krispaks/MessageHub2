@@ -142,7 +142,9 @@
 					});
 
 		    $scope.SaveMessage = function (message) {
-		        message.createdBy = $('#username').val();
+		        //var tags = $("#tags").tagsinput('items');
+		        //var LISA = JSON.parse(JSON.stringify(tags));
+		        console.log('Lisa 1 is: ' + JSON.stringify(message.Tags));
 		        console.log("message = " + message);
 				messageService.SaveMessage(message).$promise.then(
 					function () {
@@ -179,6 +181,7 @@
 			            "content": data.message["content"],
 			            "createdBy": data.message["createdBy"],
 			            "createdDate": data.message["createdDate"],
+                        "tags": data.message["tags"],
 			            "newComment": {
 			                "id": 0,
 			                "messageId": data.message["id"],
@@ -187,6 +190,9 @@
 			                "createdDate": null
 			            }
 			        };
+
+			        if ($scope.message.tags != null)
+			            $scope.message.tags = $scope.message.tags.split(',');
 			    });
 
 			    // gets the list of comments and attaches it to the scope's comments variable
