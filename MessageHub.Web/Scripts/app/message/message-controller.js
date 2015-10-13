@@ -191,6 +191,9 @@
 			            }
 			        };
 
+			        if ($scope.message.tags == "null")
+			            $scope.message.tags = null;
+
 			        if ($scope.message.tags != null)
 			            $scope.message.tags = $scope.message.tags.split(',');
 			    });
