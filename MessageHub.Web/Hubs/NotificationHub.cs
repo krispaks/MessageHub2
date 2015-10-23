@@ -58,14 +58,20 @@ namespace MessageHub.Web.Hubs
             // stores them in a common list
             List<string[]> lista = new List<string[]>();
             var userName = new string[] {};
-            foreach (var item in messageList) {
-                userName = cont.GetUserRealName(item.CreatedBy);
-                lista.Add(new string[] { item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff"), userName[1] + " " + userName[2], item.Title, "" + item.Id, "message" });
+            try
+            {
+                foreach (var item in messageList)
+                {
+                    userName = cont.GetUserRealName(item.CreatedBy);
+                    lista.Add(new string[] { item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff"), userName[1] + " " + userName[2], item.Title, "" + item.Id, "message" });
+                }
+                foreach (var item in commentList)
+                {
+                    userName = cont.GetUserRealName(item.CreatedBy);
+                    lista.Add(new string[] { item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff"), userName[1] + " " + userName[2], "" + messageService.GetMessage(item.MessageId).Title, "" + item.MessageId, "comment" });
+                }
             }
-            foreach (var item in commentList) {
-                userName = cont.GetUserRealName(item.CreatedBy);
-                lista.Add(new string[] { item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff"), userName[1] + " " + userName[2], "" + messageService.GetMessage(item.MessageId).Title, "" + item.MessageId, "comment" });
-            }
+            catch (Exception ex) { }
 
             // chops the list to show only the 5 newer ones
             lista = lista.OrderByDescending(item => item[0]).Take(5).ToList();

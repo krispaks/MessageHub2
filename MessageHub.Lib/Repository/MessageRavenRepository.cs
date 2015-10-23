@@ -12,6 +12,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
+using System.IO;
+using Raven.Json.Linq;
 
 namespace MessageHub.Lib.Repository
 {
@@ -153,8 +155,19 @@ namespace MessageHub.Lib.Repository
         {
             // open a new session on the documentStore defined at the UoW
             session = RavenMessageUoW.documentStore.OpenSession();
-
             session.Store(entity);
+        }
+
+        public void FileStore(Stream uploadStream, string fileName, RavenJObject metadata)
+        {
+            // open a new async session
+            var asyncSession = RavenMessageUoW.filesStore.OpenAsyncSession();
+            // store the files in the db
+            using (asyncSession)
+            {
+                asyncSession.RegisterUpload("files/" + fileName, uploadStream, metadata);
+                asyncSession.SaveChangesAsync();
+            }
         }
 
         public void Delete(int id)

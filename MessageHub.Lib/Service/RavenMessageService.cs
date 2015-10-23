@@ -1,7 +1,9 @@
 ﻿using MessageHub.Lib.DTO;
 using MessageHub.Lib.UnitOfWork;
+using Raven.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +42,27 @@ namespace MessageHub.Lib.Service
 			} finally {
 				this._logService.Log("End SaveMessage");
 			}
+        }
+
+        public void StoreFiles(Stream uploadStream, string fileName, RavenJObject metadata)
+        {
+            try
+            {
+                this._logService.Log("Start StoreFiles");
+
+                _uow.MessageRavenRepositoryRepository.FileStore(uploadStream, fileName, metadata);
+                _uow.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at StoreFiles : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End StoreFiles");
+            }
         }
 
         private bool Validate(Entity.Message message)

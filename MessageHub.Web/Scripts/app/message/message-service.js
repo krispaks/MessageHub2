@@ -42,8 +42,39 @@
     		GetMessage: function(id) {
     			return $resource('/api/MessageApi', { id: id }).get();
     		},
-    		SaveMessage: function (message) {
-    			return $resource('/api/MessageApi').save(message);
+
+    		GetFile: function (fileId) {
+    		    console.log("pre");
+    		    return $resource('/api/MessageApi', { fileId: fileId }).get();
+    		},
+
+    		SaveMessage: function (message, encoded64) {
+
+    		    var deferred = $.Deferred();
+
+    		    var result;
+    		    var data = new FormData();
+
+    		    data.append("newMessage", JSON.stringify(message));
+
+    		    if (encoded64 != null) {
+    		        var blob = new Blob([encoded64], { type: 'text/plain' });
+    		        data.append("UploadedFile", blob);
+    		    }
+
+    		    var ajaxRequest = $.ajax({
+    		        type: "POST",
+    		        url: "/api/MessageApi/Post",
+    		        contentType: false,
+    		        processData: false,
+    		        data: data,
+    		        success: function (response) {
+    		            deferred.resolve();
+    		        }
+    		    });
+
+    		    //return $resource('/api/MessageApi').save(message);
+    		    return deferred.promise();
     		}
     	};
     }]);

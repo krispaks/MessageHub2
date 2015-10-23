@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
 using MessageHub.Lib.Entity;
+using System.IO;
+using Raven.Json.Linq;
 
 namespace MessageHub.Lib.Repository
 {
@@ -59,6 +61,11 @@ namespace MessageHub.Lib.Repository
 		/// Save Data in DataStore
 		/// </summary>
 		void Insert(TEntity entity);
+
+        /// <summary>
+        /// Save Files in FilesStore
+        /// </summary>
+        void FileStore(Stream uploadStream, string fileName, RavenJObject metadata);
 
 		/// <summary>
 		/// Remove Data in DataStore

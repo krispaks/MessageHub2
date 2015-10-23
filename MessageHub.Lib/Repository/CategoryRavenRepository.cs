@@ -12,6 +12,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
+using System.IO;
+using Raven.Json.Linq;
 
 namespace MessageHub.Lib.Repository
 {
@@ -117,6 +119,10 @@ namespace MessageHub.Lib.Repository
             // open a new session on the documentStore defined at the UoW
             session = RavenCategoryUoW.documentStore.OpenSession();
             session.Store(entity);
+        }
+
+        public void FileStore(Stream uploadStream, string fileName, RavenJObject metadata)
+        {
         }
 
         public void Delete(int id)

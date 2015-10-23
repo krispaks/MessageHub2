@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MessageHub.Lib.Entity;
 using MessageHub.Lib.DTO;
+using System.IO;
+using Raven.Json.Linq;
 
 namespace MessageHub.Lib.Repository
 {
@@ -95,6 +97,10 @@ namespace MessageHub.Lib.Repository
 		{
 			this._dbSet.Add(entity);
 		}
+
+        public void FileStore(Stream uploadStream, string fileName, RavenJObject metadata)
+        {
+        }
 
 		public void Delete(int id)
 		{

@@ -11,6 +11,12 @@ using MessageHub.Web.Models;
 using MessageHub.Lib.Entity;
 using Newtonsoft.Json.Linq;
 using MessageHub.Lib.DTO;
+using System.Web;
+using System.IO;
+using Raven.Json.Linq;
+using Raven.Client.FileSystem;
+using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace MessageHub.Web.Controllers
 {
@@ -118,26 +124,61 @@ namespace MessageHub.Web.Controllers
             return response;
         }
 
-        public HttpResponseMessage Post(MessageViewModel newMessage)
+        public HttpResponseMessage Post(/*MessageViewModel newMessage*/)
         {
+            // request the data sent from the client
+            var httpRequest = HttpContext.Current.Request;
+            // request the content for the message
+            var newMessage = httpRequest["newMessage"];
+            // request the file attached by the user
+            Stream uploadStream = null;
+            if(httpRequest.Files["UploadedFile"] != null)
+                uploadStream = httpRequest.Files["UploadedFile"].InputStream;
 
             HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
-                Message message = new Message
+                if (newMessage != null)
                 {
-                    Title = newMessage.Title,
-                    Content = newMessage.Content,
-                    SubCategoryId = newMessage.SubCategoryId,
-                    Tags = newMessage.Tags.ToLower(),
-                    CreatedBy = User.Identity.Name,
-                    CreatedDate = UtilityDate.HubDateTime()
-                };
+                    // deserialize the json an re-build the message
+                    JObject newMessageObj = JObject.Parse(newMessage);
+                    int subCategoryId = -1;
+                    JToken outValue;
+                    if (newMessageObj.TryGetValue("SubCategoryId", out outValue))
+                        subCategoryId = (int)outValue;
 
-                int value = this.messageService.SaveMessage(message);
+                    Message message = new Message
+                    {
+                        Title = newMessageObj.Property("Title").Value.ToString(),
+                        Content = newMessageObj.Property("Content").Value.ToString(),
+                        SubCategoryId = subCategoryId,
+                        Tags = newMessageObj.Property("Tags").Value.ToString().ToLower(),
+                        CreatedBy = User.Identity.Name,
+                        CreatedDate = UtilityDate.HubDateTime()
+                    };
 
-                response = Request.CreateResponse(HttpStatusCode.OK, value);
+                    // saves the message in the db
+                    int messageId = this.messageService.SaveMessage(message);
+
+                    // if the user has uploaded a file
+                    if (uploadStream != null)
+                    {
+                        // get the info and metadata for the file
+                        string fileName = messageId.ToString()+"_"+httpRequest.Files[0].FileName;
+                        var metadata = new RavenJObject {
+                            {"Id", fileName},
+                            {"Name", httpRequest.Files[0].FileName},
+                            {"Message", messageId.ToString()}
+                        };
+
+                        // connects to the service to store the file in the db
+                        this.messageService.StoreFiles(uploadStream, fileName, metadata);
+                    }
+                    
+                    // generates the response to return to the ui
+                    response = Request.CreateResponse(HttpStatusCode.OK, messageId);
+                }
             }
             catch (Exception ex)
             {
@@ -146,6 +187,30 @@ namespace MessageHub.Web.Controllers
             }
 
             return response;
+        }
+
+        public async Task<System.Net.Http.HttpResponseMessage> GetFile(string fileId)
+        {
+            FilesStore filesStore = new FilesStore() {
+                Url = "http://localhost:8080/",
+                DefaultFileSystem = "MessageHubDB"
+            };
+            filesStore.Initialize();
+            var session = filesStore.OpenAsyncSession();
+
+            try
+            {
+                var stream = session.DownloadAsync("files/"+fileId+"_blob");
+                stream.Wait();
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new StreamContent(await stream);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+                return result;
+            }
+            catch (Exception e)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
         }
 
         public void Put(int id, [FromBody]string value)

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
 using MessageHub.Lib.UnitOfWork;
 using MessageHub.Lib.Entity;
+using System.IO;
+using Raven.Json.Linq;
 
 namespace MessageHub.Lib.Service
 {
@@ -134,6 +136,10 @@ namespace MessageHub.Lib.Service
 				this._logService.Log("End GetMessage");
 			}
 		}
+
+        public void StoreFiles(Stream uploadStream, string fileName, RavenJObject metadata)
+        {
+        }
 
 		private bool Validate(Message message)
 		{
