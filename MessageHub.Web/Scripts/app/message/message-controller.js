@@ -183,7 +183,7 @@
 		                var encoded64 = reader.result;
 		                console.log("B64 = " + encoded64);
 
-		                messageService.SaveMessage(message, encoded64).then(
+		                messageService.SaveMessage(message, encoded64, files[0].name).then(
 		                function () {
 		                    // updates the notification list for all users
 		                    notifications.server.updateWithNewNotification();
@@ -207,7 +207,7 @@
 		        } else {
 		            console.log("No files are gonna be uploaded");
 
-		            messageService.SaveMessage(message, null).then(
+		            messageService.SaveMessage(message, null, null).then(
                     function () {
                         // updates the notification list for all users
                         notifications.server.updateWithNewNotification();
@@ -275,6 +275,20 @@
 			            $scope.message.tags = $scope.message.tags.split(',');
 			    });
 
+			    // checks if there's a file uploaded for the specified message
+			    messageService.GetFile("" + $routeParams.id, false).$promise.then(
+						function (data) {
+                            // fills the content of the button with the name of the file
+						    document.getElementById('filedownload').value = data['value'];
+						    document.getElementById('filedownload').style.display = 'block';
+						    document.getElementById('filedownload-text').innerHTML = "Attached (click to download)";
+						    //document.getElementById('filedownload-text').style.color = "#ff0000";
+						},
+						function (reason) {
+						    console.log("  error: " + reason);
+						}
+					);
+
 			    // gets the list of comments and attaches it to the scope's comments variable
 			    commentService.GetComments($routeParams.id).$promise.then(function (data) {
 			        $scope.comments = data;
@@ -337,7 +351,7 @@
 			        //    }
 			        //});
 
-			        messageService.GetFile("" + $routeParams.id).$promise.then(
+			        messageService.GetFile("" + $routeParams.id, true).$promise.then(
 						function (data) {
 
 						    //$.each(data, function (index, value) {
@@ -356,7 +370,7 @@
 						    document.body.appendChild(a);
 						    var url = window.URL.createObjectURL(blob);
 						    a.href = url;
-						    a.download = name;
+						    a.download = document.getElementById('filedownload').value;
 						    a.click();
 						    window.URL.revokeObjectURL(url);
 
@@ -437,7 +451,7 @@
 			            var blob = new Blob(data, { type: "octet/stream" }),
                             url = window.URL.createObjectURL(blob);
 			            a.href = url;
-			            a.download = name;
+			            a.download = "filename";
 			            a.click();
 			            window.URL.revokeObjectURL(url);
 			        };

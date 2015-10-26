@@ -132,8 +132,13 @@ namespace MessageHub.Web.Controllers
             var newMessage = httpRequest["newMessage"];
             // request the file attached by the user
             Stream uploadStream = null;
-            if(httpRequest.Files["UploadedFile"] != null)
+            var fileName = "";
+            if (httpRequest.Files["UploadedFile"] != null)
+            {
                 uploadStream = httpRequest.Files["UploadedFile"].InputStream;
+                fileName = httpRequest["FileName"];
+
+            }
 
             HttpResponseMessage response = new HttpResponseMessage();
 
@@ -165,15 +170,15 @@ namespace MessageHub.Web.Controllers
                     if (uploadStream != null)
                     {
                         // get the info and metadata for the file
-                        string fileName = messageId.ToString()+"_"+httpRequest.Files[0].FileName;
+                        string fileId = messageId.ToString()+"_"+httpRequest.Files[0].FileName;
                         var metadata = new RavenJObject {
-                            {"Id", fileName},
-                            {"Name", httpRequest.Files[0].FileName},
+                            {"Id", fileId},
+                            {"Name", fileName},
                             {"Message", messageId.ToString()}
                         };
 
                         // connects to the service to store the file in the db
-                        this.messageService.StoreFiles(uploadStream, fileName, metadata);
+                        this.messageService.StoreFiles(uploadStream, fileId, metadata);
                     }
                     
                     // generates the response to return to the ui
@@ -189,7 +194,7 @@ namespace MessageHub.Web.Controllers
             return response;
         }
 
-        public async Task<System.Net.Http.HttpResponseMessage> GetFile(string fileId)
+        public async Task<System.Net.Http.HttpResponseMessage> GetFile(string fileId, bool download)
         {
             FilesStore filesStore = new FilesStore() {
                 Url = "http://localhost:8080/",
@@ -200,12 +205,29 @@ namespace MessageHub.Web.Controllers
 
             try
             {
-                var stream = session.DownloadAsync("files/"+fileId+"_blob");
-                stream.Wait();
-                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-                result.Content = new StreamContent(await stream);
-                result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-                return result;
+                // if the user is trying to download the file
+                if (download == true)
+                {
+                    var stream = session.DownloadAsync("files/" + fileId + "_blob");
+                    stream.Wait();
+                    HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                    result.Content = new StreamContent(await stream);
+                    result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+                    return result;
+                }
+                // if the user is checking if there's attached files to the message
+                else {
+                    var query = await session.Query()
+                                 .WhereEquals("Message", fileId)
+                                 .ToListAsync();
+
+                    RavenJToken realName;
+                    string realNameString = "";
+                    if (query.FirstOrDefault().Metadata.TryGetValue("Name", out realName))
+                        realNameString = ""+realName;
+
+                    return Request.CreateResponse(HttpStatusCode.OK, realName);
+                }
             }
             catch (Exception e)
             {

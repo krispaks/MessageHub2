@@ -22,8 +22,8 @@
             <div class="list-group">
                 <div class="list-group-item">
                     <form role="form" method="POST" data-ng-submit="GetFile()">                        
-                        Files attached
-                        <input type="submit" value="Get File" class="btn btn-primary" style="float: right;" />
+                        <div id="filedownload-text" style="color: #777">No files attached</div>
+                        <input type="submit" value="Get File" class="btn btn-link" id="filedownload" style="float: right; display: none; transform: translate(0, -85%)" />
                     </form>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     <span data-ng-repeat="tag in message.tags"><span class="label label-default">{{tag}}</span> </span>
                 </div>
 
-                <div class="list-group-item" data-ng-show="message.tags == null">
+                <div class="list-group-item" data-ng-show="message.tags == null" style="color: #777">
                     No tags specified
                 </div>
             </div>

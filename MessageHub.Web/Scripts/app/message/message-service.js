@@ -26,10 +26,12 @@
     			//}).query();
 
 			    return $resource('/api/MessageApi').query();
-    		},
+    	    },
+
     		GetPagedMessageList: function (searchCriteria) {
     			return $resource('/api/MessageApi', searchCriteria).get();
-			},
+    		},
+
     		GetThings: function (page) {
     		    return $resource('/api/MessageApi', { page: page }).get();
     		},
@@ -43,12 +45,11 @@
     			return $resource('/api/MessageApi', { id: id }).get();
     		},
 
-    		GetFile: function (fileId) {
-    		    console.log("pre");
-    		    return $resource('/api/MessageApi', { fileId: fileId }).get();
+    		GetFile: function (fileId, download) {
+    		    return $resource('/api/MessageApi', { fileId: fileId, download: download }).get();
     		},
 
-    		SaveMessage: function (message, encoded64) {
+    		SaveMessage: function (message, encoded64, filename) {
 
     		    var deferred = $.Deferred();
 
@@ -60,6 +61,7 @@
     		    if (encoded64 != null) {
     		        var blob = new Blob([encoded64], { type: 'text/plain' });
     		        data.append("UploadedFile", blob);
+    		        data.append("FileName", filename);
     		    }
 
     		    var ajaxRequest = $.ajax({
