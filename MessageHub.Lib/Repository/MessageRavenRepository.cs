@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
 using System.IO;
 using Raven.Json.Linq;
+using System.Net.Http;
+using System.Net;
 
 namespace MessageHub.Lib.Repository
 {
@@ -167,6 +169,42 @@ namespace MessageHub.Lib.Repository
             {
                 asyncSession.RegisterUpload("files/" + fileName, uploadStream, metadata);
                 asyncSession.SaveChangesAsync();
+            }
+        }
+
+        public async Task<HttpContent> FileRetrieve(string fileId) {
+            // open a new async session
+            var asyncSession = RavenMessageUoW.filesStore.OpenAsyncSession();
+            
+            // generate the async stream for retrieving the files
+            using (asyncSession)
+            {
+                var stream = asyncSession.DownloadAsync("files/" + fileId + "_blob");
+                stream.Wait();
+                var streamContent = new StreamContent(await stream);
+                // return the stream
+                return streamContent;
+            }
+        }
+
+        public async Task<RavenJToken> GetFileName(string fileId)
+        {
+            // open a new async session
+            var asyncSession = RavenMessageUoW.filesStore.OpenAsyncSession();
+
+            // generate the async stream for retrieving the files
+            using (asyncSession)
+            {
+                var query = await asyncSession.Query()
+                             .WhereEquals("Message", fileId)
+                             .ToListAsync();
+
+                RavenJToken realName;
+                string realNameString = "";
+                if (query.FirstOrDefault().Metadata.TryGetValue("Name", out realName))
+                    realNameString = "" + realName;
+
+                return realName;
             }
         }
 

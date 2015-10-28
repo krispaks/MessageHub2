@@ -16,6 +16,7 @@ namespace MessageHub.Web.Controllers
     {
 	    private ICommentService _commentService = null;
 		private ILoggingService _loggingService = null;
+        private UserInfoApiController userInfo = null;
 
 	    public CommentApiController(ICommentService commentService, ILoggingService loggingService)
 	    {
@@ -34,6 +35,8 @@ namespace MessageHub.Web.Controllers
             HttpResponseMessage response = new HttpResponseMessage();
             var commentList = new List<CommentViewModel>();
 
+            userInfo = new UserInfoApiController();
+
             //var message = this.messageService.GetMessage(id);
             var comments = this._commentService.GetComments(id);
 
@@ -44,7 +47,7 @@ namespace MessageHub.Web.Controllers
                     Id = comm.Id,
                     MessageId = comm.MessageId,
                     Value = comm.Value,
-                    CreatedBy = comm.CreatedBy,
+                    CreatedBy = userInfo.GetUserRealName(comm.CreatedBy)[1] + " " + userInfo.GetUserRealName(comm.CreatedBy)[2],
                     CreatedDate = UtilityDate.HubDateString(comm.CreatedDate)
 
                 });

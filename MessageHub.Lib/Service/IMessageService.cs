@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
 using System.IO;
 using Raven.Json.Linq;
+using System.Net.Http;
 
 namespace MessageHub.Lib.Service
 {
@@ -18,5 +19,8 @@ namespace MessageHub.Lib.Service
 		Message GetMessage(int id);
 		MessageDetailDTO GetMessageDetail(int id);
         void StoreFiles(Stream uploadStream, string fileName, RavenJObject metadata);
+
+        Task<HttpContent> RetrieveFiles(string fileId);
+        Task<RavenJToken> GetFileName(string fileId);
     }
 }

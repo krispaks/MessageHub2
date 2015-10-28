@@ -8,6 +8,7 @@ using MessageHub.Lib.UnitOfWork;
 using MessageHub.Lib.Entity;
 using System.IO;
 using Raven.Json.Linq;
+using System.Net.Http;
 
 namespace MessageHub.Lib.Service
 {
@@ -139,6 +140,15 @@ namespace MessageHub.Lib.Service
 
         public void StoreFiles(Stream uploadStream, string fileName, RavenJObject metadata)
         {
+        }
+
+        public Task<HttpContent> RetrieveFiles(string fileId)
+        {
+            return null;
+        }
+
+        public Task<RavenJToken> GetFileName(string fileId) {
+            return null;
         }
 
 		private bool Validate(Message message)

@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using MessageHub.Lib.DTO;
 using System.IO;
 using Raven.Json.Linq;
+using System.Net.Http;
 
 namespace MessageHub.Lib.Repository
 {
@@ -123,6 +124,15 @@ namespace MessageHub.Lib.Repository
 
         public void FileStore(Stream uploadStream, string fileName, RavenJObject metadata)
         {
+        }
+
+        public async Task<HttpContent> FileRetrieve(string fileId)
+        {
+            return null;
+        }
+
+        public Task<RavenJToken> GetFileName(string fileId) {
+            return null;
         }
 
         public void Delete(int id)

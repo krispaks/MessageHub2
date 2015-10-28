@@ -9,6 +9,7 @@ using MessageHub.Lib.DTO;
 using MessageHub.Lib.Entity;
 using System.IO;
 using Raven.Json.Linq;
+using System.Net.Http;
 
 namespace MessageHub.Lib.Repository
 {
@@ -67,6 +68,16 @@ namespace MessageHub.Lib.Repository
         /// </summary>
         void FileStore(Stream uploadStream, string fileName, RavenJObject metadata);
 
+        /// <summary>
+        /// retrieve Files from FilesStore
+        /// </summary>
+        Task<HttpContent> FileRetrieve(string fileId);
+
+        /// <summary>
+        /// retrieve a file's name from FilesStore
+        /// </summary>
+        Task<RavenJToken> GetFileName(string fileId);
+
 		/// <summary>
 		/// Remove Data in DataStore
 		/// </summary>
@@ -81,5 +92,5 @@ namespace MessageHub.Lib.Repository
 		/// Calls Save changes of Context
 		/// </summary>
 		int Save();
-	}
+    }
 }

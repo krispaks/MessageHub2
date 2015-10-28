@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,52 @@ namespace MessageHub.Lib.Service
             finally
             {
                 this._logService.Log("End StoreFiles");
+            }
+        }
+
+        public Task<HttpContent> RetrieveFiles(string fileId)
+        {
+            
+            try
+            {
+                this._logService.Log("Start RetrieveFiles");
+
+                var streamContent = _uow.MessageRavenRepositoryRepository.FileRetrieve(fileId);
+
+                return streamContent;
+
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at RetrieveFiles : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End RetrieveFiles");
+            }
+        }
+
+        public Task<RavenJToken> GetFileName(string fileId)
+        {
+
+            try
+            {
+                this._logService.Log("Start GetFileName");
+
+                var streamContent = _uow.MessageRavenRepositoryRepository.GetFileName(fileId);
+
+                return streamContent;
+
+            }
+            catch (Exception ex)
+            {
+                this._logService.Log(string.Format("Error at GetFileName : {0}", ex.Message));
+                throw;
+            }
+            finally
+            {
+                this._logService.Log("End GetFileName");
             }
         }
 
