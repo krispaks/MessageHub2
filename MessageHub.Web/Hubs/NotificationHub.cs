@@ -23,7 +23,8 @@ namespace MessageHub.Web.Hubs
             List<string[]> lista = new List<string[]>();
             lista = NotificationQuery();
 
-            Clients.Caller.notificationList(lista);
+            if(lista.Count > 0)
+                Clients.Caller.notificationList(lista);
 
             return base.OnConnected();
         }
@@ -51,20 +52,22 @@ namespace MessageHub.Web.Hubs
 
             UserInfoApiController cont = new UserInfoApiController();
 
-            // loads both the messages and the comments
-            var messageList = messageService.GetMessageList().OrderByDescending(item => item.CreatedDate).Take(5);
-            var commentList = commentService.GetAllComments().OrderByDescending(item => item.CreatedDate).Take(5);
-
-            // stores them in a common list
             List<string[]> lista = new List<string[]>();
-            var userName = new string[] {};
+
             try
-            {
+            {   
+                // stores them in a common list
+                var userName = new string[] {};
+
+                // loads both the messages and the comments
+                var messageList = messageService.GetMessageList().OrderByDescending(item => item.CreatedDate).Take(5);
                 foreach (var item in messageList)
                 {
                     userName = cont.GetUserRealName(item.CreatedBy);
                     lista.Add(new string[] { item.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss.fff"), userName[1] + " " + userName[2], item.Title, "" + item.Id, "message" });
                 }
+
+                var commentList = commentService.GetAllComments().OrderByDescending(item => item.CreatedDate).Take(5);
                 foreach (var item in commentList)
                 {
                     userName = cont.GetUserRealName(item.CreatedBy);
