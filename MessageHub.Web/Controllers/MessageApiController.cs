@@ -194,47 +194,6 @@ namespace MessageHub.Web.Controllers
             return response;
         }
 
-        //public async Task<System.Net.Http.HttpResponseMessage> GetFile(string fileId, bool download)
-        //{
-        //    FilesStore filesStore = new FilesStore() {
-        //        Url = "http://localhost:8080/",
-        //        DefaultFileSystem = "MessageHubDB"
-        //    };
-        //    filesStore.Initialize();
-        //    var session = filesStore.OpenAsyncSession();
-
-        //    try
-        //    {
-        //        // if the user is trying to download the file
-        //        if (download == true)
-        //        {
-        //            var stream = session.DownloadAsync("files/" + fileId + "_blob");
-        //            stream.Wait();
-        //            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-        //            result.Content = new StreamContent(await stream);
-        //            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-        //            return result;
-        //        }
-        //        // if the user is checking if there's attached files to the message
-        //        else {
-        //            var query = await session.Query()
-        //                         .WhereEquals("Message", fileId)
-        //                         .ToListAsync();
-
-        //            RavenJToken realName;
-        //            string realNameString = "";
-        //            if (query.FirstOrDefault().Metadata.TryGetValue("Name", out realName))
-        //                realNameString = ""+realName;
-
-        //            return Request.CreateResponse(HttpStatusCode.OK, realName);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.BadRequest);
-        //    }
-        //}
-
         public async Task<System.Net.Http.HttpResponseMessage> GetFile(string fileId, bool download)
         {
             try
@@ -248,6 +207,7 @@ namespace MessageHub.Web.Controllers
                     result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
                     return result;
                 }
+
                 // if the user is checking if there's attached files to the message
                 else
                 {

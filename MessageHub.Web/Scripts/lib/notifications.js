@@ -27,17 +27,8 @@ $(function () {
         // generates the entry for each one of the notifications
         $('#notification-list').append(''
 
-            //+ '<button type="button" id="foo' + position + '" onclick="myFunction()" data-url="@Url.Action("Action", "Controller")">Click me</button>'
-            //+ '<script>'
-            //+ 'function myFunction() {'
-            //    + 'var url = $(this).data("url");'
-            //    + 'url = "/Message/Detail/1409";'
-            //    + 'console.log("url = "+url);'
-            //    + 'window.location.href = url;'
-            //+ '}'
-            //+ '</script>'
-
-            + '<a href="/Message/Detail/' + id + '" class="list-group-item" id="row' + position + '">'                
+            //+ '<a href="/Message/Detail/' + id + '" class="list-group-item" id="row' + position + '">'                
+            + '<a class="list-group-item" id="row' + position + '">'
                 + '<div class="row">'
                     + '<div class="col-sm-2" align="right">'
                         + '<h4 class="list-group-item-title"><font color=BBBBBB>'
@@ -95,30 +86,6 @@ $(function () {
         $("#row0").slideToggle("slow");
     }
 
-    //notifications.client.broadcastMessage = function (name, message) {
-    //    console.log("received this message '"+message+"' from "+name);
-    //    // Html encode display name and message. 
-    //    var encodedName = $('<div />').text(name).html();
-    //    var encodedMsg = $('<div />').text(message).html();
-    //    // Add the message to the page. 
-    //    $('#discussion').append('<li><strong>' + encodedName
-    //        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-    //};
-
-    // Get the user name and store it to prepend to messages.
-    //$('#displayname').val(prompt('Enter your name:', ''));
-
-    // Set initial focus to message input box.  
-    //$('#message').focus();
-
     // start the connection.
-    $.connection.hub.start().done(function () {
-        //$('#sendmessage').click(function () {
-        //    console.log($('#displayname').val() + " sent this: " + $('#message').val());
-        //    // Call the Send method on the hub.
-        //    notifications.server.send($('#displayname').val(), $('#message').val());
-        //    // Clear text box and reset focus for next comment. 
-        //    $('#message').val('').focus();
-        //});
-    });
+    $.connection.hub.start().done(function () { });
 });
